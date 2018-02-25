@@ -1,17 +1,18 @@
 <!DOCTYPE html>  
 <head>
-  <title>UPDATE PostgreSQL data with PHP</title>
+  <title>Search/Edit Existing Listings</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <style>li {list-style: none;}</style>
 </head>
 <body>
   <h1>Navigation</h1>
   <ul>
+    <li><a>Edit Listings</a></li>
     <li><a href="create.php">Create Listing</a></li>
     <li><a href="profile.php">View Profile</a></li>
     <li><a href="viewList.php">Join a Ride</a></li>
   </ul>
-  <h2>Create/Update Listing</h2>
+  <h2>Search Listings</h2>
   <ul>
     <form name="display" action="index.php" method="POST" >
       <li>Advertisement ID:</li>
