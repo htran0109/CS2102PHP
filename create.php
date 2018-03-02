@@ -46,14 +46,14 @@
       echo "Date is set, it is " . "$date[0]";
     }
     if (isset($_POST['submit'])) { // Submit the update SQL command
-        /*$result = pg_query($db, "INSERT INTO ads (ad_id, username, name, price, date_of_publication, start_loc, end_loc) 
+        $result = pg_query($db, /*"INSERT INTO ads (ad_id, username, name, price, date_of_publication, start_loc, end_loc) 
           VALUES (
     '$_POST[username]'.'$date[0]',  
     '$_POST[username]',
     '$_POST[ad_name]', $_POST[price],  
     '$date[year]'.'-'.'$date[mon]'.'-'.'$date[mday]', 
     '$_POST[start_loc]',
-    '$_POST[end_loc]')");/**/
+    '$_POST[end_loc]')");*/
         "INSERT INTO ads(ad_id, name, price, date_of_publication, start_loc, end_loc)
 VALUES ('102', 'Drive to Capitol', 10, '2018-2-17', 'Home', 'Capitol')");
         if (!$result) {
