@@ -1,0 +1,18 @@
+INSERT INTO ads(ad_id, name, price, date_of_publication, start_loc, end_loc)
+VALUES ('100', 'Drive to Capitol', 10, '2018-2-17', 'Home', 'Capitol');
+
+DROP TABLE ads;
+
+CREATE TABLE ads
+(
+  ad_id VARCHAR(255) PRIMARY KEY ,
+  username VARCHAR(255),
+  name VARCHAR(255),
+  price NUMERIC,
+  date_of_publication VARCHAR(255),
+  start_loc VARCHAR(255),
+  end_loc VARCHAR(255));
+
+SELECT * FROM ads;
+
+
