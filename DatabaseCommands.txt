@@ -1,5 +1,5 @@
-INSERT INTO ads(ad_id, name, price, date_of_publication, start_loc, end_loc)
-VALUES ('100', 'Drive to Capitol', 10, '2018-2-17', 'Home', 'Capitol');
+INSERT INTO ads(ad_id, username, name, price, date_of_publication, start_loc, end_loc)
+VALUES ('100', 'testuser','Drive to Capitol', 10, '2018-2-17', 'Home', 'Capitol');
 
 DROP TABLE ads;
 

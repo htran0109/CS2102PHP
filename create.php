@@ -38,22 +38,24 @@
     else {
       echo "problem with database connection";
     }
-    $date   = getdate(); //get the current date. Used when new listing is created.
-    if(!$date) {
-      echo "Date isn't set";
-    }
-    else {
-      echo "Date is set, it is " . "$date[0]" . "\n";
-      echo "$date[year]"."-"."$date[mon]"."-"."$date[mday]";
-    }
+
     if (isset($_POST['submit'])) { // Submit the update SQL command
+      $date   = getdate(); //get the current date. Used when new listing is created.
+      $year = $date['year']; //define date constants to parse for later
+      $mon = $date['mon'];
+      $day = $date['mday'];
+      $datStr = $date['0'];
+      $adId = $_POST[username] . $datStr;
+      $fullDate = $year.'-'.$mon.'-'.$day;
+      echo $adId;
+      echo $fullDate;
         $result = pg_query($db, "INSERT INTO ads (ad_id, username, name, price, date_of_publication, start_loc, end_loc) 
           VALUES (
-    '$_POST[username]'.'$date[0]',  
+    '$adId',  
     '$_POST[username]',
-    '$_POST[ad_name]', 
+    '$_POST[adname]', 
     '$_POST[price]',  
-    '$date[year]'.'-'.'$date[mon]'.'-'.'$date[mday]', 
+    '$fullDate', 
     '$_POST[start_loc]',
     '$_POST[end_loc]')");/*
         "INSERT INTO ads(ad_id, name, price, date_of_publication, start_loc, end_loc)
