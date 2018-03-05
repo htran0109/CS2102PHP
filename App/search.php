@@ -1,7 +1,8 @@
+<!DOCTYPE html>
 <?php session_start();
   $user = $_SESSION['User'];
 ?>
-<!DOCTYPE html>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <head>
   <title>Search Listing</title>
 </head>
@@ -52,7 +53,7 @@
                   ORDER BY ad_id ASC LIMIT 20");		
         if (isset($_POST['submit'])) {
           while ($row = pg_fetch_array($result)) { 
-            echo "<a href='http://localhost/listing.php'> 
+            echo "<a href='http://localhost/demo/Listings/profile.php'> 
               <ul>   
                 <li>Advertisement Name: '$row[Owner]'</li>
                 <li>Seats: '$row[Seats]'<\li>     

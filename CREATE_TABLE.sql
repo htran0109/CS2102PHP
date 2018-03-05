@@ -8,7 +8,7 @@ CREATE TABLE Users (
 
 CREATE TABLE Cars (
 	LicenseNumber varchar(10),
-	AvaiableSeats int,
+	AvailableSeats int,
 	PRIMARY KEY (LicenseNumber)
 );
 
