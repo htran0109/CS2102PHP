@@ -1,13 +1,20 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
 <?php session_start();
   $user = $_SESSION['User'];
 ?>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+=======
+<!--<?php session_start();
+  $user = $_SESSION['User'];
+?>-->
+<!DOCTYPE html>
+>>>>>>> b22d1e2db0b4bd1422231639d8bb0329e357605f
 <head>
   <title>Search Listing</title>
 </head>
 <body>
-<nav class="navbar navbar-default">
+<!--<nav class="navbar navbar-default">
   <div class="container-fluid">
     <ul class="nav navbar-nav navbar-left">
       <li><a href="http://localhost/Listings/new.php">Create Listing</a></li>
@@ -18,7 +25,7 @@
       <li><a href="http://localhost/Users/index.php">My Profile</a></li>
     </ul>
   </div>
-</nav>
+</nav>-->
   <h2> Join Listing:</h2>
   <ul><form name = 'search' action='http://localhost/App.search.php' method='POST'>
     <li>Find Listings By:</li>
@@ -35,9 +42,9 @@
       <li>Required Seats:</li>
       <li><input type= "number" name = "seats"/></li>
       <li><input type="submit" name="submit" /></li>
+    </form>
   </ul>
 
-  <ul>
     <?php
       // Connect to the database. Please change the password in the following line accordingly
       $db     = pg_connect("host=localhost port=5432 dbname=postgres user=postgres password=1234");	
@@ -69,6 +76,5 @@
         echo "Connection failed";
       }
       ?>
-  </ul>
 </body>
 </html>
