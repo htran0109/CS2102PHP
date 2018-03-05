@@ -8,7 +8,7 @@
   <h1>Navigation</h1>
   <ul>
     <li><a>Edit Listings</a></li>
-    <li><a href="create.php">Create Listing</a></li>
+    <li><a href="Listings/new.php">Create Listing</a></li>
     <li><a href="profile.php">View Profile</a></li>
     <li><a href="viewList.php">Join a Ride</a></li>
   </ul>

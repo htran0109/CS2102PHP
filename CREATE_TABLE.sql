@@ -1,3 +1,8 @@
+/*DROP TABLE Users CASCADE;
+DROP TABLE Cars CASCADE;
+DROP TABLE Owns CASCADE;
+DROP TABLE User_Post CASCADE;*/
+
 CREATE TABLE Users (
 	UserName varchar(20),
 	MobileNumber varchar(20),
@@ -24,10 +29,10 @@ CREATE TABLE User_Post (
 	Owner varchar(20),
 	Seats int,
 	Start varchar(128),
-	End varchar(128),
+	Dest varchar(128),
 	depDate DATE,
-	depTime TIME
-	PRIMARY KEY (Owner, Start, End, depDate, depTime),
+	depTime TIME,
+	PRIMARY KEY (Owner, Start, Dest, depDate, depTime),
 	FOREIGN KEY (Owner) REFERENCES Users(UserName)
 );
 
@@ -35,12 +40,12 @@ CREATE TABLE Bid (
 	Bidder varchar(20),
 	Owner varchar(20),
 	Start varchar(128),
-	End varchar(128),
+	Dest varchar(128),
 	depDate DATE,
 	depTime TIME,
 	Customers int,
-	PRIMARY KEY (Bidder, Owner, Start, End, depDate, depTime),
+	PRIMARY KEY (Bidder, Owner, Start, Dest, depDate, depTime),
 	FOREIGN KEY (Bidder) REFERENCES Users(UserName),
-	FOREIGN KEY (Owner, Start, End, depDate, depTime),
-	REFERENCES User_Post(Owner, Start, End, depDate, depTime)
+	FOREIGN KEY (Owner, Start, Dest, depDate, depTime)
+	REFERENCES User_Post(Owner, Start, Dest, depDate, depTime)
 );

@@ -1,12 +1,12 @@
-<?php session_start();
+<!--<?php session_start();
   $user = $_SESSION['User'];
-?>
+?>-->
 <!DOCTYPE html>
 <head>
   <title>Search Listing</title>
 </head>
 <body>
-<nav class="navbar navbar-default">
+<!--<nav class="navbar navbar-default">
   <div class="container-fluid">
     <ul class="nav navbar-nav">
       <li><a href="#">Home</a></li>
@@ -15,7 +15,7 @@
       <liclass="active"><a href="http://localhost/viewList.php">Join a Ride</a></li>
     </ul>
   </div>
-</nav>
+</nav>-->
   <h2> Join Listing:</h2>
   <ul><form name = 'search' action='http://localhost/viewList.php' method='POST'>
     <li>Find Listings By:</li>
@@ -32,9 +32,9 @@
       <li>Required Seats:</li>
       <li><input type= "number" name = "seats"/></li>
       <li><input type="submit" name="submit" /></li>
+    </form>
   </ul>
 
-  <ul>
     <?php
       // Connect to the database. Please change the password in the following line accordingly
       $db     = pg_connect("host=localhost port=5432 dbname=postgres user=postgres password=1234");	
@@ -61,6 +61,5 @@
           </a>";
         }
       ?>
-  </ul>
 </body>
 </html>
