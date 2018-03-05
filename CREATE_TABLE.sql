@@ -8,7 +8,8 @@ CREATE TABLE Users (
 
 CREATE TABLE Cars (
 	LicenseNumber varchar(10),
-	Seats int
+	AvaiableSeats int,
+	PRIMARY KEY (LicenseNumber)
 );
 
 CREATE TABLE Owns (
@@ -21,6 +22,7 @@ CREATE TABLE Owns (
 
 CREATE TABLE User_Post (
 	Owner varchar(20),
+	Seats int,
 	Start varchar(128),
 	End varchar(128),
 	depDate DATE,
@@ -34,11 +36,11 @@ CREATE TABLE Bid (
 	Owner varchar(20),
 	Start varchar(128),
 	End varchar(128),
-	Date DATE,
-	Time TIME,
+	depDate DATE,
+	depTime TIME,
 	Customers int,
-	PRIMARY KEY (Bidder, Owner, Start, End, Date, Time),
+	PRIMARY KEY (Bidder, Owner, Start, End, depDate, depTime),
 	FOREIGN KEY (Bidder) REFERENCES Users(UserName),
-	FOREIGN KEY (Owner, Start, End, Date Time),
-	REFERENCES User_Post(Owner, Start, End, Date, Time)
+	FOREIGN KEY (Owner, Start, End, depDate, depTime),
+	REFERENCES User_Post(Owner, Start, End, depDate, depTime)
 );
