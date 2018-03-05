@@ -1,12 +1,13 @@
-<!--<?php session_start();
-  $user = $_SESSION['User'];
-?>-->
 <!DOCTYPE html>
+<?php session_start();
+  $user = $_SESSION['User'];
+?>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <head>
   <title>Search Listing</title>
 </head>
 <body>
-<!--<nav class="navbar navbar-default">
+<nav class="navbar navbar-default">
   <div class="container-fluid">
     <ul class="nav navbar-nav navbar-left">
       <li><a href="http://localhost/Listings/new.php">Create Listing</a></li>
@@ -17,7 +18,7 @@
       <li><a href="http://localhost/Users/index.php">My Profile</a></li>
     </ul>
   </div>
-</nav>-->
+</nav>
   <h2> Join Listing:</h2>
   <ul><form name = 'search' action='http://localhost/demo/App/search.php' method='POST'>
     <li>Find Listings By:</li>
@@ -65,6 +66,7 @@
             echo "Select not found";
           }
           while ($row = pg_fetch_array($result)) { 
+
 
             echo "<a href='http://localhost/demo/Listings/profile.php?Owner=$row[Owner]&Seats=$row[Seats]&Start=$row[Start]&Dest=$row[Dest]&depDate=$row[depDate]&depTime=$row[depTime]'> 
               <ul>   
