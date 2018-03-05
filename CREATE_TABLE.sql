@@ -1,7 +1,8 @@
 /*DROP TABLE Users CASCADE;
 DROP TABLE Cars CASCADE;
 DROP TABLE Owns CASCADE;
-DROP TABLE User_Post CASCADE;*/
+DROP TABLE User_Post CASCADE;
+DROP TABLE Bid CASCADE*/
 
 CREATE TABLE Users (
 	UserName varchar(20),
@@ -13,7 +14,7 @@ CREATE TABLE Users (
 
 CREATE TABLE Cars (
 	LicenseNumber varchar(10),
-	AvaiableSeats int,
+	AvailableSeats int,
 	PRIMARY KEY (LicenseNumber)
 );
 
