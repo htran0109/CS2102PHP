@@ -66,16 +66,16 @@
             echo "Select not found";
           }
           while ($row = pg_fetch_array($result)) { 
+            echo $row["owner"];
 
-
-            echo "<a href='http://localhost/demo/Listings/profile.php?Owner=$row[Owner]&Seats=$row[Seats]&Start=$row[Start]&Dest=$row[Dest]&depDate=$row[depDate]&depTime=$row[depTime]'> 
+            echo "<a href='http://localhost/demo/Listings/profile.php?Owner=$row[owner]&Seats=$row[seats]&Start=$row[start]&Dest=$row[dest]&depDate=$row[depdate]&depTime=$row[deptime]'> 
               <ul>   
-                <li>Advertisement Name: '$row[Owner]'</li>
-                <li>Seats: '$row[Seats]'<\li>     
-                <li>Begin Location: '$row[Start]'</li>
-                <li>End Location: '$row[Dest]'</li>
-                <li>Departure Date: '$row[depDate]'</li>
-                <li>Departure Time: '$row[depTime]'</li>
+                <li>Advertisement Name: $row[owner]</li>
+                <li>Seats: $row[seats]</li>     
+                <li>Begin Location: $row[start]</li>
+                <li>End Location: $row[dest]</li>
+                <li>Departure Date: $row[depdate]</li>
+                <li>Departure Time: $row[deptime]</li>
               </ul>
             </a>";
           }
