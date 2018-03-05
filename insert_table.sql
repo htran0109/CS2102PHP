@@ -1,5 +1,5 @@
 INSERT INTO Users (UserName, MobileNumber, EmailAddress, Password)
-VALUES (adam, 1000, adam@email.com, password1);
+VALUES ('adam', 1000, 'adam@email.com', 'password1');
 
 INSERT INTO Users (UserName, MobileNumber, EmailAddress, Password)
 VALUES (bob, 1001, bob@email.com, password2);
