@@ -1,6 +1,6 @@
 CREATE TABLE Users (
 	UserName varchar(20),
-	MobileNumber int,
+	MobileNumber varchar(20),
 	EmailAddress varchar(40),
 	Password varchar(20),
 	PRIMARY KEY (UserName)
@@ -23,9 +23,9 @@ CREATE TABLE User_Post (
 	Owner varchar(20),
 	Start varchar(128),
 	End varchar(128),
-	Date DATE,
-	Time TIME
-	PRIMARY KEY (Owner, Start, End, Date, Time),
+	depDate DATE,
+	depTime TIME
+	PRIMARY KEY (Owner, Start, End, depDate, depTime),
 	FOREIGN KEY (Owner) REFERENCES Users(UserName)
 );
 
