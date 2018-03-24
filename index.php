@@ -1,59 +1,64 @@
 <!DOCTYPE html>  
 <head>
-  <title>Search/Edit Existing Listings</title>
+  <title>Car Pull</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <style>li {list-style: none;}</style>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">  <style>li {list-style: none;}</style>
 </head>
 <body>
-  <h1>Navigation</h1>
-  <ul>
-    <li><a>Edit Listings</a></li>
-    <li><a href="Listings/new.php">Create Listing</a></li>
-    <li><a href="profile.php">View Profile</a></li>
-    <li><a href="viewList.php">Join a Ride</a></li>
-  </ul>
-  <h2>Search Listings</h2>
-  <ul>
-    <form name="display" action="index.php" method="POST" >
-      <li>Advertisement ID:</li>
-      <li><input type="text" name="adid" /></li>
-      <li><input type="submit" name="submit" /></li>
+	<div class="container">
+	<form name="display" action="index.php" method="POST" >
+		<h1 class="display-1"> Welcome to CarPull </h1>
+		<h1 class="display-4"> Please Log In </h1>
+		<div class="form-group">
+			<label for="UserName">User Name</label>
+			<input name="username" type="text" class="form-control" placeholder="Enter username" />
+			<label for="Password">Password</label>
+			<input name="password" type="password" class="form-control" placeholder="Enter password" />
+			<p style="color:red">
+				<?php
+					if (isset($_POST['submit'])) {
+						try {
+							checkLogin();
+							session_start();
+							$_SESSION["username"] = $_POST['username'];
+							header('Location:Search.php');
+						}
+						catch(Exception $e) {
+							echo $e->getMessage() . " Please try again.";
+						}
+					}
+					
+					function checkLogin() {
+						if (empty($_POST['username'])) {
+							throw new exception("UserName is empty!");
+						}
+						if (empty($_POST['password'])) {
+							throw new exception("Password is empty!");
+						}
+						
+						$username = trim($_POST['username']);
+						$password = trim($_POST['password']);
+						
+						// Connect to the database. Please change the password in the following line accordingly
+						$db = pg_connect("host=localhost port=5432 dbname=postgres user=postgres password=1234");	
+						if ($db) {
+							$result = pg_query($db, "SELECT * FROM users where username = '$username' and password = '$password';");
+						
+							if(pg_num_rows($result) <= 0) {
+								throw new exception("Incorrect username or password.");
+							}
+						}
+						else {
+							throw new exception("Connection failed.");
+						}
+					}
+				?>  
+			</p>
+		</div>
+		<button name="submit" type="submit" class="btn btn-primary">Submit</button>
     </form>
-  </ul>
-  <?php
-  	// Connect to the database. Please change the password in the following line accordingly
-    $db     = pg_connect("host=localhost port=5432 dbname=postgres user=postgres password=1234");	
-    $result = pg_query($db, "SELECT * FROM ads where ad_id = '$_POST[adid]'");		// Query template
-    $row    = pg_fetch_assoc($result);		// To store the result row
-    if (isset($_POST['submit'])) {
-        echo "<ul><form name='update' action='index.php' method='POST' >  
-    	<li>Advertisement ID:</li>  
-    	<li><input type='text' name='adid_updated' value='$row[ad_id]' /></li>  
-    	<li>Advertisement Name:</li>  
-    	<li><input type='text' name='ad_name_updated' value='$row[name]' /></li>  
-    	<li>Price (USD):</li><li><input type='text' name='price_updated' value='$row[price]' /></li>  
-    	<li>Date of publication:</li>  
-    	<li><input type='text' name='dop_updated' value='$row[date_of_publication]' /></li>  
-      <li>Begin Location:</li>
-      <li><input type='text' name='start_loc_updated' value='$row[start_loc]' /></li>
-      <li>End Location:</li>
-      <li><input type='text' name='end_loc_updated' value='$row[end_loc]' /></li>
-    	<li><input type='submit' name='new' /></li>  
-    	</form>  
-    	</ul>";
-    }
-    if (isset($_POST['new'])) {	// Submit the update SQL command
-        $result = pg_query($db, "UPDATE ads SET ad_id = '$_POST[adid_updated]',  
-    name = '$_POST[ad_name_updated]',price = '$_POST[price_updated]',  
-    date_of_publication = '$_POST[dop_updated]', 
-    start_loc = '$_POST[start_loc_updated]',
-    end_loc = '$_POST[end_loc_updated]'");
-        if (!$result) {
-            echo "Update failed!!";
-        } else {
-            echo "Update successful!";
-        }
-    }
-    ?>  
+	Not a user yet? <a href = "#"> Register here. </a>
+	</div>
+
 </body>
 </html>
