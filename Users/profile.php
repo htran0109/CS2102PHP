@@ -1,6 +1,15 @@
-<!DOCTYPE html>  
-<?php session_start();
-  $user = $_SESSION['User'];
+<?PHP
+  session_start();
+  
+  if (empty($_SESSION["username"])){
+    echo "<script type='text/javascript'> 
+    alert('You are not logged in. You will be redirected to the login page.');
+    window.location.href = '../index.php';
+    </script>";
+  }
+  else {
+    $user = $_SESSION["username"];
+  }
 ?>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <head>

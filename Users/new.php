@@ -21,7 +21,7 @@
 </nav>
   <h2>Registration</h2>
   <ul>
-    <form name="display" action="http://localhost/demo/Users/profile.php" method="POST" >
+    <form name="display" action="http://localhost/demo/Users/new.php" method="POST" >
         <li>UserName</li>
         <li><input type="text" name="username"></li>
         <li>Mobile Number</li>

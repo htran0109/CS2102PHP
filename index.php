@@ -21,7 +21,7 @@
 							checkLogin();
 							session_start();
 							$_SESSION["username"] = $_POST['username'];
-							header('Location:Search.php');
+							header('Location:App/Search.php');
 						}
 						catch(Exception $e) {
 							echo $e->getMessage() . " Please try again.";
@@ -57,7 +57,7 @@
 		</div>
 		<button name="submit" type="submit" class="btn btn-primary">Submit</button>
     </form>
-	Not a user yet? <a href = "#"> Register here. </a>
+	Not a user yet? <a href = "Users/new.php"> Register here. </a>
 	</div>
 
 </body>

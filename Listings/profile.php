@@ -3,6 +3,19 @@
 	UPDATE the listing-->
 <!-- If they are not the creator, they should be able to bid on the listing-->
 <!-- If they are an administrator, any other restrictions should be removed-->	
+<?PHP
+  session_start();
+  
+  if (empty($_SESSION["username"])){
+    echo "<script type='text/javascript'> 
+    alert('You are not logged in. You will be redirected to the login page.');
+    window.location.href = '../index.php';
+    </script>";
+  }
+  else {
+    $user = $_SESSION["username"];
+  }
+?>
 <!DOCTYPE html>
 <head>
 	<title>Listing Profile</title>
