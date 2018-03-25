@@ -1,15 +1,15 @@
 <?PHP
 	session_start();
-	/*
+	
 	if (empty($_SESSION["username"])){
 		echo "<script type='text/javascript'> 
 		alert('You are not logged in. You will be redirected to the login page.');
 		window.location.href = 'index.php';
 		</script>";
-	}*/
+	}
 	
-	//$username = $_SESSION["username"];
-	$username = 'adam';
+	$username = $_SESSION["username"];
+	//$username = 'adam';
 	$db = pg_connect("host=localhost port=5432 dbname=postgres user=postgres password=1234");
 	$user = pg_fetch_array(pg_query($db, "SELECT * FROM users where username='$username';"));
 	
