@@ -39,12 +39,12 @@
 	<nav class="navbar navbar-default">
 	  <div class="container-fluid">
 		<ul class="nav navbar-nav navbar-left">
-		  <li><a href="http://localhost/Listings/new.php">Create Listing</a></li>
-		  <li><a href="http://localhost/Listings/index.php">View My Listings</a></li>
-		  <li><a href="http://localhost/App/search.php">Join a Ride</a></li>
+		  <li><a href="/demo/Listings/new.php">Create Listing</a></li>
+		  <li><a href="/demo/Listings/index.php">View My Listings</a></li>
+		  <li><a href="/demo/App/search.php">Join a Ride</a></li>
 		</ul>
 		<ul class="nav navbar-nav navbar-right">
-		  <li><a href="http://localhost/Users/index.php">My Profile</a></li>
+		  <li><a href="/demo/Users/index.php">My Profile</a></li>
 		  <li><a href="#">Log Out</a></li>
 		</ul>
 	  </div>
