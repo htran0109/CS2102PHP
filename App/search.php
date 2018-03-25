@@ -9,6 +9,12 @@
   }
   else {
     $user = $_SESSION["username"];
+    $db     = pg_connect("host=localhost port=5432 dbname=postgres user=postgres password=1234"); 
+    if ($db){ //fetch current user
+      $result = pg_query($db, "SELECT * FROM users where username = '$user'");
+      $row = pg_fetch_array($result);
+      $admin = $row["admin"];
+    }
   }
 ?>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -19,12 +25,12 @@
 <nav class="navbar navbar-default">
   <div class="container-fluid">
     <ul class="nav navbar-nav navbar-left">
-      <li><a href="http://localhost/Listings/new.php">Create Listing</a></li>
-      <li><a href="http://localhost/Listings/index.php">View My Listings</a></li>
-      <li class="active"><a href="http://localhost/App/search.php">Join a Ride</a></li>
+      <li><a href="http://localhost/demo/Listings/new.php">Create Listing</a></li>
+      <li><a href="http://localhost/demo/Listings/profile.php">View My Listings</a></li>
+      <li class="active"><a href="http://localhost/demo/App/search.php">Join a Ride</a></li>
     </ul>
     <ul class="nav navbar-nav navbar-right">
-      <li><a href="http://localhost/Users/index.php">My Profile</a></li>
+      <li><a href="http://localhost/demo/Users/index.php">My Profile</a></li>
     </ul>
   </div>
 </nav>
@@ -77,7 +83,7 @@
           while ($row = pg_fetch_array($result)) { 
             echo $row["owner"];
 
-            echo "<a href='http://localhost/demo/Listings/profile.php?Owner=$row[owner]&Seats=$row[seats]&Start=$row[start]&Dest=$row[dest]&depDate=$row[depdate]&depTime=$row[deptime]'> 
+            echo "<a href='http://localhost/demo/Listings/listings.php?Owner=$row[owner]&Seats=$row[seats]&Start=$row[start]&Dest=$row[dest]&depDate=$row[depdate]&depTime=$row[deptime]'> 
               <ul>   
                 <li>Advertisement Name: $row[owner]</li>
                 <li>Seats: $row[seats]</li>     
