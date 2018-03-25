@@ -1,6 +1,17 @@
+<?PHP
+	/*session_start();
+	
+	if (empty($_SESSION["username"])){
+		echo "<script type='text/javascript'> 
+		alert('You are not logged in. You will be redirected to the login page.');
+		window.location.href = 'index.php';
+		</script>";
+	}*/
+?>
+
 <!DOCTYPE html>  
 <head>
-  <title>Create New Account</title>
+  <title>Create New Advertisement</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">  <style>li {list-style: none;}</style>
 </head>
@@ -19,17 +30,19 @@
   </div>
 </nav>
 	<div class="container">
-	<form name="display" action="new.php" method="POST" >
-		<h1 class="display-4"> Create New Account </h1>
+	<form name="display" action="newAd.php" method="POST" >
+		<h1 class="display-4"> Create New Advertisement </h1>
 		<div class="form-group">
-			<label for="username">UserName</label>
-			<input name="username" type="text" class="form-control" placeholder="Enter your desired username" required />
-			<label for="password">Password</label>
-			<input name="password" type="password" class="form-control" placeholder="Enter your desired password" required />
-			<label for="mobilenumber">Mobile Number</label>
-			<input name="mobilenumber" type="text" class="form-control" placeholder="Enter your mobile number" required />
-			<label for="emailaddress">Email Address</label>
-			<input name="emailaddress" type="email" class="form-control" placeholder="Enter your email" required />
+			<label for="start">Starting Location</label>
+			<input name="start" type="text" class="form-control" placeholder="Enter your starting location" required />
+			<label for="dest">Destination</label>
+			<input name="dest" type="text" class="form-control" placeholder="Enter your destination" required />
+			<label for="depdate">Departure Date</label>
+			<input name="depdate" type="date" class="form-control" placeholder="Enter your departure date" required />
+			<label for="deptime">Departure Time</label>
+			<input name="deptime" type="time" class="form-control" placeholder="Enter your departure time" required />
+			<label for="seats">Number of Seats</label>
+			<input name="seats" type="number" class="form-control" placeholder="Enter the maximum number of seats available" required />
 			<p style="color:red">
 				<?php
 					
@@ -44,19 +57,22 @@
 					
 					function addBid() {
 						
-						$username = trim($_POST['username']);
-						$password = trim($_POST['password']);
-						$mobilenumber = trim($_POST['mobilenumber']);
-						$emailaddress = trim($_POST['emailaddress']);
+						$owner = $_SESSION['username'];
+						$start = trim($_POST['start']);
+						$dest = trim($_POST['dest']);
+						$depdate = trim($_POST['depdate']);
+						$deptime = trim($_POST['deptime']);
+						$seats = trim($_POST['seats']);
+						
 						
 						// Connect to the database. Please change the password in the following line accordingly
 						
 						$db = pg_connect("host=localhost port=5432 dbname=postgres user=postgres password=1234");	
 						if ($db) {
 							
-							$result = pg_query($db, "SELECT * FROM users;");
-							pg_query($db, "INSERT INTO users(username, password, mobilenumber, emailaddress) VALUES('$username', '$password', '$mobilenumber', '$emailaddress');");
-							$result1 = pg_query($db, "SELECT * FROM users;");
+							$result = pg_query($db, "SELECT * FROM user_post;");
+							pg_query($db, "INSERT INTO user_post(Owner, Seats, Start, Dest, depDate, depTime) VALUES('$owner', $seats, '$start', '$dest', '$depdate', '$deptime');");
+							$result1 = pg_query($db, "SELECT * FROM user_post;");
 							if(pg_num_rows($result1) <= pg_num_rows($result)) {
 								throw new exception("Operation failed.");
 							}
