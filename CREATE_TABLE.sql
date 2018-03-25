@@ -9,6 +9,7 @@ CREATE TABLE Users (
 	MobileNumber varchar(20),
 	EmailAddress varchar(40),
 	Password varchar(20),
+  Admin boolean DEFAULT FALSE ,
 	PRIMARY KEY (UserName)
 );
 
