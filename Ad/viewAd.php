@@ -22,7 +22,7 @@
 	$dest = 'end1';
 	$depdate = '2030-01-01';
 	$deptime = '01:00:00';
-	$seats = '12';
+	$seats = '1';
 	
 	$db = pg_connect("host=localhost port=5432 dbname=postgres user=postgres password=1234");
 	$ad = pg_fetch_array(pg_query($db, "SELECT * FROM user_post where owner='$owner' and start='$start' and dest='$dest' and depdate='$depdate' and deptime='$deptime' and seats='$seats';"));
