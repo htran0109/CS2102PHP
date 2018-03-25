@@ -22,7 +22,7 @@
 	$dest = 'end1';
 	$depdate = '2030-01-01';
 	$deptime = '01:00:00';
-	$seats = '1';
+	$seats = '12';
 	
 	$db = pg_connect("host=localhost port=5432 dbname=postgres user=postgres password=1234");
 	$ad = pg_fetch_array(pg_query($db, "SELECT * FROM user_post where owner='$owner' and start='$start' and dest='$dest' and depdate='$depdate' and deptime='$deptime' and seats='$seats';"));
@@ -69,6 +69,15 @@
 			<input name="customers" type="number" placeholder="Seats needed" min="1" required />
 			<div style="color:red" id="errorMessage"> </div>
 			<button name="bid" type="submit" class="btn btn-primary" style="margin-top:10px">Bid</button>
+		</form>
+		<form action="../Listings/edit.php" method="POST">
+		    <input visibility: hidden name='owner' value = <?php echo $ad['owner']; ?>>
+    		<input visibility: hidden name='seats' value = <?php echo $ad['seats']; ?>>
+   			<input visibility: hidden name='start' value =  <?php echo $ad['start']; ?>>
+    		<input visibility: hidden name='dest' value = <?php echo $ad['dest']; ?>>
+    		<input visibility: hidden name='depdate' value = <?php echo $ad['depdate']; ?>>
+    		<input visibility: hidden name='deptime' value = <?php echo $ad['deptime']; ?>>
+			<button name="Edit" type="submit" class="btn btn-primary" style="margin-top:10px">Edit</button>
 		</form>
 	</div>
 

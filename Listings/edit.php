@@ -15,6 +15,13 @@
   else {
     $user = $_SESSION["username"];
   }
+
+  $owner = trim($_POST['owner']);
+  $start = trim($_POST['start']);
+  $dest = trim($_POST['dest']);
+  $depdate = trim($_POST['depdate']);
+  $deptime = trim($_POST['deptime']);
+  $seats = trim($_POST['seats']);
 ?>
 <!DOCTYPE html>
 <head>
@@ -49,12 +56,12 @@
     $result = pg_query($db, 
                   "SELECT * FROM User_Post 
                    WHERE
-            Owner = '$_GET[Owner]' AND
-            Seats = '$_GET[Seats]' AND
-            Start = '$_GET[Start]' AND
-            Dest = '$_GET[Dest]' AND
-            depDate = '$_GET[depDate]' AND
-            depTime = '$_GET[depTime]'); "); 
+            Owner = '$owner' AND
+            Seats = '$seats' AND
+            Start = '$start' AND
+            Dest = '$dest' AND
+            depDate = '$depdate' AND
+            depTime = '$deptime'); "); 
       $row = pg_fetch_array($result); 
       echo $row['seatsNumber'];
       $_POST['prevResult'] = $row;
@@ -70,40 +77,47 @@
     echo "
   <ul>
     <form class='form-horizontal' name='display' method='POST' >
+    <input visibility: hidden name='owner' value =$owner>
+    <input visibility: hidden name='seats' value =$seats>
+    <input visibility: hidden name='start' value =$start>
+    <input visibility: hidden name='dest' value =$dest>
+    <input visibility: hidden name='depdate' value =$depdate>
+    <input visibility: hidden name='deptime' value =$deptime>
+
     <div class='form-group'>
       <label for='username' class='col-sm-2 control-label'>Owner</label>
       <div class='col-sm-10'>
-        <input class='form-control' id='username' name='username' value=$_GET[Owner] type='text' $disabled>
+        <input class='form-control' id='username' name='username' value=$owner type='text' $disabled>
       </div>
     </div>
     <div class='form-group'>
       <label for='seatsNumber' class='col-sm-2 control-label'>Seats</label>
       <div class='col-sm-10 '>
-        <input class='form-control' id='seatsNumber' name='seatsNumber' value=$_GET[Seats] type='text' $disabled>
+        <input class='form-control' id='seatsNumber' name='seatsNumber' value=$seats type='text' $disabled>
       </div>
     </div>
     <div class='form-group'>
       <label for='start_loc' class='col-sm-2 control-label'>Start Location</label>
       <div class='col-sm-10'>
-        <input class='form-control' id='start_loc' name='start_loc' value=$_GET[Start] type='text' $disabled>
+        <input class='form-control' id='start_loc' name='start_loc' value=$start type='text' $disabled>
       </div>
     </div>
     <div class='form-group'>
       <label for='end_loc' class='col-sm-2 control-label'>End Location</label>
       <div class='col-sm-10'>
-        <input class='form-control' id='end_loc' name='end_loc' value=$_GET[Dest] type='text' $disabled>
+        <input class='form-control' id='end_loc' name='end_loc' value=$dest type='text' $disabled>
       </div>
     </div>
     <div class='form-group'>
       <label for='date' class='col-sm-2 control-label'>Date</label>
       <div class='col-sm-10'>
-        <input class='form-control' id='date' name='date' value=$_GET[depDate] type='text' $disabled>
+        <input class='form-control' id='date' name='date' value=$depdate type='text' $disabled>
       </div>
     </div>
     <div class='form-group'>
       <label for='starttime' class='col-sm-2 control-label'>Departure Time</label>
       <div class='col-sm-10'>
-        <input class='form-control' id='starttime' name='starttime' value=$_GET[depTime] type='text' $disabled>
+        <input class='form-control' id='starttime' name='starttime' value=$deptime type='text' $disabled>
       </div>
     </div>
     <div class='form-group'>
@@ -129,22 +143,30 @@
       }
 
       if (isset($_POST['submit'])) {
-          // echo "Updating Listing\n";
-          // echo $_POST['username']."\n";
-          // echo $_POST['seatsNumber']."\n";
-          // echo $_POST['start_loc']."\n";
-          // echo $_POST['end_loc']."\n";
-          // echo $_POST['date']."\n";
-          // echo $_POST['starttime']."\n";
+          echo "Updating Listing\n";
+          echo "<p></p>";
+          echo $_POST['username']."\n";
+          echo $_POST['seatsNumber']."\n";
+          echo $_POST['start_loc']."\n";
+          echo $_POST['end_loc']."\n";
+          echo $_POST['date']."\n";
+          echo $_POST['starttime']."\n";
 
+          $owner = trim($_POST['owner']);
+          $start = trim($_POST['start']);
+          $dest = trim($_POST['dest']);
+          $depdate = trim($_POST['depdate']);
+          $deptime = trim($_POST['deptime']);
+          $seats = trim($_POST['seats']);
 
-          // $prevResult = $_POST['prevResult'];
-          // echo $_GET['Owner']."\n";
-          // echo $_GET['Seats']."\n";
-          // echo $_GET['Start']."\n";
-          // echo $_GET['Dest']."\n";
-          // echo $_GET['depDate']."\n";
-          // echo $_GET['depTime']."\n";
+          echo "<p></p>";
+          echo $owner."\n";
+          echo $seats."\n";
+          echo $start."\n";
+          echo $dest."\n";
+          echo $depdate."\n";
+          echo $deptime."\n";
+          echo "<p></p>";
 
           $result = pg_query($db, 
           "UPDATE User_Post
@@ -155,16 +177,19 @@
             depDate = '$_POST[date]',
             depTime = '$_POST[starttime]'
            WHERE 
-            Owner = '$_GET[Owner]' AND
-            Seats = '$_GET[Seats]' AND
-            Start = '$_GET[Start]' AND
-            Dest = '$_GET[Dest]' AND
-            depDate = '$_GET[depDate]' AND
-            depTime = '$_GET[depTime]'
+            Owner = '$owner' AND
+            Seats = '$seats' AND
+            Start = '$start' AND
+            Dest = '$dest' AND
+            depDate = '$depdate' AND
+            depTime = '$deptime'
            ");
 
           if(pg_affected_rows($result) > 0) {
             echo "Updated Successfully!";
+          }
+          else {
+            echo "Update Failed!";
           }
       }
           
