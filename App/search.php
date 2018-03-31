@@ -38,9 +38,11 @@
       <li>Going to:</li>
       <li><input type= "text" name = "adendloc"/></li>
       <li>Date:</li>
-      <li><input type= "text" name = "date" placeholder="YYYY-MM-DD"/></li>
-      <li>Departure Time:</li>
-      <li><input type= "text" name = "starttime" placeholder = "HH:MM:SS"/></li>
+      <li><input type= "date" name = "sdate" /></li>
+      <li><input type= "date" name = "edate" /></li>
+      <li>Departure Time Range:</li>
+      <li><input type= "text" name = "stime" placeholder = '00:00'/></li>
+      <li><input type= "text" name = "etime" placeholder = '23:59'/></li>
       <li>Required Seats:</li>
       <li><input type= "number" name = "seats"/></li>
       <li><input type="submit" name="submit" /></li>
@@ -49,23 +51,30 @@
 
     <?php
       // Connect to the database. Please change the password in the following line accordingly
-      $db     = pg_connect("host=localhost port=5432 dbname=postgres user=postgres password=1234");	
+      $db     = pg_connect("host=localhost port=5432 dbname=postgres user=postgres password=1234"); 
       if ($db){
-        echo $_POST[adname];
-        echo $_POST[seats];
-        echo $_POST[adstartloc];
-        echo $_POST[adendloc];
-        echo $_POST[date];
-        echo $_POST[starttime];
+        if ($_POST[sdate] == null) { $_POST[sdate] = date('Y-m-d'); }
+        if ($_POST[edate] == null) { $_POST[edate] = date('Y-m-d',strtotime(' + 30 days',strtotime($_POST[sdate]))); }
+        $_POST[stime] = ($_POST[stime] == null) ? date('H:i',strtotime("00:00")) : date('H:i',strtotime($_POST[stime]));
+        $_POST[etime] = ($_POST[etime] == null) ? date('H:i',strtotime("23:59")) : date('H:i',strtotime($_POST[etime]));
+        $_POST[seats] = ($_POST[seats] == null) ? 0 : $_POST[seats];
         $result = pg_query($db, 
-                  "SELECT * FROM User_Post 
+                  "SELECT *,
+                  (case when Owner = '$_POST[adname]'  then 1 else 0 end) +
+                  (case when Seats >= '$_POST[seats]' then 1 else 0 end) +
+                  (case when Start = '$_POST[adstartloc]' then 1 else 0 end) +
+                  (case when Dest = '$_POST[adendloc]' then 1 else 0 end) +
+                  (case when depDate BETWEEN '$_POST[sdate]' AND '$_POST[edate]' then 1 else 0 end) +
+                  (case when depTime BETWEEN '$_POST[stime]' AND '$_POST[etime]' then 1 else 0 end)
+                  as relevance
+                  FROM User_Post 
                   WHERE Owner = '$_POST[adname]' 
-                  /*OR Seats >= $_POST[seats]*/
+                  OR Seats >= '$_POST[seats]'
                   OR Start = '$_POST[adstartloc]'
                   OR Dest = '$_POST[adendloc]'
-                  /*OR depDate = '$_POST[date]'
-                  OR depTime = '$_POST[starttime]'*/
-                  ORDER BY Owner ASC LIMIT 20");		
+                  OR depDate BETWEEN '$_POST[sdate]' AND '$_POST[edate]'
+                  OR depTime BETWEEN '$_POST[stime]' AND '$_POST[etime]'
+                  ORDER BY relevance DESC");    
         if (isset($_POST['submit'])) {
           if($result) {
             echo "Select Found";
