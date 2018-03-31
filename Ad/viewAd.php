@@ -1,6 +1,5 @@
 <?PHP
 	session_start();
-	/*
 	if (empty($_SESSION["username"])){
 		echo "<script type='text/javascript'> 
 		alert('You are not logged in. You will be redirected to the login page.');
@@ -10,19 +9,19 @@
 	
 	
 	include(./App/search.php);
-	$owner = trim($_POST['owner']);
-	$start = trim($_POST['start']);
-	$dest = trim($_POST['dest']);
-	$depdate = trim($_POST['depdate']);
-	$deptime = trim($_POST['deptime']);
-	$seats = trim($_POST['seats']);
-	*/
-	$owner = 'adam';
-	$start = 'start1';
-	$dest = 'end1';
-	$depdate = '2030-01-01';
-	$deptime = '01:00:00';
-	$seats = '1';
+	$owner = $_GET['owner'];
+	$start = $_GET['start'];
+	$dest = $_GET['dest'];
+	$depdate = $_GET['depdate'];
+	$deptime = $_GET['deptime'];
+	$seats = $_GET['seats'];
+	
+	// $owner = 'adam';
+	// $start = 'start1';
+	// $dest = 'end1';
+	// $depdate = '2030-01-01';
+	// $deptime = '01:00:00';
+	// $seats = '1';
 	
 	$db = pg_connect("host=localhost port=5432 dbname=postgres user=postgres password=1234");
 	$ad = pg_fetch_array(pg_query($db, "SELECT * FROM user_post where owner='$owner' and start='$start' and dest='$dest' and depdate='$depdate' and deptime='$deptime' and seats='$seats';"));
