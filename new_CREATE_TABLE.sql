@@ -46,6 +46,7 @@ CREATE TABLE UserBid (
 	seats_desired int,
 	driver_rating int CHECK (0 <= driver_rating <= 5),
 	passenger_rating int CHECK (0 <= passenger_rating <= 5),
+	accepted boolean DEAFULT FALSE,
 	PRIMARY KEY (bidder, owner, origin, destination, depart_date, depart_time),
 	FOREIGN KEY (bidder) REFERENCES Users(username),
 	FOREIGN KEY (owner, origin, destination, depart_date, depart_time)
