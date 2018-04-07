@@ -1,17 +1,22 @@
 # To Do:
 
-### Navigation Bar
-- Clean up HTML so that it can be included without redundancy
-
 ### Pages to Fix
-- Edit users profile [Users/edit.php]
-- List of My Listings
-- List of My Bids
+- bid index
+- bid profile
+- user edit
+- ads edit (polish)
+- ad edit #kicks you out to wrong page
 
 ### Other
-- Review database structure
 - Implement transactions for database updates (Ex. placing bids, creating listings, updating profile, creating new users)
 
-### User Ratings
+### Triggers
 - If the current time is 4 hours or more after the start time of ride, the driver can rate the riders and the riders can rate the driver
-- Link rating to bids so that each bid results in only one rating
+- seats_available for a ride post must be at most seats_total - 1
+
+
+### Job Allocation (to be done by Tuesday Evening):
+- Edward: populate database, triggers
+- Hung: bid index, ad edit
+- Ming Wei:  bid profile
+- Cherry: add profile, user edit
