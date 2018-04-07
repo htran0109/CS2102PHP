@@ -45,18 +45,33 @@
           $db     = pg_connect("host=localhost port=5432 dbname=postgres user=postgres password=1234");  
           $result = pg_query($db, "SELECT * FROM User_Post WHERE Owner = '$user'");    // Query template
           //$row    = pg_fetch_assoc($result);
+          $count = 0;
           while ($row = pg_fetch_array($result)) { 
 
+            if($count % 2 == 0) {
             echo "<a href='http://localhost/demo/Listings/listings.php?Owner=$row[owner]&Seats=$row[seats]&Start=$row[start]&Dest=$row[dest]&depDate=$row[depdate]&depTime=$row[deptime]'> 
-              <ul>   
+              <div class = 'container' style='background-color:#d2d6db'>  
                 <li>Advertisement Name: $row[owner]</li>
                 <li>Seats: $row[seats]</li>     
                 <li>Begin Location: $row[start]</li>
                 <li>End Location: $row[dest]</li>
                 <li>Departure Date: $row[depdate]</li>
                 <li>Departure Time: $row[deptime]</li>
-              </ul>
+              </div>
             </a>";
+            }
+            else {
+              echo "<a href='http://localhost/demo/Listings/listings.php?Owner=$row[owner]&Seats=$row[seats]&Start=$row[start]&Dest=$row[dest]&depDate=$row[depdate]&depTime=$row[deptime]'> 
+              <div class = 'container' style='background-color:#e1e5ea'>  
+                <li>Advertisement Name: $row[owner]</li>
+                <li>Seats: $row[seats]</li>     
+                <li>Begin Location: $row[start]</li>
+                <li>End Location: $row[dest]</li>
+                <li>Departure Date: $row[depdate]</li>
+                <li>Departure Time: $row[deptime]</li>
+              </div>
+            </a>";
+            }
           }
   ?>
   </body>
