@@ -32,25 +32,31 @@
     </ul>
   </div>
 </nav>-->
-  <h2> Join Listing:</h2>
-  <ul><form name = 'search' action='http://localhost/demo/App/search.php' method='POST'>
-    <li>Find Listings By:</li>
-      <li>Owner:</li>
-      <li><input type="text" name="adname" /></li>
-      <li>Depart From:</li>
-      <li><input type= "text" name = "adstartloc"/></li>
-      <li>Going to:</li>
-      <li><input type= "text" name = "adendloc"/></li>
-      <li>Date:</li>
-      <li><input type= "date" name = "sdate" required/></li>
-      <li><input type= "date" name = "edate" required/></li>
-      <li>Departure Time Range:</li>
-      <li><input type= "text" name = "stime" placeholder = '00:00' required/></li>
-      <li><input type= "text" name = "etime" placeholder = '23:59' required/></li>
-      <li>Required Seats:</li>
-      <li><input type= "number" name = "seats"/></li>
-      <li><input type="submit" name="submit" /></li>
-    </form>
+	<div class="container">
+		<form name = 'search' action='http://localhost/demo/App/search.php' method='POST'>
+			<h1 class="display-4"> Find Listings By: </h1>
+			<div class="form-group">
+				<label for="adname">Driver</label>
+				<input name="adname" type="text" class="form-control" placeholder="Enter username of driver." />
+				<label for="adstartloc">Start</label>
+				<input name="adstartloc" type="text" class="form-control" placeholder="Enter starting location." />
+				<label for="adendloc">Destination</label>
+				<input name="adendloc" type="text" class="form-control" placeholder="Enter destination." />
+				<label for="sdate">Departure Date</label>
+				<input name="sdate" type="date" class="form-control" placeholder="Enter departure date." />
+				<label for="stime">Departure Time</label>
+				<input name="stime" type="time" class="form-control" placeholder="Enter departure time." />
+				<label for="edate">Arrival Date</label>
+				<input name="edate" type="date" class="form-control" placeholder="Enter arrival date." />
+				<label for="etime">Arrival Time</label>
+				<input name="etime" type="time" class="form-control" placeholder="Enter arrival time." />
+				<label for="number">Required Seats</label>
+				<input name="number" type="number" class="form-control" placeholder="Enter required seats." />
+				<br />
+				<button name="submit" type="submit" class="btn btn-primary">Submit</button>
+			</div>
+		</form>
+	</div>
   </ul>
 
     <?php
@@ -67,7 +73,6 @@
         $keys[] = (isset($_POST[seats])) ? $_POST[seats] : null;
         $filters = "";
         foreach ($keys as $id => $value) {
-          echo $id . $value;
           if ($value == null) { continue; }
           if ($filters != "" && $id != 4 && $id != 6 ) { $filters.=' OR '; }
           switch ($id) {
@@ -118,26 +123,38 @@
         $query = "select *," . $relevance . " as relevance FROM User_Post WHERE " . $filters . " ORDER BY relevance DESC";
         $result = pg_query($db, $query);      
         if (isset($_POST['submit'])) {
-          if($result) {
-            echo "Select Found";
-            //echo '$result';
-          }
-          else {
-            echo "Select not found";
-          }
           while ($row = pg_fetch_array($result)) { 
-            echo $row["owner"];
 
-            echo "<a href='http://localhost/demo/Ads/profile.php?Owner=$row[owner]&Seats=$row[seats]&Start=$row[start]&Dest=$row[dest]&depDate=$row[depdate]&depTime=$row[deptime]'> 
-              <ul>   
-                <li>Advertisement Name: $row[owner]</li>
-                <li>Seats: $row[seats]</li>     
-                <li>Begin Location: $row[start]</li>
-                <li>End Location: $row[dest]</li>
-                <li>Departure Date: $row[depdate]</li>
-                <li>Departure Time: $row[deptime]</li>
-              </ul>
+            if($count % 2 == 0) {
+            echo "<a style='text-decoration:none' href='http://localhost/demo/Listings/listings.php?Owner=$row[owner]&Seats=$row[seats]&Start=$row[start]&Dest=$row[dest]&depDate=$row[depdate]&depTime=$row[deptime]'> 
+              <div class = 'container-fluid list-group-item' style='background-color:#c1badb'>  
+                <div class='row'>
+                <div class = 'col-sm' style='color:black'>Ad Owner: $row[owner]</div>
+                <div class = 'col-sm' style='color:black'>Seats: $row[seats]</div>     
+                <div class = 'col-sm' style='color:black'>Begin Location: $row[start]</div>
+                <div class = 'col-sm' style='color:black'>End Location: $row[dest]</div>
+                <div class = 'col-sm' style='color:black'>Departure Date: $row[depdate]</div>
+                <div class = 'col-sm' style='color:black'>Departure Time: $row[deptime]</div>
+              </div>
+              </div>
             </a>";
+            $count = $count + 1;
+            }
+            else {
+              echo "<a style='text-decoration:none' href='http://localhost/demo/Listings/listings.php?Owner=$row[owner]&Seats=$row[seats]&Start=$row[start]&Dest=$row[dest]&depDate=$row[depdate]&depTime=$row[deptime]'> 
+              <div class = 'container-fluid list-group-item' style='background-color:#efefef'>  
+                <div class='row'>
+                <div class = 'col-sm' style='color:black'>Ad Owner: $row[owner]</div>
+                <div class = 'col-sm' style='color:black'>Seats: $row[seats]</div>     
+                <div class = 'col-sm' style='color:black'>Begin Location: $row[start]</div>
+                <div class = 'col-sm' style='color:black'>End Location: $row[dest]</div>
+                <div class = 'col-sm' style='color:black'>Departure Date: $row[depdate]</div>
+                <div class = 'col-sm' style='color:black'>Departure Time: $row[deptime]</div>
+              </div>
+              </div>
+            </a>";
+            $count = $count + 1;
+            }
           }
         } 
       } else {
