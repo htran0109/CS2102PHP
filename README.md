@@ -1,5 +1,22 @@
 # To Do:
 
+### Job Allocation (to be done by Tuesday Evening):
+
+#### Edward
+- populate database
+- triggers
+
+#### Hung
+- bid index: populating the bids for a certain user; button for cancelling bid
+- ad edit: has to land in ad profile
+
+#### Ming Wei
+- bid profile
+
+#### Cherry
+- ad profile: diff pages for owner, passenger, admin; list of bids
+- user edit: ability to update phone number and email
+
 ### Pages to Fix
 - bid index
 - bid profile
@@ -15,8 +32,3 @@
 - seats_available for a ride post must be at most seats_total - 1
 
 
-### Job Allocation (to be done by Tuesday Evening):
-- Edward: populate database, triggers
-- Hung: bid index, ad edit
-- Ming Wei:  bid profile
-- Cherry: add profile, user edit
