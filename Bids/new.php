@@ -1,7 +1,6 @@
 <?PHP
-	include('viewAd.php');
-	//$bidder = $_SESSION["username"];
-	$bidder = 'joe';
+	include('../Ads/profile.php');
+	$bidder = $_SESSION["username"];
 	$customers = $_POST['customers'];
 		
 	if ((int)$customers > (int)$seats) {
