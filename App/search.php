@@ -32,25 +32,31 @@
     </ul>
   </div>
 </nav>-->
-  <h2> Join Listing:</h2>
-  <ul><form name = 'search' action='http://localhost/demo/App/search.php' method='POST'>
-    <li>Find Listings By:</li>
-      <li>Owner:</li>
-      <li><input type="text" name="adname" /></li>
-      <li>Depart From:</li>
-      <li><input type= "text" name = "adstartloc"/></li>
-      <li>Going to:</li>
-      <li><input type= "text" name = "adendloc"/></li>
-      <li>Date:</li>
-      <li><input type= "date" name = "sdate" required/></li>
-      <li><input type= "date" name = "edate" required/></li>
-      <li>Departure Time Range:</li>
-      <li><input type= "text" name = "stime" placeholder = '00:00' required/></li>
-      <li><input type= "text" name = "etime" placeholder = '23:59' required/></li>
-      <li>Required Seats:</li>
-      <li><input type= "number" name = "seats"/></li>
-      <li><input type="submit" name="submit" /></li>
-    </form>
+	<div class="container">
+		<form name = 'search' action='http://localhost/demo/App/search.php' method='POST'>
+			<h1 class="display-4"> Find Listings By: </h1>
+			<div class="form-group">
+				<label for="adname">Driver</label>
+				<input name="adname" type="text" class="form-control" placeholder="Enter username of driver." />
+				<label for="adstartloc">Start</label>
+				<input name="adstartloc" type="text" class="form-control" placeholder="Enter starting location." />
+				<label for="adendloc">Destination</label>
+				<input name="adendloc" type="text" class="form-control" placeholder="Enter destination." />
+				<label for="sdate">Departure Date</label>
+				<input name="sdate" type="date" class="form-control" placeholder="Enter departure date." />
+				<label for="stime">Departure Time</label>
+				<input name="stime" type="time" class="form-control" placeholder="Enter departure time." />
+				<label for="edate">Arrival Date</label>
+				<input name="edate" type="date" class="form-control" placeholder="Enter arrival date." />
+				<label for="etime">Arrival Time</label>
+				<input name="etime" type="time" class="form-control" placeholder="Enter arrival time." />
+				<label for="number">Required Seats</label>
+				<input name="number" type="number" class="form-control" placeholder="Enter required seats." />
+				<br />
+				<button name="submit" type="submit" class="btn btn-primary">Submit</button>
+			</div>
+		</form>
+	</div>
   </ul>
 
     <?php
@@ -67,7 +73,6 @@
         $keys[] = (isset($_POST[seats])) ? $_POST[seats] : null;
         $filters = "";
         foreach ($keys as $id => $value) {
-          echo $id . $value;
           if ($value == null) { continue; }
           if ($filters != "" && $id != 4 && $id != 6 ) { $filters.=' OR '; }
           switch ($id) {
