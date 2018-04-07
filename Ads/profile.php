@@ -64,12 +64,12 @@
 		  <dt class="col-sm-3">Seats </dt>
 		  <dd class="col-sm-9"> <?php echo $ad['seats']; ?> </dd>
 		</dl>
-		<form action="bid.php" method="POST">
+		<form action="../Bids/new.php" method="POST">
 			<input name="customers" type="number" placeholder="Seats needed" min="1" required />
 			<div style="color:red" id="errorMessage"> </div>
 			<button name="bid" type="submit" class="btn btn-primary" style="margin-top:10px">Bid</button>
 		</form>
-		<form action="../Listings/edit.php" method="POST">
+		<form action="edit.php" method="POST">
 		    <input visibility: hidden name='owner' value = <?php echo $ad['owner']; ?>>
     		<input visibility: hidden name='seats' value = <?php echo $ad['seats']; ?>>
    			<input visibility: hidden name='start' value =  <?php echo $ad['start']; ?>>
