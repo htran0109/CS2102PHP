@@ -5,6 +5,10 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">  <style>li {list-style: none;}</style>
 </head>
 <body>
+	<?php
+	include_once('header.php');
+	?>
+
 	<div class="container">
 	<form name="display" action="index.php" method="POST" >
 		<h1 class="display-1"> Welcome to CarPull </h1>
