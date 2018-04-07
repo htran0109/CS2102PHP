@@ -1,12 +1,12 @@
 <?PHP
-	/*session_start();
+	session_start();
 	
 	if (empty($_SESSION["username"])){
 		echo "<script type='text/javascript'> 
 		alert('You are not logged in. You will be redirected to the login page.');
 		window.location.href = 'index.php';
 		</script>";
-	}*/
+	}
 ?>
 
 <!DOCTYPE html>  
@@ -16,7 +16,12 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">  <style>li {list-style: none;}</style>
 </head>
 <body>
-<nav class="navbar navbar-default">
+
+<?php
+include_once('../header.php');
+?>
+
+<!--<nav class="navbar navbar-default">
   <div class="container-fluid">
     <ul class="nav navbar-nav navbar-left">
       <li><a href="/demo/Listings/new.php">Create Listing</a></li>
@@ -28,7 +33,7 @@
 	  <li><a href="#">Log Out</a></li>
     </ul>
   </div>
-</nav>
+</nav>-->
 	<div class="container">
 	<form name="display" action="new.php" method="POST" >
 		<h1 class="display-4"> Create New Advertisement </h1>
@@ -40,7 +45,7 @@
 			<label for="depdate">Departure Date</label>
 			<input name="depdate" type="date" class="form-control" placeholder="Enter your departure date" required />
 			<label for="deptime">Departure Time</label>
-			<input name="deptime" type="time" class="form-control" placeholder="Enter your departure time" required />
+			<input name="deptime" type="time" class="form-control" placeholder="Time" required />
 			<label for="seats">Number of Seats</label>
 			<input name="seats" type="number" class="form-control" placeholder="Enter the maximum number of seats available" required />
 			<p style="color:red">
@@ -70,9 +75,9 @@
 						$db = pg_connect("host=localhost port=5432 dbname=postgres user=postgres password=1234");	
 						if ($db) {
 							
-							$result = pg_query($db, "SELECT * FROM user_post;");
-							pg_query($db, "INSERT INTO user_post(Owner, Seats, Start, Dest, depDate, depTime) VALUES('$owner', $seats, '$start', '$dest', '$depdate', '$deptime');");
-							$result1 = pg_query($db, "SELECT * FROM user_post;");
+							$result = pg_query($db, "SELECT * FROM User_Post;");
+							pg_query($db, "INSERT INTO User_Post(Owner, Seats, Start, Dest, depDate, depTime) VALUES('$owner', $seats, '$start', '$dest', '$depdate', '$deptime');");
+							$result1 = pg_query($db, "SELECT * FROM User_Post;");
 							if(pg_num_rows($result1) <= pg_num_rows($result)) {
 								throw new exception("Operation failed.");
 							}

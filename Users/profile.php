@@ -22,19 +22,9 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">  <style>li {list-style: none;}</style>
 </head>
 <body>
-	<nav class="navbar navbar-default">
-	  <div class="container-fluid">
-		<ul class="nav navbar-nav navbar-left">
-		  <li><a href="http://localhost/Listings/new.php">Create Listing</a></li>
-		  <li><a href="http://localhost/Listings/index.php">View My Listings</a></li>
-		  <li><a href="http://localhost/App/search.php">Join a Ride</a></li>
-		</ul>
-		<ul class="nav navbar-nav navbar-right">
-		  <li><a href="http://localhost/Users/index.php">My Profile</a></li>
-		  <li><a href="#">Log Out</a></li>
-		</ul>
-	  </div>
-	</nav>
+	<?php
+		include_once('../header.php');
+	?>
 	<div class="container">
 		<h1 class="display-4"> My Profile </h1>
 		<dl class="row">
@@ -46,6 +36,5 @@
 		  <dd class="col-sm-9"> <?php echo $user['emailaddress']; ?> </dd>
 		</dl>
 	</div>
-
 </body>
 </html>
