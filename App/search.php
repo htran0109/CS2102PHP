@@ -67,7 +67,6 @@
         $keys[] = (isset($_POST[seats])) ? $_POST[seats] : null;
         $filters = "";
         foreach ($keys as $id => $value) {
-          echo $id . $value;
           if ($value == null) { continue; }
           if ($filters != "" && $id != 4 && $id != 6 ) { $filters.=' OR '; }
           switch ($id) {
@@ -118,26 +117,38 @@
         $query = "select *," . $relevance . " as relevance FROM User_Post WHERE " . $filters . " ORDER BY relevance DESC";
         $result = pg_query($db, $query);      
         if (isset($_POST['submit'])) {
-          if($result) {
-            echo "Select Found";
-            //echo '$result';
-          }
-          else {
-            echo "Select not found";
-          }
           while ($row = pg_fetch_array($result)) { 
-            echo $row["owner"];
 
-            echo "<a href='http://localhost/demo/Ads/profile.php?Owner=$row[owner]&Seats=$row[seats]&Start=$row[start]&Dest=$row[dest]&depDate=$row[depdate]&depTime=$row[deptime]'> 
-              <ul>   
-                <li>Advertisement Name: $row[owner]</li>
-                <li>Seats: $row[seats]</li>     
-                <li>Begin Location: $row[start]</li>
-                <li>End Location: $row[dest]</li>
-                <li>Departure Date: $row[depdate]</li>
-                <li>Departure Time: $row[deptime]</li>
-              </ul>
+            if($count % 2 == 0) {
+            echo "<a style='text-decoration:none' href='http://localhost/demo/Listings/listings.php?Owner=$row[owner]&Seats=$row[seats]&Start=$row[start]&Dest=$row[dest]&depDate=$row[depdate]&depTime=$row[deptime]'> 
+              <div class = 'container-fluid list-group-item' style='background-color:#c1badb'>  
+                <div class='row'>
+                <div class = 'col-sm' style='color:black'>Ad Owner: $row[owner]</div>
+                <div class = 'col-sm' style='color:black'>Seats: $row[seats]</div>     
+                <div class = 'col-sm' style='color:black'>Begin Location: $row[start]</div>
+                <div class = 'col-sm' style='color:black'>End Location: $row[dest]</div>
+                <div class = 'col-sm' style='color:black'>Departure Date: $row[depdate]</div>
+                <div class = 'col-sm' style='color:black'>Departure Time: $row[deptime]</div>
+              </div>
+              </div>
             </a>";
+            $count = $count + 1;
+            }
+            else {
+              echo "<a style='text-decoration:none' href='http://localhost/demo/Listings/listings.php?Owner=$row[owner]&Seats=$row[seats]&Start=$row[start]&Dest=$row[dest]&depDate=$row[depdate]&depTime=$row[deptime]'> 
+              <div class = 'container-fluid list-group-item' style='background-color:#efefef'>  
+                <div class='row'>
+                <div class = 'col-sm' style='color:black'>Ad Owner: $row[owner]</div>
+                <div class = 'col-sm' style='color:black'>Seats: $row[seats]</div>     
+                <div class = 'col-sm' style='color:black'>Begin Location: $row[start]</div>
+                <div class = 'col-sm' style='color:black'>End Location: $row[dest]</div>
+                <div class = 'col-sm' style='color:black'>Departure Date: $row[depdate]</div>
+                <div class = 'col-sm' style='color:black'>Departure Time: $row[deptime]</div>
+              </div>
+              </div>
+            </a>";
+            $count = $count + 1;
+            }
           }
         } 
       } else {

@@ -16,7 +16,8 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">  <style>li {list-style: none;}</style>
 </head>
 <body>
-<nav class="navbar navbar-default">
+
+<!--<nav class="navbar navbar-default">
   <div class="container-fluid">
     <ul class="nav navbar-nav navbar-left">
       <li><a href="/demo/Listings/new.php">Create Listing</a></li>
@@ -28,7 +29,7 @@
 	  <li><a href="#">Log Out</a></li>
     </ul>
   </div>
-</nav>
+</nav>-->
 	<div class="container">
 	<form name="display" action="new.php" method="POST" >
 		<h1 class="display-4"> Create New Advertisement </h1>
