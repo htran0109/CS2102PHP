@@ -42,11 +42,11 @@
       <li>Going to:</li>
       <li><input type= "text" name = "adendloc"/></li>
       <li>Date:</li>
-      <li><input type= "date" name = "sdate" /></li>
-      <li><input type= "date" name = "edate" /></li>
+      <li><input type= "date" name = "sdate" required/></li>
+      <li><input type= "date" name = "edate" required/></li>
       <li>Departure Time Range:</li>
-      <li><input type= "text" name = "stime" placeholder = '00:00'/></li>
-      <li><input type= "text" name = "etime" placeholder = '23:59'/></li>
+      <li><input type= "text" name = "stime" placeholder = '00:00' required/></li>
+      <li><input type= "text" name = "etime" placeholder = '23:59' required/></li>
       <li>Required Seats:</li>
       <li><input type= "number" name = "seats"/></li>
       <li><input type="submit" name="submit" /></li>
