@@ -128,7 +128,7 @@
           while ($row = pg_fetch_array($result)) { 
             echo $row["owner"];
 
-            echo "<a href='http://localhost/demo/Ad/viewAd.php?Owner=$row[owner]&Seats=$row[seats]&Start=$row[start]&Dest=$row[dest]&depDate=$row[depdate]&depTime=$row[deptime]'> 
+            echo "<a href='http://localhost/demo/Ads/profile.php?Owner=$row[owner]&Seats=$row[seats]&Start=$row[start]&Dest=$row[dest]&depDate=$row[depdate]&depTime=$row[deptime]'> 
               <ul>   
                 <li>Advertisement Name: $row[owner]</li>
                 <li>Seats: $row[seats]</li>     

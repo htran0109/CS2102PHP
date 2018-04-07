@@ -30,7 +30,7 @@
   </div>
 </nav>
 	<div class="container">
-	<form name="display" action="newAd.php" method="POST" >
+	<form name="display" action="new.php" method="POST" >
 		<h1 class="display-4"> Create New Advertisement </h1>
 		<div class="form-group">
 			<label for="start">Starting Location</label>

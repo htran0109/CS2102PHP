@@ -23,7 +23,7 @@
           <a class="nav-link" href="/demo/App/search.php">Join Ride</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/demo/Listings/new.php">Create Listing</a>
+          <a class="nav-link" href="/demo/Ads/new.php">Create Listing</a>
         </li>
       </ul>
     </div>
@@ -34,8 +34,8 @@
           My Account
         </a>
         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="bd-versions">
-          <a class="dropdown-item" href="/demo/Users/index.php">Profile</a>
-          <a class="dropdown-item" href="/demo/Listings/index.php">Listings</a>
+          <a class="dropdown-item" href="/demo/Users/profile.php">Profile</a>
+          <a class="dropdown-item" href="/demo/Ads/index.php">Listings</a>
           <a class="dropdown-item" href="https://getbootstrap.com/docs/3.3/">Rides</a> <!--No Link Yet-->
           <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="#">Log Out</a>
