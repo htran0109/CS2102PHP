@@ -1,38 +1,38 @@
-INSERT INTO USERS(username, mobile_number, email, password)
-VALUES ('george', '1111111111', 'george@gmail.com', 'foobar');
+INSERT INTO PROFILE(username, first_name, last_name, mobile_number, email, password)
+VALUES ('george', 'george', 'georgeson', '11111111', 'george@gmail.com', 'foobar');
 
-INSERT INTO USERS(username, mobile_number, email, password)
-VALUES ('bill', '1111112343', 'bill@gmail.com', 'foobar');
+INSERT INTO PROFILE(username, first_name, last_name, mobile_number, email, password)
+VALUES ('bill', 'bill', 'billson', '20562046', 'bill@gmail.com', 'foobar');
 
-INSERT INTO USERS(username, mobile_number, email, password)
-VALUES ('adam', '1111113575', 'adam@gmail.com', 'foobar');
+INSERT INTO PROFILE(username, first_name, last_name, mobile_number, email, password)
+VALUES ('adam', 'adam', 'adamson', '30012981', 'adam@gmail.com', 'foobar');
 
-INSERT INTO USERS(username, mobile_number, email, password)
-VALUES ('bob', '1111114807', 'bob@gmail.com', 'foobar');
+INSERT INTO PROFILE(username, first_name, last_name, mobile_number, email, password)
+VALUES ('bob', 'bob', 'bobson', '39463916', 'bob@gmail.com', 'foobar');
 
-INSERT INTO USERS(username, mobile_number, email, password)
-VALUES ('carl', '1111116039', 'carl@gmail.com', 'foobar');
+INSERT INTO PROFILE(username, first_name, last_name, mobile_number, email, password)
+VALUES ('carl', 'carl', 'carlson', '48914851', 'carl@gmail.com', 'foobar');
 
-INSERT INTO USERS(username, mobile_number, email, password)
-VALUES ('doug', '1111117271', 'doug@gmail.com', 'foobar');
+INSERT INTO PROFILE(username, first_name, last_name, mobile_number, email, password)
+VALUES ('doug', 'doug', 'dougson', '58365786', 'doug@gmail.com', 'foobar');
 
-INSERT INTO USERS(username, mobile_number, email, password)
-VALUES ('ellie', '1111118503', 'ellie@gmail.com', 'foobar');
+INSERT INTO PROFILE(username, first_name, last_name, mobile_number, email, password)
+VALUES ('ellie', 'ellie', 'ellieson', '67816721', 'ellie@gmail.com', 'foobar');
 
-INSERT INTO USERS(username, mobile_number, email, password)
-VALUES ('francis', '1111119735', 'francis@gmail.com', 'foobar');
+INSERT INTO PROFILE(username, first_name, last_name, mobile_number, email, password)
+VALUES ('francis', 'francis', 'francisson', '77267656', 'francis@gmail.com', 'foobar');
 
-INSERT INTO USERS(username, mobile_number, email, password)
-VALUES ('harry', '1111120967', 'harry@gmail.com', 'foobar');
+INSERT INTO PROFILE(username, first_name, last_name, mobile_number, email, password)
+VALUES ('harry', 'harry', 'harryson', '86718591', 'harry@gmail.com', 'foobar');
 
-INSERT INTO USERS(username, mobile_number, email, password)
-VALUES ('irene', '1111122199', 'irene@gmail.com', 'foobar');
+INSERT INTO PROFILE(username, first_name, last_name, mobile_number, email, password)
+VALUES ('irene', 'irene', 'ireneson', '96169526', 'irene@gmail.com', 'foobar');
 
-INSERT INTO USERS(username, mobile_number, email, password)
-VALUES ('joe', '1111123431', 'joe@gmail.com', 'foobar');
+INSERT INTO PROFILE(username, first_name, last_name, mobile_number, email, password)
+VALUES ('joe', 'joe', 'joeson', '15620462', 'joe@gmail.com', 'foobar');
 
-INSERT INTO USERS(username, mobile_number, email, password)
-VALUES ('kate', '1111124663', 'kate@gmail.com', 'foobar');
+INSERT INTO PROFILE(username, first_name, last_name, mobile_number, email, password)
+VALUES ('kate', 'kate', 'kateson', '25071397', 'kate@gmail.com', 'foobar');
 
 INSERT INTO OWNSCAR(license_plate, total_seats, color, model, make, username)
 VALUES ('car1', '1', 'red', 'toyota', 'corolla', 'george');
