@@ -38,11 +38,11 @@
       <li>Going to:</li>
       <li><input type= "text" name = "adendloc"/></li>
       <li>Date:</li>
-      <li><input type= "date" name = "sdate" /></li>
-      <li><input type= "date" name = "edate" /></li>
+      <li><input type= "date" name = "sdate" required/></li>
+      <li><input type= "date" name = "edate" required/></li>
       <li>Departure Time Range:</li>
-      <li><input type= "text" name = "stime" placeholder = '00:00'/></li>
-      <li><input type= "text" name = "etime" placeholder = '23:59'/></li>
+      <li><input type= "text" name = "stime" placeholder = '00:00' required/></li>
+      <li><input type= "text" name = "etime" placeholder = '23:59' required/></li>
       <li>Required Seats:</li>
       <li><input type= "number" name = "seats"/></li>
       <li><input type="submit" name="submit" /></li>
@@ -124,7 +124,7 @@
           while ($row = pg_fetch_array($result)) { 
             echo $row["owner"];
 
-            echo "<a href='http://localhost/demo/Listings/profile.php?Owner=$row[owner]&Seats=$row[seats]&Start=$row[start]&Dest=$row[dest]&depDate=$row[depdate]&depTime=$row[deptime]'> 
+            echo "<a href='http://localhost/demo/Ad/viewAd.php?Owner=$row[owner]&Seats=$row[seats]&Start=$row[start]&Dest=$row[dest]&depDate=$row[depdate]&depTime=$row[deptime]'> 
               <ul>   
                 <li>Advertisement Name: $row[owner]</li>
                 <li>Seats: $row[seats]</li>     
