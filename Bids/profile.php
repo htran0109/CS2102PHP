@@ -61,13 +61,25 @@
 		  <dd class="col-sm-9"> <?php echo $bid['depdate']; ?> </dd>
 		  <dt class="col-sm-3">Departure Time </dt>
 		  <dd class="col-sm-9"> <?php echo $bid['deptime']; ?> </dd>
-		  <dt class="col-sm-3">Seats </dt>
-		  <dd class="col-sm-9"> <?php echo $bid['']; ?> </dd>
+
 		</dl>
 		<form action="../Bids/profile.php" method="POST">
-			<input name="customers" type="number" placeholder="Seats needed" min="1" required />
-			<div style="color:red" id="errorMessage"> </div>
-			<button name="bid" type="submit" class="btn btn-primary" style="margin-top:10px">Rate</button>
+    <div class="radio">
+    <label><input type="radio" name="Worst">1.0</label>
+    </div>
+    <div class="radio">
+      <label><input type="radio" name="Bad">2.0</label>
+    </div>
+    <div class="radio">
+      <label><input type="radio" name="Neutral">3.0</label>
+    </div>
+    <div class="radio">
+      <label><input type="radio" name="Good">4.0</label>
+    </div>
+    <div class="radio">
+      <label><input type="radio" name="Best">5.0</label>
+    </div>
+			<button name="rate" type="submit" class="btn btn-primary" style="margin-top:10px">Submit</button>
 		</form>
 </body>
 </html>
