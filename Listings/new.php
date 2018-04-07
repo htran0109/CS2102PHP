@@ -13,17 +13,21 @@
 ?>
 <!DOCTYPE html>
 <head>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">  <style>li {list-style: none;}</style>
 	<title>Create new Listing</title>
   <style>li {list-style: none;}</style>
 </head>
 <body>
-  <h1>Navigation</h1>
+  <?php
+  include_once('../header.php');
+  ?>
+  <!--<h1>Navigation</h1>
   <ul>
     <li><a href="index.php">Edit Listings</a></li>
     <li><a>Create Listing</a></li>
     <li><a href="profile.php">View Profile</a></li>
     <li><a href="viewList.php">Join a Ride</a></li>
-  </ul>
+  </ul>-->
   <h2>Create New Listing</h2>
   <ul>
     <form name="display" action="new.php" method="POST" >
