@@ -8,13 +8,13 @@
 	}
 	
 	
-	include(./App/search.php);
-	$owner = $_GET['owner'];
-	$start = $_GET['start'];
-	$dest = $_GET['dest'];
-	$depdate = $_GET['depdate'];
-	$deptime = $_GET['deptime'];
-	$seats = $_GET['seats'];
+	//include(../App/search.php);
+	$owner = $_GET['Owner'];
+	$start = $_GET['Start'];
+	$dest = $_GET['Dest'];
+	$depdate = $_GET['depDate'];
+	$deptime = $_GET['depTime'];
+	$seats = $_GET['Seats'];
 	
 	// $owner = 'adam';
 	// $start = 'start1';
@@ -32,7 +32,7 @@
 <head>
   <title>View Advertisement</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">  <style>li {list-style: none;}</style>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">  <style>li {list-style: none;}</style>
 </head>
 <body>
 	<nav class="navbar navbar-default">

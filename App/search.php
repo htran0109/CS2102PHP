@@ -11,11 +11,15 @@
     $user = $_SESSION["username"];
   }
 ?>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">  <style>li {list-style: none;}</style>
 <head>
   <title>Search Listing</title>
 </head>
 <body>
+  <?php
+  include_once('../header.php');
+  ?>
+  <!--
 <nav class="navbar navbar-default">
   <div class="container-fluid">
     <ul class="nav navbar-nav navbar-left">
@@ -27,7 +31,7 @@
       <li><a href="http://localhost/Users/index.php">My Profile</a></li>
     </ul>
   </div>
-</nav>
+</nav>-->
   <h2> Join Listing:</h2>
   <ul><form name = 'search' action='http://localhost/demo/App/search.php' method='POST'>
     <li>Find Listings By:</li>
