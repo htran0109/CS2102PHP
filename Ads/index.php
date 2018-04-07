@@ -11,7 +11,7 @@
     </script>";
   }
   else {
-    $user = $_SESSION["username"];
+    $user = isset($_GET["Owner"]) ? $_GET["Owner"] : $_SESSION["username"];
   }
 ?>
 <!DOCTYPE html>

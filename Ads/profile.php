@@ -35,6 +35,10 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">  <style>li {list-style: none;}</style>
 </head>
 <body>
+	<?php
+	include_once('../header.php');
+	?>
+	<!--
 	<nav class="navbar navbar-default">
 	  <div class="container-fluid">
 		<ul class="nav navbar-nav navbar-left">
@@ -47,7 +51,7 @@
 		  <li><a href="#">Log Out</a></li>
 		</ul>
 	  </div>
-	</nav>
+	</nav>-->
 	<div class="container">
 		<h1 class="display-4"> View Advertisement </h1>
 		<dl class="row">
