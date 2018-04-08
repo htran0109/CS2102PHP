@@ -33,18 +33,10 @@
   <title>Edit Listing</title>
 </head>
 <body>
-<nav class="navbar navbar-default">
-  <div class="container-fluid">
-    <ul class="nav navbar-nav navbar-left">
-      <li><a href="/demo/Listings/new.php">Create Listing</a></li>
-      <li><a href="/demo/Listings/profile.php">View My Listings</a></li>
-      <li class="active"><a href="/demo/App/search.php">Join a Ride</a></li>
-    </ul>
-    <ul class="nav navbar-nav navbar-right">
-      <li><a href="/demo/Users/index.php">My Profile</a></li>
-    </ul>
-  </div>
-</nav>
+  <?php
+
+    include_once('../header.php');
+  ?>
   <h2 class='form-control-static'>Edit Listing</h2>
   <?php
   $user = $_SESSION["username"];
@@ -143,14 +135,14 @@
       }
 
       if (isset($_POST['submit'])) {
-          echo "Updating Listing\n";
-          echo "<p></p>";
-          echo $_POST['username']."\n";
-          echo $_POST['seatsNumber']."\n";
-          echo $_POST['start_loc']."\n";
-          echo $_POST['end_loc']."\n";
-          echo $_POST['date']."\n";
-          echo $_POST['starttime']."\n";
+          // echo "Updating Listing\n";
+          // echo "<p></p>";
+          // echo $_POST['username']."\n";
+          // echo $_POST['seatsNumber']."\n";
+          // echo $_POST['start_loc']."\n";
+          // echo $_POST['end_loc']."\n";
+          // echo $_POST['date']."\n";
+          // echo $_POST['starttime']."\n";
 
           $owner = trim($_POST['owner']);
           $start = trim($_POST['start']);
@@ -159,14 +151,14 @@
           $deptime = trim($_POST['deptime']);
           $seats = trim($_POST['seats']);
 
-          echo "<p></p>";
-          echo $owner."\n";
-          echo $seats."\n";
-          echo $start."\n";
-          echo $dest."\n";
-          echo $depdate."\n";
-          echo $deptime."\n";
-          echo "<p></p>";
+          // echo "<p></p>";
+          // echo $owner."\n";
+          // echo $seats."\n";
+          // echo $start."\n";
+          // echo $dest."\n";
+          // echo $depdate."\n";
+          // echo $deptime."\n";
+          // echo "<p></p>";
 
           $result = pg_query($db, 
           "UPDATE User_Post
@@ -186,7 +178,8 @@
            ");
 
           if(pg_affected_rows($result) > 0) {
-            echo "Updated Successfully!";
+            header("Location:profile.php?Owner=$_POST[username]&Seats=$_POST[seatsNumber]&Start=$_POST[start_loc]&Dest=$_POST[end_loc]&depDate=$_POST[date]&depTime=$_POST[starttime]");
+            exit();
           }
           else {
             echo "Update Failed!";
