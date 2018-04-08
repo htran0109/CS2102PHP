@@ -12,7 +12,7 @@ CREATE TABLE profile (
 	mobile_number varchar(20) NOT NULL,
 	email varchar(40) NOT NULL,
 	password varchar(20) NOT NULL,
-	birthday DATE NOT NULL, #update new_insert_table.sql
+	birthday DATE NOT NULL,
   	admin boolean DEFAULT FALSE,
 	PRIMARY KEY (username)
 );
