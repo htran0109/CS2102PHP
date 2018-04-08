@@ -5,7 +5,7 @@ DROP TABLE UserPost CASCADE;
 DROP TABLE UserBid CASCADE;
 */
 
-CREATE TABLE Profile (
+CREATE TABLE profile (
 	username varchar(20),
 	first_name varchar(20),
 	last_name varchar(20),
@@ -16,7 +16,7 @@ CREATE TABLE Profile (
 	PRIMARY KEY (username)
 );
 
-CREATE TABLE OwnsCar (
+CREATE TABLE car (
 	license_plate varchar(10),
 	total_seats int,
 	color varchar(20),
@@ -27,8 +27,8 @@ CREATE TABLE OwnsCar (
 	PRIMARY KEY (license_plate)
 );
 
-CREATE TABLE UserPost (
-	owner varchar(20),
+CREATE TABLE post (
+	owner varchar(20), #consider changing this to car -> we can obtain user from car but not vice versa
 	seats_available int,
 	origin varchar(128),
 	destination varchar(128),
@@ -38,7 +38,7 @@ CREATE TABLE UserPost (
 	FOREIGN KEY (owner) REFERENCES Profile(username)
 );
 
-CREATE TABLE UserBid (
+CREATE TABLE bid (
 	bidder varchar(20),
 	owner varchar(20),
 	origin varchar(128),
