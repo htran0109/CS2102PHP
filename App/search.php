@@ -146,7 +146,7 @@
 			  while ($row = pg_fetch_array($result)) { 
 
 				if($count % 2 == 0) {
-				echo "<a style='text-decoration:none' href='http://localhost/demo/Listings/listings.php?Owner=$row[owner]&Seats=$row[seats]&Start=$row[start]&Dest=$row[dest]&depDate=$row[depdate]&depTime=$row[deptime]'> 
+				echo "<a style='text-decoration:none' href='http://localhost/demo/Ads/profile.php?Owner=$row[owner]&Seats=$row[seats]&Start=$row[start]&Dest=$row[dest]&depDate=$row[depdate]&depTime=$row[deptime]'> 
 				  <div class = 'container-fluid list-group-item' style='background-color:#c1badb'>  
 					<div class='row'>
 					<div class = 'col-sm' style='color:black'>Ad Owner: $row[owner]</div>
@@ -161,7 +161,7 @@
 				$count = $count + 1;
 				}
 				else {
-				  echo "<a style='text-decoration:none' href='http://localhost/demo/Listings/listings.php?Owner=$row[owner]&Seats=$row[seats]&Start=$row[start]&Dest=$row[dest]&depDate=$row[depdate]&depTime=$row[deptime]'> 
+				  echo "<a style='text-decoration:none' href='http://localhost/demo/Ads/profile.php?Owner=$row[owner]&Seats=$row[seats]&Start=$row[start]&Dest=$row[dest]&depDate=$row[depdate]&depTime=$row[deptime]'> 
 				  <div class = 'container-fluid list-group-item' style='background-color:#efefef'>  
 					<div class='row'>
 					<div class = 'col-sm' style='color:black'>Ad Owner: $row[owner]</div>
