@@ -28,59 +28,28 @@
 <?php
 include_once('../header.php');
 ?>
-<!--
-<nav class="navbar navbar-default">
-  <div class="container-fluid">
-    <ul class="nav navbar-nav navbar-left">
-      <li><a href="/demo/Listings/new.php">Create Listing</a></li>
-      <li><a href="/demo/Listings/profile.php">View My Listings</a></li>
-      <li class="active"><a href="/demo/App/search.php">Join a Ride</a></li>
-    </ul>
-    <ul class="nav navbar-nav navbar-right">
-      <li><a href="/demo/Users/index.php">My Profile</a></li>
-    </ul>
-  </div>
-</nav>-->
   <h2>My Listings:</h2>
   <?php
 
           $user = $_SESSION["username"];
           $db     = pg_connect("host=localhost port=5432 dbname=postgres user=postgres password=1234");  
-          $result = pg_query($db, "SELECT * FROM User_Post WHERE Owner = '$user'");    // Query template
-          //$row    = pg_fetch_assoc($result);
+          $result = pg_query($db, "SELECT * FROM post WHERE owner = '$user';");    // Query template
           $count = 0;
           while ($row = pg_fetch_array($result)) { 
-
-            if($count % 2 == 0) {
-            echo "<a style='text-decoration:none' href='http://localhost/demo/Listings/listings.php?Owner=$row[owner]&Seats=$row[seats]&Start=$row[start]&Dest=$row[dest]&depDate=$row[depdate]&depTime=$row[deptime]'> 
+            echo "<a style='text-decoration:none' href='http://localhost/demo/Ads/profile.php?license_plate=$row[license_plate]&owner=$row[owner]&seats_available=$row[seats_available]&origin=$row[origin]&destination=$row[destination]&depart_date=$row[depart_date]&depart_time=$row[depart_time]'> 
               <div class = 'container-fluid list-group-item' style='background-color:#c1badb'>  
                 <div class='row'>
+				<div class = 'col-sm' style='color:black'>Ad Owner: $row[license_plate]</div>
                 <div class = 'col-sm' style='color:black'>Ad Owner: $row[owner]</div>
-                <div class = 'col-sm' style='color:black'>Seats: $row[seats]</div>     
-                <div class = 'col-sm' style='color:black'>Begin Location: $row[start]</div>
-                <div class = 'col-sm' style='color:black'>End Location: $row[dest]</div>
-                <div class = 'col-sm' style='color:black'>Departure Date: $row[depdate]</div>
-                <div class = 'col-sm' style='color:black'>Departure Time: $row[deptime]</div>
+                <div class = 'col-sm' style='color:black'>Seats: $row[seats_available]</div>     
+                <div class = 'col-sm' style='color:black'>Begin Location: $row[origin]</div>
+                <div class = 'col-sm' style='color:black'>End Location: $row[destination]</div>
+                <div class = 'col-sm' style='color:black'>Departure Date: $row[depart_date]</div>
+                <div class = 'col-sm' style='color:black'>Departure Time: $row[depart_time]</div>
               </div>
               </div>
             </a>";
             $count = $count + 1;
-            }
-            else {
-              echo "<a style='text-decoration:none' href='http://localhost/demo/Listings/listings.php?Owner=$row[owner]&Seats=$row[seats]&Start=$row[start]&Dest=$row[dest]&depDate=$row[depdate]&depTime=$row[deptime]'> 
-              <div class = 'container-fluid list-group-item' style='background-color:#efefef'>  
-                <div class='row'>
-                <div class = 'col-sm' style='color:black'>Ad Owner: $row[owner]</div>
-                <div class = 'col-sm' style='color:black'>Seats: $row[seats]</div>     
-                <div class = 'col-sm' style='color:black'>Begin Location: $row[start]</div>
-                <div class = 'col-sm' style='color:black'>End Location: $row[dest]</div>
-                <div class = 'col-sm' style='color:black'>Departure Date: $row[depdate]</div>
-                <div class = 'col-sm' style='color:black'>Departure Time: $row[deptime]</div>
-              </div>
-              </div>
-            </a>";
-            $count = $count + 1;
-            }
           }
   ?>
   </body>
