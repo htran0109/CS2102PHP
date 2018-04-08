@@ -39,7 +39,7 @@
 			<button type='submit' class='btn'>
 				<a href=$url style='text-decoration:none;color:black'>See Ad Listings</a>
 			</button>";
-		$url = "../Bids/index.php?Owner=$username";
+		$url = "../Bids/index.php";
 		if($username == $_SESSION["username"])
 			{
 				echo "

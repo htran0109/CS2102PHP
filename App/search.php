@@ -102,18 +102,18 @@
 				  break;
 
 				case 1:
-				  $relevance .= " (case when start = '$_POST[adstartloc]'  then 1 else 0 end) +";
-				  $filters.=" start = '$_POST[adstartloc]'";
+				  $relevance .= " (case when origin = '$_POST[adstartloc]'  then 1 else 0 end) +";
+				  $filters.=" origin = '$_POST[adstartloc]'";
 				  break;
 
 				case 2:
-				  $relevance .= " (case when dest = '$_POST[adendloc]'  then 1 else 0 end) +";
-				  $filters.=" Dest = '$_POST[adendloc]'";
+				  $relevance .= " (case when destination = '$_POST[adendloc]'  then 1 else 0 end) +";
+				  $filters.=" Destination = '$_POST[adendloc]'";
 				  break;
 
 				case 3:
-				  $relevance .= " (case when depDate BETWEEN '$_POST[sdate]'";
-				  $filters.=" depdate BETWEEN '$_POST[sdate]'";
+				  $relevance .= " (case when departure_Date BETWEEN '$_POST[sdate]'";
+				  $filters.=" departure_date BETWEEN '$_POST[sdate]'";
 				  break;
 
 				case 4:
@@ -122,8 +122,8 @@
 				  break;
 
 				case 5:
-				  $relevance .= " (case when deptime BETWEEN '$_POST[stime]'";
-				  $filters.=" deptime BETWEEN '$_POST[stime]'";
+				  $relevance .= " (case when departure_time BETWEEN '$_POST[stime]'";
+				  $filters.=" departure_time BETWEEN '$_POST[stime]'";
 				  break;
 
 				case 6:
@@ -133,43 +133,43 @@
 
 
 				case 7:
-				  $relevance .= " (case when seats >= '$_POST[seats]' then 1 else 0 end) +";
-				  $filters.=" seats >= '$_POST[seats]'";
+				  $relevance .= " (case when seats_available >= '$_POST[seats]' then 1 else 0 end) +";
+				  $filters.=" seats_available >= '$_POST[seats]'";
 				  break;
 			  }
 			}
 
 			$relevance = rtrim($relevance, " +");
-			$query = "select *," . $relevance . " as relevance FROM User_Post WHERE " . $filters . " ORDER BY relevance DESC";
+			$query = "select *," . $relevance . " as relevance FROM post WHERE " . $filters . " ORDER BY relevance DESC";
 			$result = pg_query($db, $query);      
 			if (isset($_POST['submit'])) {
 			  while ($row = pg_fetch_array($result)) { 
 
 				if($count % 2 == 0) {
-				echo "<a style='text-decoration:none' href='http://localhost/demo/Listings/listings.php?Owner=$row[owner]&Seats=$row[seats]&Start=$row[start]&Dest=$row[dest]&depDate=$row[depdate]&depTime=$row[deptime]'> 
+				echo "<a style='text-decoration:none' href='http://localhost/demo/Ads/profile.php?Owner=$row[owner]&Seats=$row[seats]&Start=$row[start]&Dest=$row[dest]&depDate=$row[depdate]&depTime=$row[deptime]'> 
 				  <div class = 'container-fluid list-group-item' style='background-color:#c1badb'>  
 					<div class='row'>
 					<div class = 'col-sm' style='color:black'>Ad Owner: $row[owner]</div>
-					<div class = 'col-sm' style='color:black'>Seats: $row[seats]</div>     
-					<div class = 'col-sm' style='color:black'>Begin Location: $row[start]</div>
-					<div class = 'col-sm' style='color:black'>End Location: $row[dest]</div>
-					<div class = 'col-sm' style='color:black'>Departure Date: $row[depdate]</div>
-					<div class = 'col-sm' style='color:black'>Departure Time: $row[deptime]</div>
+					<div class = 'col-sm' style='color:black'>Seats: $row[seats_available]</div>     
+					<div class = 'col-sm' style='color:black'>Begin Location: $row[origin]</div>
+					<div class = 'col-sm' style='color:black'>End Location: $row[destination]</div>
+					<div class = 'col-sm' style='color:black'>Departure Date: $row[departure_date]</div>
+					<div class = 'col-sm' style='color:black'>Departure Time: $row[departure_time]</div>
 				  </div>
 				  </div>
 				</a>";
 				$count = $count + 1;
 				}
 				else {
-				  echo "<a style='text-decoration:none' href='http://localhost/demo/Listings/listings.php?Owner=$row[owner]&Seats=$row[seats]&Start=$row[start]&Dest=$row[dest]&depDate=$row[depdate]&depTime=$row[deptime]'> 
+				  echo "<a style='text-decoration:none' href='http://localhost/demo/Ads/profile.php?Owner=$row[owner]&Seats=$row[seats]&Start=$row[start]&Dest=$row[dest]&depDate=$row[depdate]&depTime=$row[deptime]'> 
 				  <div class = 'container-fluid list-group-item' style='background-color:#efefef'>  
 					<div class='row'>
 					<div class = 'col-sm' style='color:black'>Ad Owner: $row[owner]</div>
-					<div class = 'col-sm' style='color:black'>Seats: $row[seats]</div>     
-					<div class = 'col-sm' style='color:black'>Begin Location: $row[start]</div>
-					<div class = 'col-sm' style='color:black'>End Location: $row[dest]</div>
-					<div class = 'col-sm' style='color:black'>Departure Date: $row[depdate]</div>
-					<div class = 'col-sm' style='color:black'>Departure Time: $row[deptime]</div>
+					<div class = 'col-sm' style='color:black'>Seats: $row[seats_available]</div>     
+					<div class = 'col-sm' style='color:black'>Begin Location: $row[origin]</div>
+					<div class = 'col-sm' style='color:black'>End Location: $row[destination]</div>
+					<div class = 'col-sm' style='color:black'>Departure Date: $row[departure_date]</div>
+					<div class = 'col-sm' style='color:black'>Departure Time: $row[departure_time]</div>
 				  </div>
 				  </div>
 				</a>";
