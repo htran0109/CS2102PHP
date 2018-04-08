@@ -42,7 +42,7 @@
 						// Connect to the database. Please change the password in the following line accordingly
 						$db = pg_connect("host=localhost port=5432 dbname=postgres user=postgres password=1234");	
 						if ($db) {
-							$result = pg_query($db, "SELECT * FROM users where username = '$username' and password = '$password';");
+							$result = pg_query($db, "SELECT * FROM profile where username = '$username' and password = '$password';");
 						
 							if(pg_num_rows($result) <= 0) {
 								throw new exception("Incorrect username or password.");
