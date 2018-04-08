@@ -7,22 +7,13 @@
 		</script>";
 	}
 	
-	
-	//include(../App/search.php);
 	$owner = $_GET['Owner'];
 	$start = $_GET['Start'];
 	$dest = $_GET['Dest'];
 	$depdate = $_GET['depDate'];
 	$deptime = $_GET['depTime'];
 	$seats = $_GET['Seats'];
-	
-	// $owner = 'adam';
-	// $start = 'start1';
-	// $dest = 'end1';
-	// $depdate = '2030-01-01';
-	// $deptime = '01:00:00';
-	// $seats = '1';
-	
+
 	$db = pg_connect("host=localhost port=5432 dbname=postgres user=postgres password=1234");
 	$ad = pg_fetch_array(pg_query($db, "SELECT * FROM user_post where owner='$owner' and start='$start' and dest='$dest' and depdate='$depdate' and deptime='$deptime' and seats='$seats';"));
 	
@@ -38,22 +29,18 @@
 	<?php
 	include_once('../header.php');
 	?>
-	<!--
-	<nav class="navbar navbar-default">
-	  <div class="container-fluid">
-		<ul class="nav navbar-nav navbar-left">
-		  <li><a href="/demo/Listings/new.php">Create Listing</a></li>
-		  <li><a href="/demo/Listings/index.php">View My Listings</a></li>
-		  <li><a href="/demo/App/search.php">Join a Ride</a></li>
-		</ul>
-		<ul class="nav navbar-nav navbar-right">
-		  <li><a href="/demo/Users/index.php">My Profile</a></li>
-		  <li><a href="#">Log Out</a></li>
-		</ul>
-	  </div>
-	</nav>-->
 	<div class="container">
 		<h1 class="display-4"> View Advertisement </h1>
+		<form action="edit.php" method="POST">
+		    <input hidden name='owner' value = <?php echo $ad['owner']; ?>>
+    		<input hidden name='seats' value = <?php echo $ad['seats']; ?>>
+   			<input hidden name='start' value =  <?php echo $ad['start']; ?>>
+    		<input hidden name='dest' value = <?php echo $ad['dest']; ?>>
+    		<input hidden name='depdate' value = <?php echo $ad['depdate']; ?>>
+    		<input hidden name='deptime' value = <?php echo $ad['deptime']; ?>>
+			<button style="display:none" id="editButton" name="Edit" type="submit" class="btn btn-primary" style="margin-top:10px"> Edit
+			</button>
+		</form>
 		<dl class="row">
 		  <dt class="col-sm-3">Driver</dt>
 		  <dd class="col-sm-9"> <?php echo $ad['owner']; ?>	</dd>
@@ -68,22 +55,55 @@
 		  <dt class="col-sm-3">Seats </dt>
 		  <dd class="col-sm-9"> <?php echo $ad['seats']; ?> </dd>
 		</dl>
-		<form action="../Bids/new.php" method="POST">
+		<form style="display:none" id="bidButton" action="../Bids/new.php" method="POST">
 			<input name="customers" type="number" placeholder="Seats needed" min="1" required />
 			<div style="color:red" id="errorMessage"> </div>
 			<button name="bid" type="submit" class="btn btn-primary" style="margin-top:10px">Bid</button>
 		</form>
-		<form action="edit.php" method="POST">
-		    <input visibility: hidden name='owner' value = <?php echo $ad['owner']; ?>>
-    		<input visibility: hidden name='seats' value = <?php echo $ad['seats']; ?>>
-   			<input visibility: hidden name='start' value =  <?php echo $ad['start']; ?>>
-    		<input visibility: hidden name='dest' value = <?php echo $ad['dest']; ?>>
-    		<input visibility: hidden name='depdate' value = <?php echo $ad['depdate']; ?>>
-    		<input visibility: hidden name='deptime' value = <?php echo $ad['deptime']; ?>>
-			<button name="Edit" type="submit" class="btn btn-primary" style="margin-top:10px">Edit</button>
-		</form>
+		
+		<table class="table" id="bidTable" style="display:none">
+			<h1 id ="bidTableTitle" style="display:none" class="display-4"> Current Bids </h1>
+			<thead>
+				<tr>
+					<th scope="col">Username</th>
+					<th scope="col">Customers</th>
+					<th scope="col"></th>
+					<th scope="col"></th>
+				</tr>
+			</thead>
+			<tbody>
+			<?php
+				$user = $_SESSION["username"];
+				$results = pg_query($db, "SELECT * FROM Bid WHERE owner = '$user';");
+			
+				while ($row = pg_fetch_array($results)) {
+					echo "
+						<tr>
+							<td> $row[bidder] </td>
+							<td> $row[customers] </td>
+							<td> </td>
+							<td> </td>
+						</tr>
+					";
+				}
+			?>
+			</tbody>
+		</table>
+		
 		<?PHP
-
+			if (strcmp($user, $owner) == 0) {
+				echo "<script type='text/javascript'> 
+					document.getElementById('editButton').style.display = 'inline';
+					document.getElementById('bidTable').style.display = 'table';
+					document.getElementById('bidTableTitle').style.display = 'inline';
+				</script>";
+			}
+			else {
+				echo "<script type='text/javascript'> 
+				document.getElementById('bidButton').style.display = 'inline';
+				</script>";
+			}
+			
 			$bidder = $_SESSION["username"];
 			$customers = $_POST['customers'];
 				
@@ -94,9 +114,6 @@
 			}
 			
 			pg_query($db, "INSERT INTO Bid(Bidder, Owner, Start, Dest, depDate, depTime, Customers) VALUES('$bidder', '$owner', '$start', '$dest', '$depdate', '$deptime', '$customers');"); 
-			
 		?>
-
-
 </body>
 </html>

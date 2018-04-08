@@ -8,7 +8,6 @@
 		</script>";
 	}
 	$username = isset($_GET["Owner"]) ? $_GET["Owner"] : $_SESSION["username"];
-	//$username = 'adam';
 	$db = pg_connect("host=localhost port=5432 dbname=postgres user=postgres password=1234");
 	$user = pg_fetch_array(pg_query($db, "SELECT * FROM users where username='$username';"));
 	
