@@ -15,7 +15,7 @@
 
 <!DOCTYPE html>  
 <head>
-  <title>View Advertisement</title>
+  <title>View Profile</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">  <style>li {list-style: none;}</style>
 </head>
@@ -39,17 +39,30 @@
 		</dl>
 		<?php 
 		$url = "../Ads/index.php?Owner=$username";
-		echo "
-			<button type='submit' class='btn'>
-				<a href=$url style='text-decoration:none;color:black'>See Ad Listings</a>
-			</button>";
+		echo "<div class='mr-1' style='float:left'>
+			<form action='$url'>
+			<input type='submit' class='btn'
+				value='See Ad Listings'/>
+			</form></div>";
 		$url = "../Bids/index.php";
 		if($username == $_SESSION["username"])
 			{
 				echo "
-			<button type='submit' class='btn'>
-				<a href=$url style='text-decoration:none;color:black'>See My Bids</a>
-			</button";
+			<div class='mr-1' style='float:left'>
+			<form action='$url'>
+			<input type='submit' class='btn'
+				value='See Bids'/>
+			</form></div>";
+			}
+		$url = "../Users/edit.php";
+		if($username == $_SESSION["username"])
+			{
+				echo "
+			<div style='float:left'>
+			<form action='$url'>
+			<input type='submit' class='btn'
+				value='Edit Page'/>
+			</form></div>";
 			}
 		?>
 	</div>

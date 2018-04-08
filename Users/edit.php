@@ -15,7 +15,7 @@
 
 <!DOCTYPE html>  
 <head>
-  <title>View Advertisement</title>
+  <title>Edit Profile</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">  <style>li {list-style: none;}</style>
 </head>
@@ -41,10 +41,12 @@
   </form>
     <?php 
     $url = "../Users/profile.php?Owner=$username";
-    echo "
-      <button type='submit' class='btn'>
-        <a href=$url style='text-decoration:none;color:black'>Back</a>
-      </button>";
+        echo "
+      <div style='float:left'>
+      <form action='$url'>
+      <input type='submit' class='btn'
+        value='Back'/>
+      </form></div>";
     ?>
   </div>
   <?php
@@ -58,12 +60,9 @@
           // echo $_POST['date']."\n";
           // echo $_POST['starttime']."\n";
 
-          $owner = trim($_POST['owner']);
-          $start = trim($_POST['start']);
-          $dest = trim($_POST['dest']);
-          $depdate = trim($_POST['depdate']);
-          $deptime = trim($_POST['deptime']);
-          $seats = trim($_POST['seats']);
+          $mobile = trim($_POST['mobile']);
+          $email = trim($_POST['email']);
+
 
           // echo "<p></p>";
           // echo $owner."\n";
@@ -75,24 +74,15 @@
           // echo "<p></p>";
 
           $result = pg_query($db, 
-          "UPDATE User_Post
-           SET Owner = '$_POST[username]',
-            Seats = '$_POST[seatsNumber]',
-            Start = '$_POST[start_loc]',
-            Dest = '$_POST[end_loc]',
-            depDate = '$_POST[date]',
-            depTime = '$_POST[starttime]'
+          "UPDATE profile
+           SET mobile_number = '$_POST[mobile]',
+            email = '$_POST[email]'
            WHERE 
-            Owner = '$owner' AND
-            Seats = '$seats' AND
-            Start = '$start' AND
-            Dest = '$dest' AND
-            depDate = '$depdate' AND
-            depTime = '$deptime'
+            username = '$username';
            ");
 
           if(pg_affected_rows($result) > 0) {
-            header("Location:profile.php?Owner=$_POST[username]&Seats=$_POST[seatsNumber]&Start=$_POST[start_loc]&Dest=$_POST[end_loc]&depDate=$_POST[date]&depTime=$_POST[starttime]");
+            header("Location:profile.php");
             exit();
           }
           else {
