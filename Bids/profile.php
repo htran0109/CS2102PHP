@@ -22,8 +22,10 @@
 	// $depdate = '2030-01-01';
 	// $deptime = '01:00:00';
 	// $seats = '1';
+  // http://localhost/demo/Bids/profile.php?Owner='adam'Start='start1'Dest='end1'depDate='2030-01-01'depTime='01:00:00'Seats=1
+  
 	$db = pg_connect("host=localhost port=5432 dbname=postgres user=postgres password=1234");
-	$bid = pg_fetch_array(pg_query($db, "SELECT * FROM Bids where bidder = $_SESSION["username"] and owner='$owner' and start='$start' and dest='$dest' and depdate='$depdate' and deptime='$deptime' and seats='$seats';"));
+	$bid = pg_fetch_array(pg_query($db, "SELECT * FROM bid where bidder = $_SESSION["username"] and owner='$owner' and origin='$start' and destination='$dest' and depart_date='$depdate' and depart_time='$deptime';"));
 	
 ?>
 
@@ -165,53 +167,49 @@
     if ($_POST['accept']) {
       if ($owner != $_SESSION['username']) {
         $result = pg_query($db, "
-                              DELETE FROM UserBid 
+                              DELETE FROM bid 
                               WHERE bidder = $_SESSION["username"] 
                               and owner='$owner' 
-                              and start='$start' 
-                              and dest='$dest' 
-                              and depdate='$depdate' 
-                              and deptime='$deptime' 
-                              and seats='$seats';"
+                              and origin='$start' 
+                              and destination='$dest' 
+                              and depart_date='$depdate' 
+                              and depart_time='$deptime';"
                             );
       } else {
         $result = pg_query($db, "
-                              UPDATE UserBid
+                              UPDATE bid
                               SET accepted = true 
                               WHERE bidder = $_SESSION["username"] 
                               and owner='$owner' 
                               and start='$start' 
                               and dest='$dest' 
                               and depdate='$depdate' 
-                              and deptime='$deptime' 
-                              and seats='$seats';"
+                              and deptime='$deptime' ;"
                             );        
       }
 
       if ($_POST['rate']) {
         if ($owner != $_SESSION['username']) {
           $result = pg_query($db, "
-                                UPDATE UserBid 
+                                UPDATE bid 
                                 SET driver_rating = $_POST['rate']
                                 WHERE bidder = $_SESSION["username"] 
                                 and owner='$owner' 
-                                and start='$start' 
-                                and dest='$dest' 
-                                and depdate='$depdate' 
-                                and deptime='$deptime' 
-                                and seats='$seats';"
+                                and origin='$start' 
+                                and destination='$dest' 
+                                and depart_date='$depdate' 
+                                and depart_time='$deptime';"
                               );
         } else {
           $result = pg_query($db, "
-                                UPDATE UserBid
+                                UPDATE bid
                                 SET passenger_rating = $_POST['rate']
                                 WHERE bidder = $_SESSION["username"] 
                                 and owner='$owner' 
-                                and start='$start' 
-                                and dest='$dest' 
-                                and depdate='$depdate' 
-                                and deptime='$deptime' 
-                                and seats='$seats';"
+                                and origin='$start' 
+                                and destination='$dest' 
+                                and depart_date='$depdate' 
+                                and depart_time='$deptime';"
                               );        
           
       }

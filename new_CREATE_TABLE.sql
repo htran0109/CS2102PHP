@@ -47,7 +47,7 @@ CREATE TABLE bid (
 	depart_time TIME,
 	seats_desired int,
 	driver_rating int CHECK (0 <= driver_rating AND driver_rating <= 5),
-	passenger_rating int CHECK (0 <= passenger_rating AND passenger_rating <= 5),
+	passenger_rating int CHECK ((0 <= passenger_rating AND passenger_rating <= 5) OR passenger_rating IS NULL) ,
 	accepted boolean DEFAULT FALSE,
 	PRIMARY KEY (bidder, owner, origin, destination, depart_date, depart_time),
 	FOREIGN KEY (bidder) REFERENCES Profile(username),
