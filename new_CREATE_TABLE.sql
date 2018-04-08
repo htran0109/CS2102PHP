@@ -49,7 +49,7 @@ CREATE TABLE bid (
 	depart_date DATE,
 	depart_time TIME,
 	seats_desired int NOT NULL,
-	driver_rating int CHECK ((0 <= passenger_rating AND passenger_rating <= 5) OR passenger_rating IS NULL),
+	driver_rating int CHECK ((0 <= driver_rating AND driver_rating <= 5) OR driver_rating IS NULL),
 	passenger_rating int CHECK ((0 <= passenger_rating AND passenger_rating <= 5) OR passenger_rating IS NULL),
 	accepted boolean DEFAULT FALSE,
 	PRIMARY KEY (bidder, owner, origin, destination, depart_date, depart_time),
