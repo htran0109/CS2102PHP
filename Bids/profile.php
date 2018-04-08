@@ -25,8 +25,8 @@
   // http://localhost/demo/Bids/profile.php?Owner='adam'Start='start1'Dest='end1'depDate='2030-01-01'depTime='01:00:00'Seats=1
   
 	$db = pg_connect("host=localhost port=5432 dbname=postgres user=postgres password=1234");
-	$bid = pg_fetch_array(pg_query($db, "SELECT * FROM bid where bidder = $_SESSION["username"] and owner='$owner' and origin='$start' and destination='$dest' and depart_date='$depdate' and depart_time='$deptime';"));
-	
+	$bid = pg_fetch_array(pg_query($db, "SELECT * FROM bid where bidder = '$_SESSION[username] and owner='$owner' and origin='$start' and destination='$dest' and depart_date='$depdate' and depart_time='$deptime';"));
+
 ?>
 
 <!DOCTYPE html>  

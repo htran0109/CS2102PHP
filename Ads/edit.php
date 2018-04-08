@@ -17,11 +17,11 @@
   }
 
   $owner = trim($_POST['owner']);
-  $start = trim($_POST['start']);
-  $dest = trim($_POST['dest']);
-  $depdate = trim($_POST['depdate']);
-  $deptime = trim($_POST['deptime']);
-  $seats = trim($_POST['seats']);
+  $start = trim($_POST['origin']);
+  $dest = trim($_POST['destination']);
+  $depdate = trim($_POST['depart_date']);
+  $deptime = trim($_POST['depart_time']);
+  $seats = trim($_POST['seats_available']);
 ?>
 <!DOCTYPE html>
 <head>
@@ -46,9 +46,9 @@
     $row = pg_fetch_array($result);
     $admin = $row["admin"] === 't';
     $result = pg_query($db, 
-                  "SELECT * FROM User_Post 
+                  "SELECT * FROM post 
                    WHERE
-            Owner = '$owner' AND
+            owner = '$owner' AND
             seats_available = '$seats' AND
             origin = '$start' AND
             destination = '$dest' AND
@@ -59,9 +59,9 @@
       $_POST['prevResult'] = $row;
 
   }
-  $editAccess = $user === $_GET['Owner'] || $admin === true;
+  $editAccess = $user === $owner || $admin === true;
   if(!$editAccess) {
-    echo "<p class='form-control-static'> This post is owned by " . $_GET['Owner'] . ". Please contact them about editing this listing </p>" ;
+    echo "<p class='form-control-static'> This post is owned by " . $owner . ". Please contact them about editing this listing </p>" ;
   }
   $disabled = !$editAccess ? 'disabled' : '';
   $hidden = !$editAccess ? 'hidden': 'submit';
@@ -113,7 +113,6 @@
       </div>
     </div>
     <div class='form-group'>
-      <label for='submit' class='col-sm-2 control-label'>Departure Time</label>
       <div class='col-sm-10'>
         <input class='form-control' id='submit' name='submit' value=Submit Edit type='Submit' $disabled>
       </div>
@@ -161,20 +160,20 @@
           // echo "<p></p>";
 
           $result = pg_query($db, 
-          "UPDATE User_Post
-           SET Owner = '$_POST[username]',
-            Seats = '$_POST[seatsNumber]',
-            Start = '$_POST[start_loc]',
-            Dest = '$_POST[end_loc]',
-            depDate = '$_POST[date]',
-            depTime = '$_POST[starttime]'
+          "UPDATE post
+           SET owner = '$_POST[username]',
+            seats_available = '$_POST[seatsNumber]',
+            origin = '$_POST[start_loc]',
+            destination = '$_POST[end_loc]',
+            depart_date = '$_POST[date]',
+            depart_time = '$_POST[starttime]'
            WHERE 
-            Owner = '$owner' AND
-            Seats = '$seats' AND
-            Start = '$start' AND
-            Dest = '$dest' AND
-            depDate = '$depdate' AND
-            depTime = '$deptime'
+            owner = '$owner' AND
+            seats_available = '$seats' AND
+            origin = '$start' AND
+            destination = '$dest' AND
+            depart_date = '$depdate' AND
+            depart_time = '$deptime';
            ");
 
           if(pg_affected_rows($result) > 0) {

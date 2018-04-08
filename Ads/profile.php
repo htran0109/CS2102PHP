@@ -16,6 +16,7 @@
 
 	$db = pg_connect("host=localhost port=5432 dbname=postgres user=postgres password=1234");
 	$ad = pg_fetch_array(pg_query($db, "SELECT * FROM post where owner='$owner' and origin='$origin' and destination='$destination' and depart_date='$depart_date' and depart_time='$depart_time' and seats_available='$seats_available';"));
+
 	?>
 
 <!DOCTYPE html>  
@@ -27,6 +28,43 @@
 <body>
 	<?php
 	include_once('../header.php');
+
+	?>
+	<?php
+		if(isset($_POST['bidAccept'])) {
+			echo "Worked";
+			echo "Bidname is " . $_POST['bidname'];
+			echo $owner;
+			echo $destination;
+			echo $origin;
+			echo $depart_date;
+			echo $depart_time;
+			$select = pg_fetch_array(pg_query($db, "SELECT * FROM bid
+	    											WHERE bidder='$_POST[bidname]' 
+	    											AND owner='$owner'
+	    											AND destination='$destination'
+	    											AND origin='$origin'
+	    											AND depart_date='$depart_date' 
+	    											AND depart_time='$depart_time';"));
+
+			echo $select['bidder'];
+	    	$accept = pg_query($db, "UPDATE bid SET accepted='TRUE' 
+	    											WHERE bidder='$_POST[bidname]' 
+	    											AND owner='$owner'
+	    											AND destination='$destination'
+	    											AND origin='$origin'
+	    											AND depart_date='$depart_date' 
+	    											AND depart_time='$depart_time';");
+	    	if(pg_affected_rows($accept) > 0) {
+	    		echo "Accepted";
+	    	}
+	    	else {
+	    		echo "Error accepting bid";
+	    	}
+	    }
+    	else{
+    		echo "Waiting";
+    	}
 	?>
 	<div class="container">
 		<h1 class="display-4"> View Advertisement </h1>
@@ -67,7 +105,7 @@
 			<thead>
 				<tr>
 					<th scope="col">Username</th>
-					<th scope="col">Customers</th>
+					<th scope="col">Seats Required</th>
 					<th scope="col"></th>
 					<th scope="col"></th>
 				</tr>
@@ -82,7 +120,11 @@
 						<tr>
 							<td> $row[bidder] </td>
 							<td> $row[seats_desired] </td>
-							<td> </td>
+							<td> <form name='bidAccept' method='post' action=profile.php?license_plate=$_GET[license_plate]&owner=$_GET[owner]&seats_available=$_GET[seats_available]&origin=$_GET[origin]&destination=$_GET[destination]&depart_date=$_GET[depart_date]&depart_time=$_GET[depart_time]> 
+								<input type='text' name='bidname' id='bidname' value='$row[bidder]' visibility: hidden>
+								<input type='submit' name='bidAccept' id='bidAccept' value='Accept Bid'>
+								</form> 
+							</td>
 							<td> </td>
 						</tr>
 					";
