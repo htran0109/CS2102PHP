@@ -49,11 +49,11 @@
                   "SELECT * FROM User_Post 
                    WHERE
             Owner = '$owner' AND
-            Seats = '$seats' AND
-            Start = '$start' AND
-            Dest = '$dest' AND
-            depDate = '$depdate' AND
-            depTime = '$deptime'); "); 
+            seats_available = '$seats' AND
+            origin = '$start' AND
+            destination = '$dest' AND
+            departure_date = '$depdate' AND
+            departure_time = '$deptime'); "); 
       $row = pg_fetch_array($result); 
       echo $row['seatsNumber'];
       $_POST['prevResult'] = $row;
