@@ -28,6 +28,9 @@
 - ad profile: diff pages for owner, passenger, admin; list of bids
 - user edit: ability to update phone number and email
 
+### Dora
+- modify ER diagram to reflect changes made to database schema
+
 
 ## Pages to Fix
 - bid index
