@@ -22,9 +22,8 @@
 	// $depdate = '2030-01-01';
 	// $deptime = '01:00:00';
 	// $seats = '1';
-	
 	$db = pg_connect("host=localhost port=5432 dbname=postgres user=postgres password=1234");
-	$bid = pg_fetch_array(pg_query($db, "SELECT * FROM Bids where owner='$owner' and start='$start' and dest='$dest' and depdate='$depdate' and deptime='$deptime' and seats='$seats';"));
+	$bid = pg_fetch_array(pg_query($db, "SELECT * FROM Bids where bidder = $_SESSION["username"] and owner='$owner' and start='$start' and dest='$dest' and depdate='$depdate' and deptime='$deptime' and seats='$seats';"));
 	
 ?>
 
@@ -61,25 +60,162 @@
 		  <dd class="col-sm-9"> <?php echo $bid['depdate']; ?> </dd>
 		  <dt class="col-sm-3">Departure Time </dt>
 		  <dd class="col-sm-9"> <?php echo $bid['deptime']; ?> </dd>
-
 		</dl>
-		<form action="../Bids/profile.php" method="POST">
-    <div class="radio">
-    <label><input type="radio" name="Worst">1.0</label>
-    </div>
-    <div class="radio">
-      <label><input type="radio" name="Bad">2.0</label>
-    </div>
-    <div class="radio">
-      <label><input type="radio" name="Neutral">3.0</label>
-    </div>
-    <div class="radio">
-      <label><input type="radio" name="Good">4.0</label>
-    </div>
-    <div class="radio">
-      <label><input type="radio" name="Best">5.0</label>
-    </div>
-			<button name="rate" type="submit" class="btn btn-primary" style="margin-top:10px">Submit</button>
-		</form>
+    <?PHP if ($owner != $_SESSION['username']) { 
+      //passengerpage
+      if (!$bid['driver_rating'] == null) {
+        echo
+        <form action="../Bids/profile.php" method="POST">
+        <div><label>"How do you rate your driver?"</label></div>
+        <div class="radio">
+        <label><input type="radio" name="rate" value=1.0>1.0</label>
+        </div>
+        <div class="radio">
+          <label><input type="radio" name="rate" value=2.0>2.0</label>
+        </div>
+        <div class="radio">
+          <label><input type="radio" name="rate" value=3.0>3.0</label>
+        </div>
+        <div class="radio">
+          <label><input type="radio" name="rate" value=4.0>4.0</label>
+        </div>
+        <div class="radio">
+          <label><input type="radio" name="rate" value=5.0>5.0</label>
+        </div>
+          <button name="rate" type="submit" class="btn btn-primary" style="margin-top:10px">Submit</button>
+        </form>;
+      } else {
+        echo
+        <form action="../Bids/profile.php" method="POST">
+        <div><label>"How do you rate your driver?"</label></div>
+        <div class="radio">
+        <label><input type="radio" name="rate" value=1.0 disabled>1.0</label>
+        </div>
+        <div class="radio">
+          <label><input type="radio" name="rate" value=2.0 disabled>2.0</label>
+        </div>
+        <div class="radio">
+          <label><input type="radio" name="rate" value=3.0 disabled>3.0</label>
+        </div>
+        <div class="radio">
+          <label><input type="radio" name="rate" value=4.0 disabled>4.0</label>
+        </div>
+        <div class="radio">
+          <label><input type="radio" name="rate" value=5.0 disabled>5.0</label>
+        </div>
+          <button name="rate" type="submit" class="btn btn-primary" style="margin-top:10px" disabled>Submit</button>
+        </form>
+      }
+      if (!$bid['accepted']) {
+        echo <form action="../Ads/profile.php" method="POST"><button name="accept" type="submit" class="btn btn-primary" style="margin-top:10px">Cancel</button></form>;
+      } else {
+        echo <form action="../Ads/profile.php" method="POST"><button name="accept" type="submit" class="btn btn-primary" style="margin-top:10px" disabled>Accepted</button></form>;
+      }
+    } else {
+      //driver page
+      if (!$bid['passenger_rating'] == null) {
+        echo
+        <form action="../Bids/profile.php" method="POST">
+        <div><label>"How do you rate your passenger?"</label></div>
+        <div class="radio">
+        <label><input type="radio" name="rate" value=1.0>1.0</label>
+        </div>
+        <div class="radio">
+          <label><input type="radio" name="rate" value=2.0>2.0</label>
+        </div>
+        <div class="radio">
+          <label><input type="radio" name="rate" value=3.0>3.0</label>
+        </div>
+        <div class="radio">
+          <label><input type="radio" name="rate" value=4.0>4.0</label>
+        </div>
+        <div class="radio">
+          <label><input type="radio" name="rate" value=5.0>5.0</label>
+        </div>
+          <button name="rate" type="submit" class="btn btn-primary" style="margin-top:10px">Submit</button>
+        </form>;
+      } else {
+        echo
+        <form action="../Bids/profile.php" method="POST">
+        <div><label>"How do you rate your passenger?"</label></div>
+        <div class="radio">
+        <label><input type="radio" name="rate" value=1.0 disabled>1.0</label>
+        </div>
+        <div class="radio">
+          <label><input type="radio" name="rate" value=2.0 disabled>2.0</label>
+        </div>
+        <div class="radio">
+          <label><input type="radio" name="rate" value=3.0 disabled>3.0</label>
+        </div>
+        <div class="radio">
+          <label><input type="radio" name="rate" value=4.0 disabled>4.0</label>
+        </div>
+        <div class="radio">
+          <label><input type="radio" name="rate" value=5.0 disabled>5.0</label>
+        </div>
+          <button name="rate" type="submit" class="btn btn-primary" style="margin-top:10px" disabled>Submit</button>
+        </form>
+      }
+      if (!$bid['accepted']) {
+        echo <form action="../Bids/profile.php" method="POST"><button name="accept" type="submit" class="btn btn-primary" style="margin-top:10px">Accept</button></form>;
+      } else {
+        echo <form action="../Bids/profile.php" method="POST"><button name="accept" type="submit" class="btn btn-primary" style="margin-top:10px" disabled>Accepted</button></form>;
+      }
+    }
+    if ($_POST['accept']) {
+      if ($owner != $_SESSION['username']) {
+        $result = pg_query($db, "
+                              DELETE FROM UserBid 
+                              WHERE bidder = $_SESSION["username"] 
+                              and owner='$owner' 
+                              and start='$start' 
+                              and dest='$dest' 
+                              and depdate='$depdate' 
+                              and deptime='$deptime' 
+                              and seats='$seats';"
+                            );
+      } else {
+        $result = pg_query($db, "
+                              UPDATE UserBid
+                              SET accepted = true 
+                              WHERE bidder = $_SESSION["username"] 
+                              and owner='$owner' 
+                              and start='$start' 
+                              and dest='$dest' 
+                              and depdate='$depdate' 
+                              and deptime='$deptime' 
+                              and seats='$seats';"
+                            );        
+      }
+
+      if ($_POST['rate']) {
+        if ($owner != $_SESSION['username']) {
+          $result = pg_query($db, "
+                                UPDATE UserBid 
+                                SET driver_rating = $_POST['rate']
+                                WHERE bidder = $_SESSION["username"] 
+                                and owner='$owner' 
+                                and start='$start' 
+                                and dest='$dest' 
+                                and depdate='$depdate' 
+                                and deptime='$deptime' 
+                                and seats='$seats';"
+                              );
+        } else {
+          $result = pg_query($db, "
+                                UPDATE UserBid
+                                SET passenger_rating = $_POST['rate']
+                                WHERE bidder = $_SESSION["username"] 
+                                and owner='$owner' 
+                                and start='$start' 
+                                and dest='$dest' 
+                                and depdate='$depdate' 
+                                and deptime='$deptime' 
+                                and seats='$seats';"
+                              );        
+          
+      }
+    } 
+    ?>
 </body>
 </html>
