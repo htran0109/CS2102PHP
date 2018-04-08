@@ -9,7 +9,7 @@
 	}
 	$username = isset($_GET["Owner"]) ? $_GET["Owner"] : $_SESSION["username"];
 	$db = pg_connect("host=localhost port=5432 dbname=postgres user=postgres password=1234");
-	$user = pg_fetch_array(pg_query($db, "SELECT * FROM users where username='$username';"));
+	$user = pg_fetch_array(pg_query($db, "SELECT * FROM profile where username='$username';"));
 	
 ?>
 
@@ -28,10 +28,14 @@
 		<dl class="row">
 		  <dt class="col-sm-3">User Name</dt>
 		  <dd class="col-sm-9"> <?php echo $username; ?> </dd>
+		  <dt class="col-sm-3">Real Name</dt>
+		  <dd class="col-sm-9"> <?php echo $user['first_name'] . ' ' . $user['last_name']; ?> </dd>
 		  <dt class="col-sm-3">Mobile Number </dt>
-		  <dd class="col-sm-9"> <?php echo $user['mobilenumber']; ?> </dd>
-		  <dt class="col-sm-3">Email </dt>
-		  <dd class="col-sm-9"> <?php echo $user['emailaddress']; ?> </dd>
+		  <dd class="col-sm-9"> <?php echo $user['mobile_number']; ?> </dd>
+		  <dt class="col-sm-3">Email</dt>
+		  <dd class="col-sm-9"> <?php echo $user['email']; ?> </dd>
+		  <dt class="col-sm-3">Date of Birth</dt>
+		  <dd class="col-sm-9"> <?php echo $user['birthday']; ?> </dd>
 		</dl>
 		<?php 
 		$url = "../Ads/index.php?Owner=$username";

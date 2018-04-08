@@ -46,12 +46,12 @@ include_once('../header.php');
 
           $user = $_SESSION["username"];
           $db     = pg_connect("host=localhost port=5432 dbname=postgres user=postgres password=1234");  
-          $result = pg_query($db, "SELECT * FROM USERBID WHERE bidder = '$user'");    // Query template
+          $result = pg_query($db, "SELECT * FROM bid WHERE bidder = '$user'");    // Query template
           //$row    = pg_fetch_assoc($result);
           
           while ($row = pg_fetch_array($result)) { 
             if($row['accepted'] == 't') {
-            echo "<a style='text-decoration:none' href='http://localhost/demo/Listings/listings.php?Owner=$row[owner]&Seats=$row[seats]&Start=$row[start]&Dest=$row[dest]&depDate=$row[depdate]&depTime=$row[deptime]'> 
+            echo "<a style='text-decoration:none' href='http://localhost/demo/Bids/profile.php?Owner=$row[owner]&Seats=$row[seats_desired]&Start=$row[origin]&Dest=$row[destination]&depDate=$row[depart_date]&depTime=$row[depart_time]'> 
               <div class = 'container-fluid list-group-item' style='background-color:#5cd65e'>  
                 <div class='row'>
                 <div class = 'col-sm' style='color:black'>Ad Owner: $row[owner]</div>
@@ -66,7 +66,7 @@ include_once('../header.php');
             
             }
             else {
-              echo "<a style='text-decoration:none' href='http://localhost/demo/Listings/listings.php?Owner=$row[owner]&Seats=$row[seats]&Start=$row[start]&Dest=$row[dest]&depDate=$row[depdate]&depTime=$row[deptime]'> 
+              echo "<a style='text-decoration:none' href='http://localhost/demo/Bids/profile.php?Owner=$row[owner]&Seats=$row[seats_desired]&Start=$row[origin]&Dest=$row[destination]&depDate=$row[depart_date]&depTime=$row[depart_time]'> 
               <div class = 'container-fluid list-group-item' style='background-color:#c1badb'>  
                 <div class='row'>
                 <div class = 'col-sm' style='color:black'>Ad Owner: $row[owner]</div>
