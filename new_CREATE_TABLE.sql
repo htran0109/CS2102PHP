@@ -29,14 +29,14 @@ CREATE TABLE car (
 );
 
 CREATE TABLE post (
-	license_plate varchar(20),
-	owner varchar(20) NOT NULL,
+	license_plate varchar(20) NOT NULL,
+	owner varchar(20),
 	seats_available int NOT NULL,
 	origin varchar(128),
 	destination varchar(128),
 	depart_date DATE,
 	depart_time TIME,
-	PRIMARY KEY (license_plate, origin, destination, depart_date, depart_time),
+	PRIMARY KEY (owner, origin, destination, depart_date, depart_time),
 	FOREIGN KEY (license_plate) REFERENCES car(license_plate),
 	FOREIGN KEY (owner) REFERENCES profile(username)
 );
