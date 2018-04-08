@@ -39,7 +39,7 @@ include_once('../header.php');
             echo "<a style='text-decoration:none' href='http://localhost/demo/Ads/profile.php?license_plate=$row[license_plate]&owner=$row[owner]&seats_available=$row[seats_available]&origin=$row[origin]&destination=$row[destination]&depart_date=$row[depart_date]&depart_time=$row[depart_time]'> 
               <div class = 'container-fluid list-group-item' style='background-color:#c1badb'>  
                 <div class='row'>
-				<div class = 'col-sm' style='color:black'>Ad Owner: $row[license_plate]</div>
+				<div class = 'col-sm' style='color:black'>License Plate: $row[license_plate]</div>
                 <div class = 'col-sm' style='color:black'>Ad Owner: $row[owner]</div>
                 <div class = 'col-sm' style='color:black'>Seats: $row[seats_available]</div>     
                 <div class = 'col-sm' style='color:black'>Begin Location: $row[origin]</div>

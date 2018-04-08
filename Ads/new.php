@@ -57,6 +57,7 @@ include_once('../header.php');
 					if (isset($_POST['submit'])) {
 						try {
 							addBid();
+							header("Location:index.php");
 						}
 						catch(Exception $e) {
 							echo $e->getMessage() . " Please try again.";
