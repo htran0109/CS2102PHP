@@ -10,13 +10,13 @@
   
   //include(../App/search.php);
   $user = $_SESSION['username'];
-  $bidder = isset($_POST['Bidder']) ? $_POST['Bidder'] : $user;
-  $owner = isset($_POST['Owner']) ? $_POST['Owner'] : $user;
-  $start = $_POST['Start'];
-  $dest = $_POST['Dest'];
-  $depdate = $_POST['depDate'];
-  $deptime = $_POST['depTime'];
-  $seats = $_POST['Seats'];
+  $bidder = isset($_POST['bidder']) ? $_POST['bidder'] : $user;
+  $owner = isset($_POST['owner']) ? $_POST['owner'] : $user;
+  $start = $_POST['origin'];
+  $dest = $_POST['destination'];
+  $depdate = $_POST['depart_date'];
+  $deptime = $_POST['depart_time'];
+  $seats = $_POST['seats_desired'];
   
   // $owner = 'adam';
   // $start = 'start1';
@@ -89,7 +89,7 @@
       }
     } else {
       //driver page
-      if (!$bid['passenger_rating'] == null) {
+      if ($bid['passenger_rating'] == null) {
         echo sprintf($rateform, "passenger", "", "", "", "", "", "");
       } else {
         echo sprintf($rateform, "passenger", "disabled", "disabled", "disabled", "disabled", "disabled", "disabled");
