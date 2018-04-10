@@ -31,6 +31,21 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">  <style>li {list-style: none;}</style>
 <head>
   <title>Search Listing</title>
+  <script type="text/javascript">
+function submitForm(form) {
+    //get the form element's document to create the input control with
+    //(this way will work across windows in IE8)
+    var button = form.ownerDocument.createElement('input');
+    //make sure it can't be seen/disrupts layout (even momentarily)
+    button.style.display = 'none';
+    //make it such that it will invoke submit if clicked
+    button.type = 'submit';
+    //append it and click it
+    form.appendChild(button).click();
+    //if it was prevented, make sure we don't get a build up of buttons
+    form.removeChild(button);
+}
+</script>
 </head>
 <body>
   <?php
@@ -148,6 +163,7 @@
 			$query = "select *," . $relevance . " as relevance FROM post WHERE " . $filters . " ORDER BY relevance DESC";
 			$result = pg_query($db, $query);      
 			if (isset($_POST['submit'])) {
+
 			  while ($row = pg_fetch_array($result)) { 
 
 				if($count % 2 == 0) {
@@ -200,6 +216,7 @@
 				}
 			  
 			}
+		}
 		  } else {
 			echo "Connection failed";
 		  }

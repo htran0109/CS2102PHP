@@ -55,6 +55,33 @@
       <dd class="col-sm-9"> <?php echo $bid['depart_time']; ?> </dd>
     </dl>
     <?PHP 
+    $hiddenpost ='<input hidden name= %s value = %s>
+      <input hidden name="seats_desired" value = %s>
+      <input hidden name="origin" value = %s>
+      <input hidden name="destination" value = %s>
+      <input hidden name="depart_date" value = %s>
+      <input hidden name="depart_time" value = %s>';;
+    if($owner != $user) {
+
+      $hiddenpost= sprintf($hiddenpost, 
+              "owner", 
+              $_POST['owner'], 
+              $_POST['seats_desired'],
+              $_POST['origin'],
+              $_POST['destination'],
+              $_POST['depart_date'],
+              $_POST['depart_time']);
+    }
+    else {
+      $hiddenpost= sprintf($hiddenpost, 
+              "bidder", 
+              $_POST['bidder'], 
+              $_POST['seats_desired'],
+              $_POST['origin'],
+              $_POST['destination'],
+              $_POST['depart_date'],
+              $_POST['depart_time']);
+    }
     $rateform = '<form action="../Bids/profile.php" method="POST">
         <div><label>"How do you rate your %s?"</label></div>
         <div class="radio">
@@ -71,10 +98,11 @@
         </div>
         <div class="radio">
           <label><input type="radio" name="rate" value=5.0 %s>5.0</label>
-        </div>
+        </div>' . $hiddenpost . '
+
           <button name="rate_submit" type="submit" class="btn btn-primary" style="margin-top:10px" %s>Submit</button>
         </form>';
-    $bidform = '<form action="../Bids/profile.php" method="POST"><button name="accept" type="submit" class="btn btn-primary" style="margin-top:10px" %s>%s</button></form>';
+    $bidform = '<form action="../Bids/profile.php" method="POST"><button name="accept" type="submit" class="btn btn-primary" style="margin-top:10px" %s>%s</button>' . $hiddenpost . '</form>';
     if ($owner != $user) { 
       //passengerpage
       if ($bid['driver_rating'] == null) {

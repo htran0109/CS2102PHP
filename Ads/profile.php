@@ -62,9 +62,6 @@
 	    		//echo "Error accepting bid";
 	    	}
 	    }
-    	else{
-    		echo "Waiting";
-    	}
 	?>
 	<div class="container">
 		<h1 class="display-4"> View Advertisement </h1>
@@ -94,9 +91,19 @@
 		  <dt class="col-sm-3">Seats Available </dt>
 		  <dd class="col-sm-9"> <?php echo $ad['seats_available']; ?> </dd>
 		</dl>
-		<form style="display:none" id="bidButton" action="../Bids/new.php" method="POST">
+		<form style="display:none" id="bidButton" action="profile.php" method="POST">
 			<input name="customers" type="number" placeholder="seats_available needed" min="1" required />
 			<div style="color:red" id="errorMessage"> </div>
+				<?php
+				echo "
+			      <input hidden name='license_plate' value = $_POST[license_plate]>
+                  <input hidden name='owner' value = $_POST[owner]>
+                  <input hidden name='seats_available' value = $_POST[seats_available]>
+                  <input hidden name='origin' value = $_POST[origin]>
+                  <input hidden name='destination' value = $_POST[destination]>
+                  <input hidden name='depart_date' value = $_POST[depart_date]>
+                  <input hidden name='depart_time' value = $_POST[depart_time]>";
+                  ?>
 			<button name="bid" type="submit" class="btn btn-primary" style="margin-top:10px">Bid</button>
 		</form>
 		
@@ -147,7 +154,7 @@
 		</table>
 		
 		<?PHP
-			
+
 			if (strcmp($user, $owner) == 0) {
 				echo "<script type='text/javascript'> 
 					document.getElementById('editButton').style.display = 'inline';
@@ -163,7 +170,7 @@
 			
 			$bidder = $_SESSION["username"];
 			$customers = $_POST['customers'];
-				
+			if(isset($_POST['bid'])){
 			if ((int)$customers > (int)$seats_available) {
 				echo "<script type='text/javascript'> 
 					document.getElementById('errorMessage').innerHTML = 'Not enough seats_available available.';
@@ -171,6 +178,7 @@
 			}
 			
 			pg_query($db, "INSERT INTO Bid(Bidder, Owner, origin, destination, depart_date, depart_time, seats_desired) VALUES('$bidder', '$owner', '$origin', '$destination', '$depart_date', '$depart_time', '$customers');"); 
+			}
 		?>
 </body>
 </html>
