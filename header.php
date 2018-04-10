@@ -31,8 +31,8 @@
         </a>
         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="bd-versions">
           <a class="dropdown-item" href="/demo/Users/profile.php">Profile</a>
-          <a class="dropdown-item" href="/demo/Ads/index.php">Listings</a>
-          <a class="dropdown-item" href="https://getbootstrap.com/docs/3.3/">Rides</a> <!--No Link Yet-->
+          <a class="dropdown-item" href="/demo/Ads/index.php">My Listings</a>
+          <a class="dropdown-item" href="/demo/Bids/index.php">My Bids</a> <!--No Link Yet-->
           <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="#">Log Out</a>
         </div>

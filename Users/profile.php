@@ -9,13 +9,13 @@
 	}
 	$username = isset($_GET["Owner"]) ? $_GET["Owner"] : $_SESSION["username"];
 	$db = pg_connect("host=localhost port=5432 dbname=postgres user=postgres password=1234");
-	$user = pg_fetch_array(pg_query($db, "SELECT * FROM users where username='$username';"));
+	$user = pg_fetch_array(pg_query($db, "SELECT * FROM profile where username='$username';"));
 	
 ?>
 
 <!DOCTYPE html>  
 <head>
-  <title>View Advertisement</title>
+  <title>View Profile</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">  <style>li {list-style: none;}</style>
 </head>
@@ -28,24 +28,41 @@
 		<dl class="row">
 		  <dt class="col-sm-3">User Name</dt>
 		  <dd class="col-sm-9"> <?php echo $username; ?> </dd>
+		  <dt class="col-sm-3">Real Name</dt>
+		  <dd class="col-sm-9"> <?php echo $user['first_name'] . ' ' . $user['last_name']; ?> </dd>
 		  <dt class="col-sm-3">Mobile Number </dt>
-		  <dd class="col-sm-9"> <?php echo $user['mobilenumber']; ?> </dd>
-		  <dt class="col-sm-3">Email </dt>
-		  <dd class="col-sm-9"> <?php echo $user['emailaddress']; ?> </dd>
+		  <dd class="col-sm-9"> <?php echo $user['mobile_number']; ?> </dd>
+		  <dt class="col-sm-3">Email</dt>
+		  <dd class="col-sm-9"> <?php echo $user['email']; ?> </dd>
+		  <dt class="col-sm-3">Date of Birth</dt>
+		  <dd class="col-sm-9"> <?php echo $user['birthday']; ?> </dd>
 		</dl>
 		<?php 
 		$url = "../Ads/index.php?Owner=$username";
-		echo "
-			<button type='submit' class='btn'>
-				<a href=$url style='text-decoration:none;color:black'>See Ad Listings</a>
-			</button>";
+		echo "<div class='mr-1' style='float:left'>
+			<form action='$url'>
+			<input type='submit' class='btn'
+				value='See Ad Listings'/>
+			</form></div>";
 		$url = "../Bids/index.php";
 		if($username == $_SESSION["username"])
 			{
 				echo "
-			<button type='submit' class='btn'>
-				<a href=$url style='text-decoration:none;color:black'>See My Bids</a>
-			</button";
+			<div class='mr-1' style='float:left'>
+			<form action='$url'>
+			<input type='submit' class='btn'
+				value='See Bids'/>
+			</form></div>";
+			}
+		$url = "../Users/edit.php";
+		if($username == $_SESSION["username"])
+			{
+				echo "
+			<div style='float:left'>
+			<form action='$url'>
+			<input type='submit' class='btn'
+				value='Edit Page'/>
+			</form></div>";
 			}
 		?>
 	</div>

@@ -142,3 +142,8 @@ VALUES ('kate', 'joe', 'start1', 'end1', '2030-01-01', '01:00:00', '1', 4, 4);
 INSERT INTO bid(bidder, owner, origin, destination, depart_date, depart_time, seats_desired, driver_rating, passenger_rating)
 VALUES ('kate', 'kate', 'start2', 'end2', '2030-01-02', '02:00:00', '2', 4, 4);
 
+INSERT INTO bid(bidder, owner, origin, destination, depart_date, depart_time, seats_desired, driver_rating, passenger_rating)
+VALUES ('adam', 'kate', 'start2', 'end2', '2030-01-02', '02:00:00', '2', 4, 4);
+
+INSERT INTO bid(bidder, owner, origin, destination, depart_date, depart_time, seats_desired, driver_rating, passenger_rating, accepted)
+VALUES ('adam', 'joe', 'start1', 'end1', '2030-01-01', '01:00:00', '1', 4, 4, TRUE);

@@ -7,17 +7,17 @@
 		</script>";
 	}
 	
-	$owner = $_GET['Owner'];
-	$start = $_GET['Start'];
-	$dest = $_GET['Dest'];
-	$depdate = $_GET['depDate'];
-	$deptime = $_GET['depTime'];
-	$seats = $_GET['Seats'];
+	$owner = $_GET['owner'];
+	$origin = $_GET['origin'];
+	$destination = $_GET['destination'];
+	$depart_date = $_GET['depart_date'];
+	$depart_time = $_GET['depart_time'];
+	$seats_available = $_GET['seats_available'];
 
 	$db = pg_connect("host=localhost port=5432 dbname=postgres user=postgres password=1234");
-	$ad = pg_fetch_array(pg_query($db, "SELECT * FROM user_post where owner='$owner' and start='$start' and dest='$dest' and depdate='$depdate' and deptime='$deptime' and seats='$seats';"));
-	
-?>
+	$ad = pg_fetch_array(pg_query($db, "SELECT * FROM post where owner='$owner' and origin='$origin' and destination='$destination' and depart_date='$depart_date' and depart_time='$depart_time' and seats_available='$seats_available';"));
+
+	?>
 
 <!DOCTYPE html>  
 <head>
@@ -28,35 +28,74 @@
 <body>
 	<?php
 	include_once('../header.php');
+
+	?>
+	<?php
+		if(isset($_POST['bidAccept'])) {
+			echo "Worked";
+			echo "Bidname is " . $_POST['bidname'];
+			echo $owner;
+			echo $destination;
+			echo $origin;
+			echo $depart_date;
+			echo $depart_time;
+			$select = pg_fetch_array(pg_query($db, "SELECT * FROM bid
+	    											WHERE bidder='$_POST[bidname]' 
+	    											AND owner='$owner'
+	    											AND destination='$destination'
+	    											AND origin='$origin'
+	    											AND depart_date='$depart_date' 
+	    											AND depart_time='$depart_time';"));
+
+			echo $select['bidder'];
+	    	$accept = pg_query($db, "UPDATE bid SET accepted='TRUE' 
+	    											WHERE bidder='$_POST[bidname]' 
+	    											AND owner='$owner'
+	    											AND destination='$destination'
+	    											AND origin='$origin'
+	    											AND depart_date='$depart_date' 
+	    											AND depart_time='$depart_time';");
+	    	if(pg_affected_rows($accept) > 0) {
+	    		echo "Accepted";
+	    	}
+	    	else {
+	    		echo "Error accepting bid";
+	    	}
+	    }
+    	else{
+    		echo "Waiting";
+    	}
 	?>
 	<div class="container">
 		<h1 class="display-4"> View Advertisement </h1>
 		<form action="edit.php" method="POST">
 		    <input hidden name='owner' value = <?php echo $ad['owner']; ?>>
-    		<input hidden name='seats' value = <?php echo $ad['seats']; ?>>
-   			<input hidden name='start' value =  <?php echo $ad['start']; ?>>
-    		<input hidden name='dest' value = <?php echo $ad['dest']; ?>>
-    		<input hidden name='depdate' value = <?php echo $ad['depdate']; ?>>
-    		<input hidden name='deptime' value = <?php echo $ad['deptime']; ?>>
+    		<input hidden name='seats_available' value = <?php echo $ad['seats_available']; ?>>
+   			<input hidden name='origin' value =  <?php echo $ad['origin']; ?>>
+    		<input hidden name='destination' value = <?php echo $ad['destination']; ?>>
+    		<input hidden name='depart_date' value = <?php echo $ad['depart_date']; ?>>
+    		<input hidden name='depart_time' value = <?php echo $ad['depart_time']; ?>>
 			<button style="display:none" id="editButton" name="Edit" type="submit" class="btn btn-primary" style="margin-top:10px"> Edit
 			</button>
 		</form>
 		<dl class="row">
+			<dt class="col-sm-3">License Plate</dt>
+		  <dd class="col-sm-9"> <?php echo $ad['license_plate']; ?>	</dd>
 		  <dt class="col-sm-3">Driver</dt>
 		  <dd class="col-sm-9"> <?php echo $ad['owner']; ?>	</dd>
-		  <dt class="col-sm-3">Start Location </dt>
-		  <dd class="col-sm-9"> <?php echo $ad['start']; ?>	</dd>
+		  <dt class="col-sm-3">Origin </dt>
+		  <dd class="col-sm-9"> <?php echo $ad['origin']; ?>	</dd>
 		  <dt class="col-sm-3">Destination </dt>
-		  <dd class="col-sm-9"> <?php echo $ad['dest']; ?>	</dd>
+		  <dd class="col-sm-9"> <?php echo $ad['destination']; ?>	</dd>
 		  <dt class="col-sm-3">Departure Date </dt>
-		  <dd class="col-sm-9"> <?php echo $ad['depdate']; ?> </dd>
+		  <dd class="col-sm-9"> <?php echo $ad['depart_date']; ?> </dd>
 		  <dt class="col-sm-3">Departure Time </dt>
-		  <dd class="col-sm-9"> <?php echo $ad['deptime']; ?> </dd>
-		  <dt class="col-sm-3">Seats </dt>
-		  <dd class="col-sm-9"> <?php echo $ad['seats']; ?> </dd>
+		  <dd class="col-sm-9"> <?php echo $ad['depart_time']; ?> </dd>
+		  <dt class="col-sm-3">Seats Available </dt>
+		  <dd class="col-sm-9"> <?php echo $ad['seats_available']; ?> </dd>
 		</dl>
 		<form style="display:none" id="bidButton" action="../Bids/new.php" method="POST">
-			<input name="customers" type="number" placeholder="Seats needed" min="1" required />
+			<input name="customers" type="number" placeholder="seats_available needed" min="1" required />
 			<div style="color:red" id="errorMessage"> </div>
 			<button name="bid" type="submit" class="btn btn-primary" style="margin-top:10px">Bid</button>
 		</form>
@@ -66,7 +105,7 @@
 			<thead>
 				<tr>
 					<th scope="col">Username</th>
-					<th scope="col">Customers</th>
+					<th scope="col">Seats Required</th>
 					<th scope="col"></th>
 					<th scope="col"></th>
 				</tr>
@@ -80,8 +119,12 @@
 					echo "
 						<tr>
 							<td> $row[bidder] </td>
-							<td> $row[customers] </td>
-							<td> </td>
+							<td> $row[seats_desired] </td>
+							<td> <form name='bidAccept' method='post' action=profile.php?license_plate=$_GET[license_plate]&owner=$_GET[owner]&seats_available=$_GET[seats_available]&origin=$_GET[origin]&destination=$_GET[destination]&depart_date=$_GET[depart_date]&depart_time=$_GET[depart_time]> 
+								<input type='text' name='bidname' id='bidname' value='$row[bidder]' visibility: hidden>
+								<input type='submit' name='bidAccept' id='bidAccept' value='Accept Bid'>
+								</form> 
+							</td>
 							<td> </td>
 						</tr>
 					";
@@ -91,6 +134,7 @@
 		</table>
 		
 		<?PHP
+			
 			if (strcmp($user, $owner) == 0) {
 				echo "<script type='text/javascript'> 
 					document.getElementById('editButton').style.display = 'inline';
@@ -107,13 +151,13 @@
 			$bidder = $_SESSION["username"];
 			$customers = $_POST['customers'];
 				
-			if ((int)$customers > (int)$seats) {
+			if ((int)$customers > (int)$seats_available) {
 				echo "<script type='text/javascript'> 
-					document.getElementById('errorMessage').innerHTML = 'Not enough seats available.';
+					document.getElementById('errorMessage').innerHTML = 'Not enough seats_available available.';
 				</script>";
 			}
 			
-			pg_query($db, "INSERT INTO Bid(Bidder, Owner, Start, Dest, depDate, depTime, Customers) VALUES('$bidder', '$owner', '$start', '$dest', '$depdate', '$deptime', '$customers');"); 
+			pg_query($db, "INSERT INTO Bid(Bidder, Owner, origin, destination, depart_date, depart_time, seats_desired) VALUES('$bidder', '$owner', '$origin', '$destination', '$depart_date', '$depart_time', '$customers');"); 
 		?>
 </body>
 </html>

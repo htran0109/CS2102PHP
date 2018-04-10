@@ -7,6 +7,8 @@
 		window.location.href = 'index.php';
 		</script>";
 	}
+	$user = $_SESSION["username"];
+	$db = pg_connect("host=localhost port=5432 dbname=postgres user=postgres password=1234");
 ?>
 
 <!DOCTYPE html>  
@@ -20,22 +22,8 @@
 <?php
 include_once('../header.php');
 ?>
-
-<!--<nav class="navbar navbar-default">
-  <div class="container-fluid">
-    <ul class="nav navbar-nav navbar-left">
-      <li><a href="/demo/Listings/new.php">Create Listing</a></li>
-      <li><a href="/demo/Listings/index.php">View My Listings</a></li>
-      <li><a href="/demo/App/search.php">Join a Ride</a></li>
-    </ul>
-    <ul class="nav navbar-nav navbar-right">
-      <li><a href="/demo/Users/index.php">My Profile</a></li>
-	  <li><a href="#">Log Out</a></li>
-    </ul>
-  </div>
-</nav>-->
 	<div class="container">
-	<form name="display" action="new.php" method="POST" >
+	<form id="form" action="new.php" method="POST" >
 		<h1 class="display-4"> Create New Advertisement </h1>
 		<div class="form-group">
 			<label for="start">Starting Location</label>
@@ -48,12 +36,28 @@ include_once('../header.php');
 			<input name="deptime" type="time" class="form-control" placeholder="Time" required />
 			<label for="seats">Number of Seats</label>
 			<input name="seats" type="number" class="form-control" placeholder="Enter the maximum number of seats available" required />
+			<label for="car">Car</label>
+			<select class="custom-select" name="car" form="form">
+				<?php 
+					$carResults = pg_query($db, "Select * from car where username='$user';");
+					 while ($row = pg_fetch_array($carResults)) {
+						 echo "
+							<option value=$row[license_plate]> 
+							$row[license_plate] - $row[model] $row[make]
+							</option>
+						 ";
+					 }
+					
+				?>
+			</select>
+			
 			<p style="color:red">
 				<?php
 					
 					if (isset($_POST['submit'])) {
 						try {
 							addBid();
+							header("Location:index.php");
 						}
 						catch(Exception $e) {
 							echo $e->getMessage() . " Please try again.";
@@ -62,6 +66,7 @@ include_once('../header.php');
 					
 					function addBid() {
 						
+						$car = trim($_POST['car']);
 						$owner = $_SESSION['username'];
 						$start = trim($_POST['start']);
 						$dest = trim($_POST['dest']);
@@ -69,21 +74,13 @@ include_once('../header.php');
 						$deptime = trim($_POST['deptime']);
 						$seats = trim($_POST['seats']);
 						
-						
 						// Connect to the database. Please change the password in the following line accordingly
-						
-						$db = pg_connect("host=localhost port=5432 dbname=postgres user=postgres password=1234");	
-						if ($db) {
-							
-							$result = pg_query($db, "SELECT * FROM User_Post;");
-							pg_query($db, "INSERT INTO User_Post(Owner, Seats, Start, Dest, depDate, depTime) VALUES('$owner', $seats, '$start', '$dest', '$depdate', '$deptime');");
-							$result1 = pg_query($db, "SELECT * FROM User_Post;");
-							if(pg_num_rows($result1) <= pg_num_rows($result)) {
-								throw new exception("Operation failed.");
-							}
-						}
-						else {
-							throw new exception("Connection failed.");
+						$db = pg_connect("host=localhost port=5432 dbname=postgres user=postgres password=1234");
+						$result = pg_query($db, "SELECT * FROM post;");
+						pg_query($db, "INSERT INTO post(license_plate, owner, seats_available, origin, destination, depart_date, depart_time) VALUES('$car', '$owner', $seats, '$start', '$dest', '$depdate', '$deptime');");
+						$result1 = pg_query($db, "SELECT * FROM post;");
+						if(pg_num_rows($result1) <= pg_num_rows($result)) {
+							throw new exception("Operation failed.");
 						}
 					}
 				?>  
