@@ -99,10 +99,9 @@
         <div class="radio">
           <label><input type="radio" name="rate" value=5.0 %s>5.0</label>
         </div>' . $hiddenpost . '
-
-          <button name="rate_submit" type="submit" class="btn btn-primary" style="margin-top:10px" %s>Submit</button>
+          <input name="rate_submit" type="submit" class="btn btn-primary" value="Submit" style="margin-top:10px" %s>
         </form>';
-    $bidform = '<form action="../Bids/profile.php" method="POST"><button name="accept" type="submit" class="btn btn-primary" style="margin-top:10px" %s>%s</button>' . $hiddenpost . '</form>';
+    $bidform = '<form action="../Bids/profile.php" method="POST"><input name="accept" type="submit" class="btn btn-primary" style="margin-top:10px" %s value=%s>' . $hiddenpost . '</form>';
     if ($owner != $user) { 
       //passengerpage
       if ($bid['driver_rating'] == null) {
@@ -128,7 +127,7 @@
         echo sprintf($bidform,"disabled", "Accepted Already");
       }
     }
-    if ($_POST['accept']) {
+    if (isset($_POST['accept'])) {
       if ($owner != $user) {
         $result = pg_query($db, "
                               DELETE FROM bid 
@@ -151,14 +150,22 @@
                               and depart_time='$deptime' ;"
                             );        
       }
-
-      if ($_POST['rate_submit']) {
+    } 
+    if (isset($_POST['rate_submit'])) {
         $rate = $_POST['rate'];
         if ($owner != $user) {
-          
+          echo "
+                                UPDATE bid 
+                                SET driver_rating = $rate
+                                WHERE bidder = '$user' 
+                                and owner='$owner' 
+                                and origin='$start' 
+                                and destination='$dest' 
+                                and depart_date='$depdate' 
+                                and depart_time='$deptime';";
           $result = pg_query($db, "
                                 UPDATE bid 
-                                SET driver_rating = '$rate'
+                                SET driver_rating = $rate
                                 WHERE bidder = '$user' 
                                 and owner='$owner' 
                                 and origin='$start' 
@@ -167,10 +174,18 @@
                                 and depart_time='$deptime';"
                               );
         } else {
-
+          echo "
+                                UPDATE bid
+                                SET passenger_rating = $rate
+                                WHERE bidder = '$user' 
+                                and owner='$owner' 
+                                and origin='$start' 
+                                and destination='$dest' 
+                                and depart_date='$depdate' 
+                                and depart_time='$deptime';";
           $result = pg_query($db, "
                                 UPDATE bid
-                                SET passenger_rating = '$rate'
+                                SET passenger_rating = $rate
                                 WHERE bidder = '$user' 
                                 and owner='$owner' 
                                 and origin='$start' 
@@ -180,7 +195,6 @@
                               );        
         }   
       }
-    } 
     ?>
 </body>
 </html>
