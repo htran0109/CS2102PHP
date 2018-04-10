@@ -117,8 +117,8 @@
 				  break;
 
 				case 3:
-				  $relevance .= " (case when departure_Date BETWEEN '$_POST[sdate]'";
-				  $filters.=" departure_date BETWEEN '$_POST[sdate]'";
+				  $relevance .= " (case when depart_Date BETWEEN '$_POST[sdate]'";
+				  $filters.=" depart_date BETWEEN '$_POST[sdate]'";
 				  break;
 
 				case 4:
@@ -127,8 +127,8 @@
 				  break;
 
 				case 5:
-				  $relevance .= " (case when departure_time BETWEEN '$_POST[stime]'";
-				  $filters.=" departure_time BETWEEN '$_POST[stime]'";
+				  $relevance .= " (case when depart_time BETWEEN '$_POST[stime]'";
+				  $filters.=" depart_time BETWEEN '$_POST[stime]'";
 				  break;
 
 				case 6:
@@ -160,8 +160,8 @@
 					<div class = 'col-sm' style='color:black'>Seats: $row[seats_available]</div>     
 					<div class = 'col-sm' style='color:black'>Begin Location: $row[origin]</div>
 					<div class = 'col-sm' style='color:black'>End Location: $row[destination]</div>
-					<div class = 'col-sm' style='color:black'>Departure Date: $row[departure_date]</div>
-					<div class = 'col-sm' style='color:black'>Departure Time: $row[departure_time]</div>
+					<div class = 'col-sm' style='color:black'>Departure Date: $row[depart_date]</div>
+					<div class = 'col-sm' style='color:black'>Departure Time: $row[depart_time]</div>
 				  </div>
 					</div>
 					<input hidden name='owner' value = $row[owner]>
@@ -184,8 +184,8 @@
 					<div class = 'col-sm' style='color:black'>Seats: $row[seats_available]</div>     
 					<div class = 'col-sm' style='color:black'>Begin Location: $row[origin]</div>
 					<div class = 'col-sm' style='color:black'>End Location: $row[destination]</div>
-					<div class = 'col-sm' style='color:black'>Departure Date: $row[departure_date]</div>
-					<div class = 'col-sm' style='color:black'>Departure Time: $row[departure_time]</div>
+					<div class = 'col-sm' style='color:black'>Departure Date: $row[depart_date]</div>
+					<div class = 'col-sm' style='color:black'>Departure Time: $row[depart_time]</div>
 				  </div>
 					</div>
 					<input hidden name='owner' value = $row[owner]>
