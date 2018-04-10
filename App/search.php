@@ -9,8 +9,25 @@
   }
   else {
     $user = $_SESSION["username"];
-  }
+	}
+	
 ?>
+
+	<script type="text/javascript">
+  function submitForm(form) {
+      //get the form element's document to create the input control with
+      //(this way will work across windows in IE8)
+      var button = form.ownerDocument.createElement('input');
+      //make sure it can't be seen/disrupts layout (even momentarily)
+      button.style.display = 'none';
+      //make it such that it will invoke submit if clicked
+      button.type = 'submit';
+      //append it and click it
+      form.appendChild(button).click();
+      //if it was prevented, make sure we don't get a build up of buttons
+      form.removeChild(button);
+  }
+  </script>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">  <style>li {list-style: none;}</style>
 <head>
   <title>Search Listing</title>
@@ -134,7 +151,9 @@
 			  while ($row = pg_fetch_array($result)) { 
 
 				if($count % 2 == 0) {
-				echo "<a style='text-decoration:none' href='http://localhost/demo/Ads/profile.php?Owner=$row[owner]&Seats=$row[seats]&Start=$row[start]&Dest=$row[dest]&depDate=$row[depdate]&depTime=$row[deptime]'> 
+				echo "
+				<form action='../Ads/profile.php' method='POST'>
+					<a style='text-decoration:none' href='javascript:;' onClick='submitForm(this)'>
 				  <div class = 'container-fluid list-group-item' style='background-color:#c1badb'>  
 					<div class='row'>
 					<div class = 'col-sm' style='color:black'>Ad Owner: $row[owner]</div>
@@ -144,12 +163,21 @@
 					<div class = 'col-sm' style='color:black'>Departure Date: $row[departure_date]</div>
 					<div class = 'col-sm' style='color:black'>Departure Time: $row[departure_time]</div>
 				  </div>
-				  </div>
-				</a>";
+					</div>
+					<input hidden name='owner' value = $row[owner]>
+					<input hidden name='seats_available' value = $row[seats_available]>
+					<input hidden name='origin' value = $row[origin]>
+					<input hidden name='destination' value = $row[destination]>
+					<input hidden name='depart_date' value = $row[depart_date]>
+					<input hidden name='depart_time' value = $row[depart_time]>
+				</a>
+				</form>";
 				$count = $count + 1;
 				}
 				else {
-				  echo "<a style='text-decoration:none' href='http://localhost/demo/Ads/profile.php?Owner=$row[owner]&Seats=$row[seats]&Start=$row[start]&Dest=$row[dest]&depDate=$row[depdate]&depTime=$row[deptime]'> 
+					echo "
+					<form action='../Ads/profile.php' method='POST'>
+					<a style='text-decoration:none' href='javascript:;' onClick='submitForm(this)'>
 				  <div class = 'container-fluid list-group-item' style='background-color:#efefef'>  
 					<div class='row'>
 					<div class = 'col-sm' style='color:black'>Ad Owner: $row[owner]</div>
@@ -159,8 +187,15 @@
 					<div class = 'col-sm' style='color:black'>Departure Date: $row[departure_date]</div>
 					<div class = 'col-sm' style='color:black'>Departure Time: $row[departure_time]</div>
 				  </div>
-				  </div>
-				</a>";
+					</div>
+					<input hidden name='owner' value = $row[owner]>
+					<input hidden name='seats_available' value = $row[seats_available]>
+					<input hidden name='origin' value = $row[origin]>
+					<input hidden name='destination' value = $row[destination]>
+					<input hidden name='depart_date' value = $row[depart_date]>
+					<input hidden name='depart_time' value = $row[depart_time]>
+				</a>
+				</form>";
 				$count = $count + 1;
 				}
 			  }
