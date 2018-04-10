@@ -10,13 +10,13 @@
   
   //include(../App/search.php);
   $user = $_SESSION['username'];
-  $bidder = isset($_GET['Bidder']) ? $_GET['Bidder'] : $user;
-  $owner = isset($_GET['Owner']) ? $_GET['Owner'] : $user;
-  $start = $_GET['Start'];
-  $dest = $_GET['Dest'];
-  $depdate = $_GET['depDate'];
-  $deptime = $_GET['depTime'];
-  $seats = $_GET['Seats'];
+  $bidder = isset($_POST['Bidder']) ? $_POST['Bidder'] : $user;
+  $owner = isset($_POST['Owner']) ? $_POST['Owner'] : $user;
+  $start = $_POST['Start'];
+  $dest = $_POST['Dest'];
+  $depdate = $_POST['depDate'];
+  $deptime = $_POST['depTime'];
+  $seats = $_POST['Seats'];
   
   // $owner = 'adam';
   // $start = 'start1';
@@ -37,19 +37,9 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">  <style>li {list-style: none;}</style>
 </head>
 <body>
-  <nav class="navbar navbar-default">
-    <div class="container-fluid">
-    <ul class="nav navbar-nav navbar-left">
-      <li><a href="/demo/Listings/new.php">Create Listing</a></li>
-      <li><a href="/demo/Listings/index.php">View My Listings</a></li>
-      <li><a href="/demo/App/search.php">Join a Ride</a></li>
-    </ul>
-    <ul class="nav navbar-nav navbar-right">
-      <li><a href="/demo/Users/index.php">My Profile</a></li>
-      <li><a href="#">Log Out</a></li>
-    </ul>
-    </div>
-  </nav>
+  <?php
+    include_once('../header.php');
+  ?>
   <div class="container">
     <h1 class="display-4"> Bid Profile </h1>
     <dl class="row">

@@ -7,12 +7,12 @@
 		</script>";
 	}
 	
-	$owner = $_GET['owner'];
-	$origin = $_GET['origin'];
-	$destination = $_GET['destination'];
-	$depart_date = $_GET['depart_date'];
-	$depart_time = $_GET['depart_time'];
-	$seats_available = $_GET['seats_available'];
+	$owner = $_POST['owner'];
+	$origin = $_POST['origin'];
+	$destination = $_POST['destination'];
+	$depart_date = $_POST['depart_date'];
+	$depart_time = $_POST['depart_time'];
+	$seats_available = $_POST['seats_available'];
 
 	$db = pg_connect("host=localhost port=5432 dbname=postgres user=postgres password=1234");
 	$ad = pg_fetch_array(pg_query($db, "SELECT * FROM post where owner='$owner' and origin='$origin' and destination='$destination' and depart_date='$depart_date' and depart_time='$depart_time' and seats_available='$seats_available';"));
@@ -120,7 +120,7 @@
 						<tr>
 							<td> $row[bidder] </td>
 							<td> $row[seats_desired] </td>
-							<td> <form name='bidAccept' method='post' action=profile.php?license_plate=$_GET[license_plate]&owner=$_GET[owner]&seats_available=$_GET[seats_available]&origin=$_GET[origin]&destination=$_GET[destination]&depart_date=$_GET[depart_date]&depart_time=$_GET[depart_time]> 
+							<td> <form name='bidAccept' method='post' action=profile.php?license_plate=$_POST[license_plate]&owner=$_POST[owner]&seats_available=$_POST[seats_available]&origin=$_POST[origin]&destination=$_POST[destination]&depart_date=$_POST[depart_date]&depart_time=$_POST[depart_time]> 
 								<input type='text' name='bidname' id='bidname' value='$row[bidder]' visibility: hidden>
 								<input type='submit' name='bidAccept' id='bidAccept' value='Accept Bid'>
 								</form> 

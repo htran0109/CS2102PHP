@@ -24,7 +24,7 @@
     include_once('../header.php');
   ?>
   <div class="container-fluid">
-    <h1 class="display-4"> <?php if (isset($_GET["Owner"])) echo $_GET["Owner"] . "'s"; else echo "My"; ?> Profile </h1>
+    <h1 class="display-4"> <?php if (isset($_POST["Owner"])) echo $_POST["Owner"] . "'s"; else echo "My"; ?> Profile </h1>
   <form name='display' method='POST'>
     <dl class="row">
       <dt class="col-sm-3">User Name</dt>

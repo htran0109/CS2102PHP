@@ -11,7 +11,7 @@
     </script>";
   }
   else {
-    $user = isset($_GET["Owner"]) ? $_GET["Owner"] : $_SESSION["username"];
+    $user = isset($_POST["Owner"]) ? $_POST["Owner"] : $_SESSION["username"];
   }
 ?>
 <!DOCTYPE html>
@@ -36,19 +36,30 @@ include_once('../header.php');
           $result = pg_query($db, "SELECT * FROM post WHERE owner = '$user';");    // Query template
           $count = 0;
           while ($row = pg_fetch_array($result)) { 
-            echo "<a style='text-decoration:none' href='http://localhost/demo/Ads/profile.php?license_plate=$row[license_plate]&owner=$row[owner]&seats_available=$row[seats_available]&origin=$row[origin]&destination=$row[destination]&depart_date=$row[depart_date]&depart_time=$row[depart_time]'> 
-              <div class = 'container-fluid list-group-item' style='background-color:#c1badb'>  
-                <div class='row'>
-				<div class = 'col-sm' style='color:black'>License Plate: $row[license_plate]</div>
-                <div class = 'col-sm' style='color:black'>Ad Owner: $row[owner]</div>
-                <div class = 'col-sm' style='color:black'>Seats: $row[seats_available]</div>     
-                <div class = 'col-sm' style='color:black'>Begin Location: $row[origin]</div>
-                <div class = 'col-sm' style='color:black'>End Location: $row[destination]</div>
-                <div class = 'col-sm' style='color:black'>Departure Date: $row[depart_date]</div>
-                <div class = 'col-sm' style='color:black'>Departure Time: $row[depart_time]</div>
-              </div>
-              </div>
-            </a>";
+            echo "
+              <form action = '../Ads/profile.php' method = 'post'>
+                <a style='text-decoration:none' href="javascript:;" onclick="document.parentNode.submit();"> 
+                <div class = 'container-fluid list-group-item' style='background-color:#c1badb'>  
+                  <div class='row'>
+                  <div class = 'col-sm' style='color:black'>License Plate: $row[license_plate]</div>
+                  <div class = 'col-sm' style='color:black'>Ad Owner: $row[owner]</div>
+                  <div class = 'col-sm' style='color:black'>Seats: $row[seats_available]</div>     
+                  <div class = 'col-sm' style='color:black'>Begin Location: $row[origin]</div>
+                  <div class = 'col-sm' style='color:black'>End Location: $row[destination]</div>
+                  <div class = 'col-sm' style='color:black'>Departure Date: $row[depart_date]</div>
+                  <div class = 'col-sm' style='color:black'>Departure Time: $row[depart_time]</div>
+                  <input hidden name='license_plate' value = $row[license_plate]>
+                  <input hidden name='owner' value = $row[owner]>
+                  <input hidden name='seats_available' value = $row[seats_available]>
+                  <input hidden name='origin' value =  <?php echo $row['origin']>
+                  <input hidden name='destination' value = <?php echo $row['destination']>
+                  <input hidden name='depart_date' value = <?php echo $row['depart_date']>
+                  <input hidden name='depart_time' value = <?php echo $row['depart_time']>
+                </div>
+                </div>
+              </a>
+            </form>";
+            
             $count = $count + 1;
           }
   ?>

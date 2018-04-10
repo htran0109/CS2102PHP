@@ -7,7 +7,7 @@
 		window.location.href = 'index.php';
 		</script>";
 	}
-	$username = isset($_GET["Owner"]) ? $_GET["Owner"] : $_SESSION["username"];
+	$username = isset($_POST["Owner"]) ? $_POST["Owner"] : $_SESSION["username"];
 	$db = pg_connect("host=localhost port=5432 dbname=postgres user=postgres password=1234");
 	$user = pg_fetch_array(pg_query($db, "SELECT * FROM profile where username='$username';"));
 	
@@ -24,7 +24,7 @@
 		include_once('../header.php');
 	?>
 	<div class="container-fluid">
-		<h1 class="display-4"> <?php if (isset($_GET["Owner"])) echo $_GET["Owner"] . "'s"; else echo "My"; ?> Profile </h1>
+		<h1 class="display-4"> <?php if (isset($_POST["Owner"])) echo $_POST["Owner"] . "'s"; else echo "My"; ?> Profile </h1>
 		<dl class="row">
 		  <dt class="col-sm-3">User Name</dt>
 		  <dd class="col-sm-9"> <?php echo $username; ?> </dd>

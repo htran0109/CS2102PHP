@@ -19,19 +19,7 @@
   <?php
   include_once('../header.php');
   ?>
-  <!--
-<nav class="navbar navbar-default">
-  <div class="container-fluid">
-    <ul class="nav navbar-nav navbar-left">
-      <li><a href="http://localhost/Listings/new.php">Create Listing</a></li>
-      <li><a href="http://localhost/Listings/index.php">View My Listings</a></li>
-      <li class="active"><a href="http://localhost/App/search.php">Join a Ride</a></li>
-    </ul>
-    <ul class="nav navbar-nav navbar-right">
-      <li><a href="http://localhost/Users/index.php">My Profile</a></li>
-    </ul>
-  </div>
-</nav>-->
+
 	<div class="container">
 		<form name = 'search' action='http://localhost/demo/App/search.php' method='POST'>
 			<h1 class="display-4"> Find Listings By: </h1>
@@ -63,7 +51,7 @@
 					</div>
 				</div>
 				<label for="number">Required Seats</label>
-				<input name="number" type="number" class="form-control" placeholder="Enter required seats." />	
+				<input name="seats" type="number" class="form-control" placeholder="Enter required seats." />	
 				<button name="submit" type="submit" class="btn btn-primary">Submit</button>				
 			</div>
 		</form>
