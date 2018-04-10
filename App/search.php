@@ -176,8 +176,8 @@ function submitForm(form) {
 					<div class = 'col-sm' style='color:black'>Seats: $row[seats_available]</div>     
 					<div class = 'col-sm' style='color:black'>Begin Location: $row[origin]</div>
 					<div class = 'col-sm' style='color:black'>End Location: $row[destination]</div>
-					<div class = 'col-sm' style='color:black'>Departure Date: $row[departure_date]</div>
-					<div class = 'col-sm' style='color:black'>Departure Time: $row[departure_time]</div>
+					<div class = 'col-sm' style='color:black'>Departure Date: $row[depart_date]</div>
+					<div class = 'col-sm' style='color:black'>Departure Time: $row[depart_time]</div>
 				  </div>
 					</div>
 					<input hidden name='owner' value = $row[owner]>
@@ -200,8 +200,8 @@ function submitForm(form) {
 					<div class = 'col-sm' style='color:black'>Seats: $row[seats_available]</div>     
 					<div class = 'col-sm' style='color:black'>Begin Location: $row[origin]</div>
 					<div class = 'col-sm' style='color:black'>End Location: $row[destination]</div>
-					<div class = 'col-sm' style='color:black'>Departure Date: $row[departure_date]</div>
-					<div class = 'col-sm' style='color:black'>Departure Time: $row[departure_time]</div>
+					<div class = 'col-sm' style='color:black'>Departure Date: $row[depart_date]</div>
+					<div class = 'col-sm' style='color:black'>Departure Time: $row[depart_time]</div>
 				  </div>
 					</div>
 					<input hidden name='owner' value = $row[owner]>
