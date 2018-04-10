@@ -9,7 +9,9 @@
 	
 	
 	//include(../App/search.php);
-	$owner = $_GET['Owner'];
+  $user = $_SESSION['username'];
+  $bidder = isset($_GET['Bidder']) ? $_GET['Bidder'] : $user;
+	$owner = isset($_GET['Owner']) ? $_GET['Owner'] : $user;
 	$start = $_GET['Start'];
 	$dest = $_GET['Dest'];
 	$depdate = $_GET['depDate'];
@@ -22,11 +24,10 @@
 	// $depdate = '2030-01-01';
 	// $deptime = '01:00:00';
 	// $seats = '1';
-  // http://localhost/demo/Bids/profile.php?Owner='adam'Start='start1'Dest='end1'depDate='2030-01-01'depTime='01:00:00'Seats=1
-  
+  // http://localhost/demo/Bids/profile.php?Owner=adam&Start=start3&Dest=end3&depDate=2030-01-03&depTime=03:00:00&Seats=3
+  echo $bidder;
 	$db = pg_connect("host=localhost port=5432 dbname=postgres user=postgres password=1234");
-	$bid = pg_fetch_array(pg_query($db, "SELECT * FROM bid where bidder = $_SESSION["username"] and owner='$owner' and origin='$start' and destination='$dest' and depart_date='$depdate' and depart_time='$deptime';"));
-	
+	$bid = pg_fetch_array(pg_query($db, "SELECT * FROM bid where bidder = '$bidder' and owner='$owner' and origin='$start' and destination='$dest' and depart_date='$depdate' and depart_time='$deptime';"));
 ?>
 
 <!DOCTYPE html>  
@@ -55,19 +56,19 @@
 		  <dt class="col-sm-3">Driver</dt>
 		  <dd class="col-sm-9"> <?php echo $bid['owner']; ?>	</dd>
 		  <dt class="col-sm-3">Start Location </dt>
-		  <dd class="col-sm-9"> <?php echo $bid['customer']; ?>	</dd>
+		  <dd class="col-sm-9"> <?php echo $bid['origin']; ?>	</dd>
 		  <dt class="col-sm-3">Destination </dt>
-		  <dd class="col-sm-9"> <?php echo $bid['seats']; ?>	</dd>
+		  <dd class="col-sm-9"> <?php echo $bid['destination']; ?>	</dd>
 		  <dt class="col-sm-3">Departure Date </dt>
-		  <dd class="col-sm-9"> <?php echo $bid['depdate']; ?> </dd>
+		  <dd class="col-sm-9"> <?php echo $bid['depart_date']; ?> </dd>
 		  <dt class="col-sm-3">Departure Time </dt>
-		  <dd class="col-sm-9"> <?php echo $bid['deptime']; ?> </dd>
+		  <dd class="col-sm-9"> <?php echo $bid['depart_time']; ?> </dd>
 		</dl>
-    <?PHP if ($owner != $_SESSION['username']) { 
+    <?PHP if ($owner != $user) { 
       //passengerpage
-      if (!$bid['driver_rating'] == null) {
+      if ($bid['driver_rating'] == null) {
         echo
-        <form action="../Bids/profile.php" method="POST">
+        '<form action="../Bids/profile.php" method="POST">
         <div><label>"How do you rate your driver?"</label></div>
         <div class="radio">
         <label><input type="radio" name="rate" value=1.0>1.0</label>
@@ -84,10 +85,10 @@
         <div class="radio">
           <label><input type="radio" name="rate" value=5.0>5.0</label>
         </div>
-          <button name="rate" type="submit" class="btn btn-primary" style="margin-top:10px">Submit</button>
-        </form>;
+          <button name="rate_submit" type="submit" class="btn btn-primary" style="margin-top:10px">Submit</button>
+        </form>';
       } else {
-        echo
+        echo '
         <form action="../Bids/profile.php" method="POST">
         <div><label>"How do you rate your driver?"</label></div>
         <div class="radio">
@@ -105,19 +106,19 @@
         <div class="radio">
           <label><input type="radio" name="rate" value=5.0 disabled>5.0</label>
         </div>
-          <button name="rate" type="submit" class="btn btn-primary" style="margin-top:10px" disabled>Submit</button>
-        </form>
+          <button name="rate_submit" type="submit" class="btn btn-primary" style="margin-top:10px" disabled>Submit</button>
+        </form>';
       }
-      if (!$bid['accepted']) {
-        echo <form action="../Ads/profile.php" method="POST"><button name="accept" type="submit" class="btn btn-primary" style="margin-top:10px">Cancel</button></form>;
+      if ($bid['accepted'] == 'f') {
+      echo '<form action="../Ads/profile.php" method="POST"><button name="accept" type="submit" class="btn btn-primary" style="margin-top:10px">Cancel</button></form>';
       } else {
-        echo <form action="../Ads/profile.php" method="POST"><button name="accept" type="submit" class="btn btn-primary" style="margin-top:10px" disabled>Accepted</button></form>;
+        echo '<form action="../Ads/profile.php" method="POST"><button name="accept" type="submit" class="btn btn-primary" style="margin-top:10px" disabled>Accepted by Driver</button></form>';
       }
     } else {
       //driver page
       if (!$bid['passenger_rating'] == null) {
         echo
-        <form action="../Bids/profile.php" method="POST">
+        '<form action="../Bids/profile.php" method="POST">
         <div><label>"How do you rate your passenger?"</label></div>
         <div class="radio">
         <label><input type="radio" name="rate" value=1.0>1.0</label>
@@ -134,11 +135,11 @@
         <div class="radio">
           <label><input type="radio" name="rate" value=5.0>5.0</label>
         </div>
-          <button name="rate" type="submit" class="btn btn-primary" style="margin-top:10px">Submit</button>
-        </form>;
+          <button name="rate_submit" type="submit" class="btn btn-primary" style="margin-top:10px">Submit</button>
+        </form>';
       } else {
         echo
-        <form action="../Bids/profile.php" method="POST">
+        '<form action="../Bids/profile.php" method="POST">
         <div><label>"How do you rate your passenger?"</label></div>
         <div class="radio">
         <label><input type="radio" name="rate" value=1.0 disabled>1.0</label>
@@ -155,20 +156,20 @@
         <div class="radio">
           <label><input type="radio" name="rate" value=5.0 disabled>5.0</label>
         </div>
-          <button name="rate" type="submit" class="btn btn-primary" style="margin-top:10px" disabled>Submit</button>
-        </form>
+          <button name="rate_submit" type="submit" class="btn btn-primary" style="margin-top:10px" disabled>Submit</button>
+        </form>';
       }
-      if (!$bid['accepted']) {
-        echo <form action="../Bids/profile.php" method="POST"><button name="accept" type="submit" class="btn btn-primary" style="margin-top:10px">Accept</button></form>;
+      if ($bid['accepted'] == 'f') {
+        echo '<form action="../Bids/profile.php" method="POST"><button name="accept" type="submit" class="btn btn-primary" style="margin-top:10px">Accept</button></form>';
       } else {
-        echo <form action="../Bids/profile.php" method="POST"><button name="accept" type="submit" class="btn btn-primary" style="margin-top:10px" disabled>Accepted</button></form>;
+        echo '<form action="../Bids/profile.php" method="POST"><button name="accept" type="submit" class="btn btn-primary" style="margin-top:10px" disabled>Accepted</button></form>';
       }
     }
     if ($_POST['accept']) {
-      if ($owner != $_SESSION['username']) {
+      if ($owner != $user) {
         $result = pg_query($db, "
                               DELETE FROM bid 
-                              WHERE bidder = $_SESSION["username"] 
+                              WHERE bidder = '$user' 
                               and owner='$owner' 
                               and origin='$start' 
                               and destination='$dest' 
@@ -178,22 +179,24 @@
       } else {
         $result = pg_query($db, "
                               UPDATE bid
-                              SET accepted = true 
-                              WHERE bidder = $_SESSION["username"] 
+                              SET accepted = 'true' 
+                              WHERE bidder = '$user' 
                               and owner='$owner' 
-                              and start='$start' 
-                              and dest='$dest' 
-                              and depdate='$depdate' 
-                              and deptime='$deptime' ;"
+                              and origin='$start' 
+                              and destination='$dest' 
+                              and depart_date='$depdate' 
+                              and depart_time='$deptime' ;"
                             );        
       }
 
-      if ($_POST['rate']) {
-        if ($owner != $_SESSION['username']) {
+      if ($_POST['rate_submit']) {
+        $rate = $_POST['rate'];
+        if ($owner != $user) {
+          
           $result = pg_query($db, "
                                 UPDATE bid 
-                                SET driver_rating = $_POST['rate']
-                                WHERE bidder = $_SESSION["username"] 
+                                SET driver_rating = '$rate'
+                                WHERE bidder = '$user' 
                                 and owner='$owner' 
                                 and origin='$start' 
                                 and destination='$dest' 
@@ -201,17 +204,18 @@
                                 and depart_time='$deptime';"
                               );
         } else {
+
           $result = pg_query($db, "
                                 UPDATE bid
-                                SET passenger_rating = $_POST['rate']
-                                WHERE bidder = $_SESSION["username"] 
+                                SET passenger_rating = '$rate'
+                                WHERE bidder = '$user' 
                                 and owner='$owner' 
                                 and origin='$start' 
                                 and destination='$dest' 
                                 and depart_date='$depdate' 
                                 and depart_time='$deptime';"
                               );        
-          
+        }   
       }
     } 
     ?>
