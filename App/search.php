@@ -133,37 +133,33 @@
 			if (isset($_POST['submit'])) {
 			  while ($row = pg_fetch_array($result)) { 
 
-				if($count % 2 == 0) {
-				echo "<a style='text-decoration:none' href='http://localhost/demo/Ads/profile.php?Owner=$row[owner]&Seats=$row[seats]&Start=$row[start]&Dest=$row[dest]&depDate=$row[depdate]&depTime=$row[deptime]'> 
-				  <div class = 'container-fluid list-group-item' style='background-color:#c1badb'>  
-					<div class='row'>
-					<div class = 'col-sm' style='color:black'>Ad Owner: $row[owner]</div>
-					<div class = 'col-sm' style='color:black'>Seats: $row[seats_available]</div>     
-					<div class = 'col-sm' style='color:black'>Begin Location: $row[origin]</div>
-					<div class = 'col-sm' style='color:black'>End Location: $row[destination]</div>
-					<div class = 'col-sm' style='color:black'>Departure Date: $row[departure_date]</div>
-					<div class = 'col-sm' style='color:black'>Departure Time: $row[departure_time]</div>
-				  </div>
-				  </div>
-				</a>";
-				$count = $count + 1;
+          while ($row = pg_fetch_array($result)) { 
+            echo "
+              <form action='profile.php' method = 'POST'>
+                <a style='text-decoration:none' href='javascript:;' onclick='submitForm(this);'>
+                <div class = 'container-fluid list-group-item' style='background-color:#c1badb'>  
+                  <div class='row'>
+                  <div class = 'col-sm' style='color:black'>License Plate: $row[license_plate]</div>
+                  <div class = 'col-sm' style='color:black'>Ad Owner: $row[owner]</div>
+                  <div class = 'col-sm' style='color:black'>Seats: $row[seats_available]</div>     
+                  <div class = 'col-sm' style='color:black'>Begin Location: $row[origin]</div>
+                  <div class = 'col-sm' style='color:black'>End Location: $row[destination]</div>
+                  <div class = 'col-sm' style='color:black'>Departure Date: $row[depart_date]</div>
+                  <div class = 'col-sm' style='color:black'>Departure Time: $row[depart_time]</div>
+
+                </div>
+                </div>
+                </a> 
+                  <input hidden name='license_plate' value = $row[license_plate]>
+                  <input hidden name='owner' value = $row[owner]>
+                  <input hidden name='seats_available' value = $row[seats_available]>
+                  <input hidden name='origin' value = $row[origin]>
+                  <input hidden name='destination' value = $row[destination]>
+                  <input hidden name='depart_date' value = $row[depart_date]>
+                  <input hidden name='depart_time' value = $row[depart_time]>
+            </form>";
 				}
-				else {
-				  echo "<a style='text-decoration:none' href='http://localhost/demo/Ads/profile.php?Owner=$row[owner]&Seats=$row[seats]&Start=$row[start]&Dest=$row[dest]&depDate=$row[depdate]&depTime=$row[deptime]'> 
-				  <div class = 'container-fluid list-group-item' style='background-color:#efefef'>  
-					<div class='row'>
-					<div class = 'col-sm' style='color:black'>Ad Owner: $row[owner]</div>
-					<div class = 'col-sm' style='color:black'>Seats: $row[seats_available]</div>     
-					<div class = 'col-sm' style='color:black'>Begin Location: $row[origin]</div>
-					<div class = 'col-sm' style='color:black'>End Location: $row[destination]</div>
-					<div class = 'col-sm' style='color:black'>Departure Date: $row[departure_date]</div>
-					<div class = 'col-sm' style='color:black'>Departure Time: $row[departure_time]</div>
-				  </div>
-				  </div>
-				</a>";
-				$count = $count + 1;
-				}
-			  }
+			  
 			}
 		  } else {
 			echo "Connection failed";

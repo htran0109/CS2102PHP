@@ -34,7 +34,7 @@
           <a class="dropdown-item" href="/demo/Ads/index.php">My Listings</a>
           <a class="dropdown-item" href="/demo/Bids/index.php">My Bids</a> <!--No Link Yet-->
           <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Log Out</a>
+            <a class="dropdown-item" href="/demo/index.php">Log Out</a>
         </div>
       </li>
     </ul>
