@@ -32,13 +32,13 @@
 	?>
 	<?php
 		if(isset($_POST['bidAccept'])) {
-			echo "Worked";
-			echo "Bidname is " . $_POST['bidname'];
-			echo $owner;
-			echo $destination;
-			echo $origin;
-			echo $depart_date;
-			echo $depart_time;
+			// echo "Worked";
+			// echo "Bidname is " . $_POST['bidname'];
+			// echo $owner;
+			// echo $destination;
+			// echo $origin;
+			// echo $depart_date;
+			// echo $depart_time;
 			$select = pg_fetch_array(pg_query($db, "SELECT * FROM bid
 	    											WHERE bidder='$_POST[bidname]' 
 	    											AND owner='$owner'
@@ -56,10 +56,10 @@
 	    											AND depart_date='$depart_date' 
 	    											AND depart_time='$depart_time';");
 	    	if(pg_affected_rows($accept) > 0) {
-	    		echo "Accepted";
+	    		//echo "Accepted";
 	    	}
 	    	else {
-	    		echo "Error accepting bid";
+	    		//echo "Error accepting bid";
 	    	}
 	    }
     	else{
@@ -113,7 +113,13 @@
 			<tbody>
 			<?php
 				$user = $_SESSION["username"];
-				$results = pg_query($db, "SELECT * FROM Bid WHERE owner = '$user';");
+							$results = pg_fetch_array(pg_query($db, "SELECT * FROM bid
+	    											WHERE 
+	    												owner='$ad[owner]'
+	    											AND destination='$ad[destination]'
+	    											AND origin='$ad[origin]'
+	    											AND depart_date=$ad[depart_date]
+	    											AND depart_time=$ad[depart_time];"));
 			
 				while ($row = pg_fetch_array($results)) {
 					echo "
