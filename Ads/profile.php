@@ -62,9 +62,6 @@
 	    		//echo "Error accepting bid";
 	    	}
 	    }
-    	else{
-    		echo "Waiting";
-    	}
 	?>
 	<div class="container">
 		<h1 class="display-4"> View Advertisement </h1>
