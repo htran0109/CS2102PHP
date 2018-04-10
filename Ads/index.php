@@ -1,7 +1,7 @@
 <!-- Page to display listings of the currently active user.
   Acts similarly to a search on the user's username. All Listings 
   found here should be editable if clicked on -->
-<?PHP
+  <?PHP
   session_start();
   
   if (empty($_SESSION["username"])){
@@ -14,6 +14,22 @@
     $user = isset($_POST["Owner"]) ? $_POST["Owner"] : $_SESSION["username"];
   }
 ?>
+<script type="text/javascript">
+function submitForm(form) {
+    //get the form element's document to create the input control with
+    //(this way will work across windows in IE8)
+    var button = form.ownerDocument.createElement('input');
+    //make sure it can't be seen/disrupts layout (even momentarily)
+    button.style.display = 'none';
+    //make it such that it will invoke submit if clicked
+    button.type = 'submit';
+    //append it and click it
+    form.appendChild(button).click();
+    //if it was prevented, make sure we don't get a build up of buttons
+    form.removeChild(button);
+}
+</script>
+
 <!DOCTYPE html>
 <head>
   <title>Listing Profile</title>
@@ -37,8 +53,8 @@ include_once('../header.php');
           $count = 0;
           while ($row = pg_fetch_array($result)) { 
             echo "
-              <form action = '../Ads/profile.php' method = 'post'>
-                <a style='text-decoration:none' href="javascript:;" onclick="document.parentNode.submit();"> 
+              <form action='profile.php' method = 'POST'>
+                <a style='text-decoration:none' href='javascript:;' onclick='submitForm(this);'>
                 <div class = 'container-fluid list-group-item' style='background-color:#c1badb'>  
                   <div class='row'>
                   <div class = 'col-sm' style='color:black'>License Plate: $row[license_plate]</div>
@@ -48,16 +64,17 @@ include_once('../header.php');
                   <div class = 'col-sm' style='color:black'>End Location: $row[destination]</div>
                   <div class = 'col-sm' style='color:black'>Departure Date: $row[depart_date]</div>
                   <div class = 'col-sm' style='color:black'>Departure Time: $row[depart_time]</div>
+
+                </div>
+                </div>
+                </a> 
                   <input hidden name='license_plate' value = $row[license_plate]>
                   <input hidden name='owner' value = $row[owner]>
                   <input hidden name='seats_available' value = $row[seats_available]>
-                  <input hidden name='origin' value =  <?php echo $row['origin']>
-                  <input hidden name='destination' value = <?php echo $row['destination']>
-                  <input hidden name='depart_date' value = <?php echo $row['depart_date']>
-                  <input hidden name='depart_time' value = <?php echo $row['depart_time']>
-                </div>
-                </div>
-              </a>
+                  <input hidden name='origin' value = $row[origin]>
+                  <input hidden name='destination' value = $row[destination]>
+                  <input hidden name='depart_date' value = $row[depart_date]>
+                  <input hidden name='depart_time' value = $row[depart_time]>
             </form>";
             
             $count = $count + 1;

@@ -120,7 +120,14 @@
 						<tr>
 							<td> $row[bidder] </td>
 							<td> $row[seats_desired] </td>
-							<td> <form name='bidAccept' method='post' action=profile.php?license_plate=$_POST[license_plate]&owner=$_POST[owner]&seats_available=$_POST[seats_available]&origin=$_POST[origin]&destination=$_POST[destination]&depart_date=$_POST[depart_date]&depart_time=$_POST[depart_time]> 
+							<td> <form name='bidAccept' method='POST' action=profile.php>
+								<input hidden name='license_plate' value = $row[license_plate]>
+								<input hidden name='owner' value = $row[owner]>
+								<input hidden name='seats_available' value = $row[seats_available]>
+								<input hidden name='origin' value = $row[origin]>
+								<input hidden name='destination' value = $row[destination]>
+								<input hidden name='depart_date' value = $row[depart_date]>
+								<input hidden name='depart_time' value = $row[depart_time]> 
 								<input type='text' name='bidname' id='bidname' value='$row[bidder]' visibility: hidden>
 								<input type='submit' name='bidAccept' id='bidAccept' value='Accept Bid'>
 								</form> 
