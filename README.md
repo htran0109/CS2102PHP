@@ -1,4 +1,4 @@
-# To Do:
+# Carpull:
 
 ## Advanced SQL Features: Triggers
 - if the current time is 4 hours or more after the start time of ride, the driver can rate the riders and the riders can rate the driver
