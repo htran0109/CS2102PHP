@@ -31,21 +31,6 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">  <style>li {list-style: none;}</style>
 <head>
   <title>Search Listing</title>
-  <script type="text/javascript">
-function submitForm(form) {
-    //get the form element's document to create the input control with
-    //(this way will work across windows in IE8)
-    var button = form.ownerDocument.createElement('input');
-    //make sure it can't be seen/disrupts layout (even momentarily)
-    button.style.display = 'none';
-    //make it such that it will invoke submit if clicked
-    button.type = 'submit';
-    //append it and click it
-    form.appendChild(button).click();
-    //if it was prevented, make sure we don't get a build up of buttons
-    form.removeChild(button);
-}
-</script>
 </head>
 <body>
   <?php
@@ -132,8 +117,8 @@ function submitForm(form) {
 				  break;
 
 				case 3:
-				  $relevance .= " (case when depart_Date BETWEEN '$_POST[sdate]'";
-				  $filters.=" depart_date BETWEEN '$_POST[sdate]'";
+				  $relevance .= " (case when departure_Date BETWEEN '$_POST[sdate]'";
+				  $filters.=" departure_date BETWEEN '$_POST[sdate]'";
 				  break;
 
 				case 4:
@@ -142,8 +127,8 @@ function submitForm(form) {
 				  break;
 
 				case 5:
-				  $relevance .= " (case when depart_time BETWEEN '$_POST[stime]'";
-				  $filters.=" depart_time BETWEEN '$_POST[stime]'";
+				  $relevance .= " (case when departure_time BETWEEN '$_POST[stime]'";
+				  $filters.=" departure_time BETWEEN '$_POST[stime]'";
 				  break;
 
 				case 6:
@@ -154,16 +139,41 @@ function submitForm(form) {
 
 				case 7:
 				  $relevance .= " (case when seats_available >= '$_POST[seats]' then 1 else 0 end) +";
-				  $filters.=" seats_available >= '$_POST[seats]'";
+				  $filters.=" seats_available-coalesce(relevant_bid.total_seats_desired,0) >= '$_POST[seats]'";
 				  break;
 			  }
 			}
 
 			$relevance = rtrim($relevance, " +");
-			$query = "select *," . $relevance . " as relevance FROM post WHERE " . $filters . " ORDER BY relevance DESC";
+			$query = 	"
+							SELECT
+							p.owner,
+							p.origin,
+							p.destination,
+							p.depart_date,
+							p.depart_time,
+							p.seats_available - coalesce(relevant_bid.total_seats_desired,0) as seats," . $relevance . " as relevance 
+							FROM post p NATURAL LEFT OUTER JOIN (SELECT
+							b.owner,
+							b.origin,
+							b.destination,
+							b.depart_date,
+							b.depart_time,
+							SUM(b.seats_desired) AS total_seats_desired
+							FROM bid b
+							WHERE b.accepted = 'true'
+							GROUP BY
+							b.owner,
+							b.origin,
+							b.destination,
+							b.depart_date,
+							b.depart_time
+							) As relevant_bid
+							WHERE " . $filters . "ORDER BY relevance DESC"
+							;
+		
 			$result = pg_query($db, $query);      
 			if (isset($_POST['submit'])) {
-
 			  while ($row = pg_fetch_array($result)) { 
 
 				if($count % 2 == 0) {
@@ -173,7 +183,7 @@ function submitForm(form) {
 				  <div class = 'container-fluid list-group-item' style='background-color:#c1badb'>  
 					<div class='row'>
 					<div class = 'col-sm' style='color:black'>Ad Owner: $row[owner]</div>
-					<div class = 'col-sm' style='color:black'>Seats: $row[seats_available]</div>     
+					<div class = 'col-sm' style='color:black'>Seats: $row[seats]</div>     
 					<div class = 'col-sm' style='color:black'>Begin Location: $row[origin]</div>
 					<div class = 'col-sm' style='color:black'>End Location: $row[destination]</div>
 					<div class = 'col-sm' style='color:black'>Departure Date: $row[depart_date]</div>
@@ -181,7 +191,7 @@ function submitForm(form) {
 				  </div>
 					</div>
 					<input hidden name='owner' value = $row[owner]>
-					<input hidden name='seats_available' value = $row[seats_available]>
+					<input hidden name='seats_available' value = $row[seats]>
 					<input hidden name='origin' value = $row[origin]>
 					<input hidden name='destination' value = $row[destination]>
 					<input hidden name='depart_date' value = $row[depart_date]>
@@ -197,7 +207,7 @@ function submitForm(form) {
 				  <div class = 'container-fluid list-group-item' style='background-color:#efefef'>  
 					<div class='row'>
 					<div class = 'col-sm' style='color:black'>Ad Owner: $row[owner]</div>
-					<div class = 'col-sm' style='color:black'>Seats: $row[seats_available]</div>     
+					<div class = 'col-sm' style='color:black'>Seats: $row[seats]</div>     
 					<div class = 'col-sm' style='color:black'>Begin Location: $row[origin]</div>
 					<div class = 'col-sm' style='color:black'>End Location: $row[destination]</div>
 					<div class = 'col-sm' style='color:black'>Departure Date: $row[depart_date]</div>
@@ -205,7 +215,7 @@ function submitForm(form) {
 				  </div>
 					</div>
 					<input hidden name='owner' value = $row[owner]>
-					<input hidden name='seats_available' value = $row[seats_available]>
+					<input hidden name='seats_available' value = $row[seats]>
 					<input hidden name='origin' value = $row[origin]>
 					<input hidden name='destination' value = $row[destination]>
 					<input hidden name='depart_date' value = $row[depart_date]>
@@ -214,13 +224,13 @@ function submitForm(form) {
 				</form>";
 				$count = $count + 1;
 				}
-			  
+				}  
 			}
-		}
 		  } else {
 			echo "Connection failed";
 		  }
 		}
-		 ?>			
+	
+	 ?>			
 </body>
 </html>
