@@ -21,7 +21,7 @@
 							checkLogin();
 							session_start();
 							$_SESSION["username"] = $_POST['username'];
-							header('Location:App/Search.php');
+							header('Location:App/search.php');
 						}
 						catch(Exception $e) {
 							echo $e->getMessage() . " Please try again.";
