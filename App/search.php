@@ -138,7 +138,7 @@
 
 
 				case 7:
-				  $relevance .= " (case when seats_available >= '$_POST[seats]' then 1 else 0 end) +";
+				  $relevance .= " (case when seats_available-coalesce(relevant_bid.total_seats_desired,0) >= '$_POST[seats]' then 1 else 0 end) +";
 				  $filters.=" seats_available-coalesce(relevant_bid.total_seats_desired,0) >= '$_POST[seats]'";
 				  break;
 			  }
