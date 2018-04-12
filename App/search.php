@@ -38,7 +38,7 @@
   ?>
 
 	<div class="container">
-		<form name = 'search' action='http://localhost/demo/App/search.php' method='POST'>
+		<form name = 'search' action='/demo/App/search.php' method='POST'>
 			<h1 class="display-4"> Find Listings By: </h1>
 			<div class="form-group">
 				<label for="adname">Driver</label>
