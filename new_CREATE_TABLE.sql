@@ -43,7 +43,7 @@ CREATE TABLE post (
 
 CREATE TABLE bid (
 	bidder varchar(20),
-	owner varchar(20),
+	owner varchar(20) CHECK (owner <> bidder),
 	origin varchar(128),
 	destination varchar(128),
 	depart_date DATE,
