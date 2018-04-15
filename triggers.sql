@@ -126,7 +126,7 @@ END IF;
 IF EXISTS ( 
 	SELECT 1
 	FROM bid B
-	WHERE B.owner = NEW.owner
+	WHERE B.bidder = NEW.bidder
 	AND B.depart_date = NEW.depart_date
 	AND ABS(DATE_PART('hour', NEW.depart_time - B.depart_time)) < 4
 )
