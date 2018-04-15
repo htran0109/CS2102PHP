@@ -25,6 +25,7 @@
   ?>
   <div class="container-fluid">
     <h1 class="display-4"> <?php if (isset($_POST["Owner"])) echo $_POST["Owner"] . "'s"; else echo "My"; ?> Profile </h1>
+  <div class="form-group">
   <form name='display' method='POST'>
     <dl class="row">
       <dt class="col-sm-3">User Name</dt>
@@ -37,7 +38,33 @@
       <input class='form-control' id='email' name='email' value= <?php echo $user['email']?> type='text'>
       <dt class="col-sm-3">Date of Birth</dt>
       <dd class="col-sm-9"> <?php echo $user['birthday']; ?> </dd>
-      <input class='btn mr-1' id='submit' name='submit' value=Submit Edit type='submit'>
+    </dl>
+    <dl class="row">  
+      <div class="form-check">
+      <input class="form-check-input" type="checkbox" id="ownCar" name="ownCar">
+        <label class="form-check-label" for="ownCar">
+          I'd like to add a car
+        </label>
+
+      </div>
+    </dl>
+    
+    <dl class="row">
+      <div id = "carInfo" style="display:none">
+        <label for="license_plate">License Plate</label>
+        <input name="license_plate" type="text" class="form-control" placeholder="Enter your car's license plate" />
+        <label for="model">Model</label>
+        <input name="model" type="text" class="form-control" placeholder="Enter your car model e.g. Toyota, Honda, etc." />
+        <label for="make">Make</label>
+        <input name="make" type="text" class="form-control" placeholder="Enter your car make e.g. Corolla, Civic, etc." />
+        <label for="color">Color</label>
+        <input name="color" type="text" class="form-control" placeholder="Enter your car color" />
+        <label for="total_seats">Seats</label>
+        <input name="total_seats" type="number" class="form-control" placeholder="Enter total seats available" />
+      </div>
+    </dl>
+    </div>
+      <input class='btn ml-1' id='submit' name='submit' value=Submit Edit type='submit'>
   </form>
     <?php 
     $url = "../Users/profile.php?Owner=$username";
@@ -63,7 +90,11 @@
           $mobile = trim($_POST['mobile']);
           $email = trim($_POST['email']);
 
-
+          $license_plate = trim($_POST['license_plate']);
+          $model = trim($_POST['model']);
+          $make = trim($_POST['make']);
+          $color = trim($_POST['color']);
+          $total_seats = trim($_POST['total_seats']);
           // echo "<p></p>";
           // echo $owner."\n";
           // echo $seats."\n";
@@ -80,7 +111,15 @@
            WHERE 
             username = '$username';
            ");
-
+          if(isset($_POST['ownCar'])) 
+          {
+                $result2 = pg_query($db, "SELECT * FROM car;");
+                pg_query($db, "INSERT INTO car (license_plate, total_seats, color, model, make, username) VALUES('$license_plate', '$total_seats', '$color', '$model', '$make', '$username');");
+                $result3 = pg_query($db, "SELECT * FROM car;");
+                if (pg_num_rows($result3) <= pg_num_rows($result2)) {
+                  throw new exception("Operation failed.");
+                }
+          }
           if(pg_affected_rows($result) > 0) {
             header("Location:profile.php");
             exit();
@@ -90,5 +129,15 @@
           }
       }
       ?>
+  <script>
+  ownCar.addEventListener( 'change', function() {
+    if(this.checked) {
+        document.getElementById("carInfo").style.display="block";
+    } else {
+        document.getElementById("carInfo").style.display="none";
+    }
+  });
+
+  </script>
 </body>
 </html>
