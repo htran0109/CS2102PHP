@@ -120,7 +120,7 @@
         </div>' . $hiddenpost . '
           <input name="rate_submit" type="submit" class="btn btn-primary" value="Submit Rating" style="margin-top:10px" %s>
         </form>';
-    $bidform = '<form action="../Bids/index.php" method="POST"><input name="accept" type="submit" class="btn btn-primary" style="margin-top:10px" %s value=%s>' . $hiddenpost . '</form>';
+    $bidform = '<form action="../Bids/profile.php" method="POST"><input name="accept" type="submit" class="btn btn-primary" style="margin-top:10px" %s value=%s>' . $hiddenpost . '</form>';
     if ($owner != $user) { 
       //passengerpage
       if ($bid['driver_rating'] == null) {
@@ -157,6 +157,7 @@
                               and depart_date='$depdate' 
                               and depart_time='$deptime';"
                             );
+        header("Location:index.php");
       } else {
         $result = pg_query($db, "
                               UPDATE bid

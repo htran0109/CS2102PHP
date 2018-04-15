@@ -69,16 +69,17 @@ function submitForm(form) {
           $result = pg_query($db, "SELECT * FROM bid WHERE bidder = '$user';");    // Query template
           $count = 0;
           while ($row = pg_fetch_array($result)) {
+            $green = $row['accepted']=='t' ? "style='background-color:#009900;'": "style='background-color:#FFFFFF'";
             echo "
             <form action='profile.php' method = 'POST'>
-                <tr>
-                  <td> $row[owner] </td>
-                  <td> $row[seats_desired] </td>
-                  <td> $row[origin] </td>
-                  <td> $row[destination] </td>
-                  <td> $row[depart_date] </td>
-                  <td> $row[depart_time] </td>
-                  <td> <button name='submit' type='submit' class='btn btn-primary'>View More</button> </td>
+                <tr" . $green . ">
+                  <td " . $green . "> $row[owner] </td>
+                  <td " . $green . "> $row[seats_desired] </td>
+                  <td " . $green . "> $row[origin] </td>
+                  <td " . $green . "> $row[destination] </td>
+                  <td " . $green . "> $row[depart_date] </td>
+                  <td " . $green . "> $row[depart_time] </td>
+                  <td " . $green . "> <button name='submit' type='submit' class='btn btn-primary'>View More</button> </td>
 
                   <input hidden name='owner' value = $row[owner]>
                   <input hidden name='seats_desired' value = $row[seats_desired]>
@@ -115,16 +116,17 @@ function submitForm(form) {
           $result = pg_query($db, "SELECT * FROM bid WHERE owner = '$user';");    // Query template
           $count = 0;
           while ($row = pg_fetch_array($result)) {
+            $green = $row['accepted']=='t' ? "style='background-color:#009900'": "style='background-color:#FFFFFF'";
             echo "
             <form action='profile.php' method = 'POST'>
                 <tr>
-                  <td> $row[bidder] </td>
-                  <td> $row[seats_desired] </td>
-                  <td> $row[origin] </td>
-                  <td> $row[destination] </td>
-                  <td> $row[depart_date] </td>
-                  <td> $row[depart_time] </td>
-                  <td> <button name='submit' type='submit' class='btn btn-primary'>View More</button> </td>
+                  <td " . $green . "> $row[bidder] </td>
+                  <td " . $green . "> $row[seats_desired] </td>
+                  <td " . $green . "> $row[origin] </td>
+                  <td " . $green . "> $row[destination] </td>
+                  <td " . $green . "> $row[depart_date] </td>
+                  <td " . $green . "> $row[depart_time] </td>
+                  <td " . $green . "> <button name='submit' type='submit' class='btn btn-primary'>View More</button> </td>
 
                   <input hidden name='bidder' value = $row[bidder]>
                   <input hidden name='seats_desired' value = $row[seats_desired]>
