@@ -176,9 +176,17 @@
 				echo "<script type='text/javascript'>
 					document.getElementById('errorMessage').innerHTML = 'Not enough seats_available available.';
 				</script>";
-			}
+			}else {
 
-			pg_query($db, "INSERT INTO Bid(Bidder, Owner, origin, destination, depart_date, depart_time, seats_desired) VALUES('$bidder', '$owner', '$origin', '$destination', '$depart_date', '$depart_time', '$customers');");
+			$result = pg_query($db, "INSERT INTO Bid(Bidder, Owner, origin, destination, depart_date, depart_time, seats_desired) VALUES('$bidder', '$owner', '$origin', '$destination', '$depart_date', '$depart_time', '$customers');");
+			if($result == true){
+				echo "<h2>Bid Successful!</h2>";
+			}
+			else {
+				echo "<h2 style='color:red'>Bid Unsuccessful, please check the following:</h2>
+					  <p style='color:red'>You have not already bid on this listing;</br>You don't have a conflicting bid within 4 hours of this listing's departure;</br>The Listing has not already passed its departure date</p>";
+			}
+			}
 			}
 		?>
 </body>

@@ -46,6 +46,7 @@
     <h1 class="display-4"> Bid Profile </h1>
     <dl class="row">
       <?PHP
+      if(!isset($_POST['accept'])){
       if ($user == $bidder) {
         $bid_rating = (pg_num_rows($driver_average) == 0) ? "This user has no ratings yet" : $driver_average['average'];
         echo "
@@ -101,6 +102,7 @@
               $_POST['depart_date'],
               $_POST['depart_time']);
     }
+    $disabled = isset($_POST['rate_submit']) ? "disabled" : "";
     $rateform = '<form action="../Bids/profile.php" method="POST">
         <div><label>"How do you rate your %s?"</label></div>
         <div class="radio">
@@ -118,7 +120,7 @@
         <div class="radio">
           <label><input type="radio" name="rate" value=5.0 %s>5.0</label>
         </div>' . $hiddenpost . '
-          <input name="rate_submit" type="submit" class="btn btn-primary" value="Submit Rating" style="margin-top:10px" %s>
+          <input name="rate_submit" type="submit" class="btn btn-primary" value="Submit Rating" style="margin-top:10px" %s ' . $disabled .'>
         </form>';
     $bidform = '<form action="../Bids/profile.php" method="POST"><input name="accept" type="submit" class="btn btn-primary" style="margin-top:10px" %s value=%s>' . $hiddenpost . '</form>';
     if ($owner != $user) { 
@@ -146,6 +148,7 @@
         echo sprintf($bidform,"disabled", "Accepted Already");
       }
     }
+  }
     if (isset($_POST['accept'])) {
       if ($owner != $user) {
         $result = pg_query($db, "
@@ -191,8 +194,8 @@
         $result = pg_query($db, "
                                 UPDATE bid
                                 SET passenger_rating = $rate
-                                WHERE bidder = '$user' 
-                                and owner='$owner' 
+                                WHERE bidder = '$bidder' 
+                                and owner='$user' 
                                 and origin='$start' 
                                 and destination='$dest' 
                                 and depart_date='$depdate' 
@@ -204,6 +207,9 @@
         $error = preg_replace("/ERROR: /i","",$error);
         $error = preg_replace("/CONTEXT: .*/","",$error);
         echo $error;  
+        if($result == true) {
+          echo "<h2>Rating Submitted Successfully!</h2>";
+        }
       }
     ?>
 </body>

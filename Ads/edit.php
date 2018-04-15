@@ -82,7 +82,7 @@
     <div class='form-group'>
       <label for='username' class='col-sm-2 control-label'>Owner</label>
       <div class='col-sm-10'>
-        <input class='form-control' id='username' name='username' value=$owner type='text' $disabled>
+        <input class='form-control' id='username' name='username' value=$owner type='text' disabled>
       </div>
     </div>
     <div class='form-group'>
@@ -208,7 +208,22 @@
             exit();
           }
           else {
-            echo "Update Failed!";
+              echo "<h2 style='color:red'>Edit Failed, Please Double-check fields</h2>
+                    <p style='color:red'>Remember that:</br>Every input requires values;</br>The trip must be scheduled for a time that has not already passed;</br>The number of seats offered must fit the car listed;</br>The trip cannot be within 4 hours of any other listing.</p>
+                <form class='form-horizontal' name='display' action='profile.php' method='POST' >
+              <input visibility: hidden name='owner' value =$owner>
+              <input visibility: hidden name='seats_available' value =$seats>
+              <input visibility: hidden name='origin' value =$start>
+              <input visibility: hidden name='destination' value =$dest>
+              <input visibility: hidden name='depart_date' value =$depdate>
+              <input visibility: hidden name='depart_time' value =$deptime>
+                  <div class='form-group'>
+                  <div class='col-sm-10'>
+                  <input class='form-control' id='submit' name='submit' value='Return' type='Submit' $disabled>
+                  </div>
+                  </div>    
+                  </form>";
+            header("Location:profile.php");
           }
       }
 

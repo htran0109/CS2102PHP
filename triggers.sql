@@ -7,27 +7,7 @@ DROP TRIGGER update_bid ON bid;*/
 
 
 
-/* TRIGGER: INSERT OR UPDATE ON car; WORKING
-	- car owners must be at least 18 years old */
-CREATE OR REPLACE FUNCTION check_age()
-RETURNS TRIGGER AS $ONE$
-BEGIN
-IF (DATE_PART('year', now()::DATE) - DATE_PART('year', (
-	SELECT birthday
-	FROM profile P
-	WHERE P.username = NEW.username
-	)::DATE) < 18
 
-)
-THEN RAISE EXCEPTION 'You cannot own a car of you are younger than 18 years old.';
-END IF;
-RETURN NEW;
-END; $ONE$ LANGUAGE PLPGSQL;
-
-CREATE TRIGGER check_age
-BEFORE INSERT OR UPDATE ON car
-FOR EACH ROW
-EXECUTE PROCEDURE check_age();
 
 /* TRIGGER: INSERT ON post
 	- posts must have start times at least 4 hours apart
@@ -95,7 +75,7 @@ END IF;
 IF (NEW.seats_available > (
 	SELECT total_seats
 	FROM car C
-	WHERE NEW.license_plate = C.license_plate) - 1
+	WHERE NEW.license_plate = C.license_plate)
 )
 THEN RAISE EXCEPTION 'The number of seats available must be at most the total number of seats in you car minus one (for the driver).';
 END IF;
@@ -191,3 +171,25 @@ CREATE TRIGGER update_bid
 BEFORE UPDATE ON bid
 FOR EACH ROW
 EXECUTE PROCEDURE update_bid();
+
+/* TRIGGER: INSERT OR UPDATE ON car; WORKING
+	- car owners must be at least 18 years old */
+CREATE OR REPLACE FUNCTION check_age()
+RETURNS TRIGGER AS $ONE$
+BEGIN
+IF (DATE_PART('year', now()::DATE) - DATE_PART('year', (
+	SELECT birthday
+	FROM profile P
+	WHERE P.username = NEW.username
+	)::DATE) < 18
+
+)
+THEN RAISE EXCEPTION 'You cannot own a car of you are younger than 18 years old.';
+END IF;
+RETURN NEW;
+END; $ONE$ LANGUAGE PLPGSQL;
+
+CREATE TRIGGER check_age
+BEFORE INSERT OR UPDATE ON car
+FOR EACH ROW
+EXECUTE PROCEDURE check_age();

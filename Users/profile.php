@@ -36,6 +36,20 @@
 		  <dd class="col-sm-9"> <?php echo $user['email']; ?> </dd>
 		  <dt class="col-sm-3">Date of Birth</dt>
 		  <dd class="col-sm-9"> <?php echo $user['birthday']; ?> </dd>
+		  <dt class="col-sm-3">Registered Cars</dt>
+		  <select class="custom-select" name="car" form="form">
+					<?php
+					$carResults = pg_query($db, "Select * from car where username='$_SESSION[username]';");
+					while ($row = pg_fetch_array($carResults)) {
+						echo "
+						<option value=$row[license_plate]>
+						$row[license_plate] - $row[model] $row[make]
+						</option>
+						";
+					}
+
+					?>
+				</select>
 		</dl>
 		<?php 
 		$url = "../Ads/index.php?Owner=$username";
