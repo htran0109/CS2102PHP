@@ -33,6 +33,9 @@
   <title>Edit Listing</title>
 </head>
 <body>
+
+
+
   <?php
 
     include_once('../header.php');
@@ -65,7 +68,7 @@
   }
   $disabled = !$editAccess ? 'disabled' : '';
   $hidden = !$editAccess ? 'hidden': 'submit';
-  if (!isset($_POST['submit'])) {
+  if (!isset($_POST['submit']) && !isset($_POST['delete'])) {
     echo "
   <ul>
     <form class='form-horizontal' name='display' method='POST' >
@@ -114,9 +117,14 @@
     </div>
     <div class='form-group'>
       <div class='col-sm-10'>
-        <input class='form-control' id='submit' name='submit' value=Submit Edit type='Submit' $disabled>
+        <input class='form-control' id='submit' name='submit' value='Submit Edit' type='Submit' $disabled>
       </div>
     </div>    
+    <div class='form-group'>
+      <div class='col-sm-10'>
+        <input class='form-control' id='delete' name='delete' value='Delete Listing' type='Submit' $disabled>
+      </div>
+    </div> 
     </form>
   </ul>";
 }
@@ -133,6 +141,11 @@
 
       }
 
+
+          
+  ?>
+
+  <?php
       if (isset($_POST['submit'])) {
           // echo "Updating Listing\n";
           // echo "<p></p>";
@@ -176,15 +189,74 @@
             depart_time = '$deptime';
            ");
 
-          if(pg_affected_rows($result) > 0) {
-            header("Location:profile.php?Owner=$_POST[username]&Seats=$_POST[seatsNumber]&Start=$_POST[start_loc]&Dest=$_POST[end_loc]&depDate=$_POST[date]&depTime=$_POST[starttime]");
+          if($result == true) {
+            echo "<h2>Edit Successful!</h2>
+                <form class='form-horizontal' name='display' action='profile.php' method='POST' >
+              <input visibility: hidden name='owner' value =$_POST[username]>
+              <input visibility: hidden name='seats_available' value =$_POST[seatsNumber]>
+              <input visibility: hidden name='origin' value =$_POST[start_loc]>
+              <input visibility: hidden name='destination' value =$_POST[end_loc]>
+              <input visibility: hidden name='depart_date' value =$_POST[date]>
+              <input visibility: hidden name='depart_time' value =$_POST[starttime]>
+                  <div class='form-group'>
+                  <div class='col-sm-10'>
+                  <input class='form-control' id='submit' name='submit' value='Return' type='Submit' $disabled>
+                  </div>
+                  </div>    
+                  </form>";
+            header("Location:profile.php");
             exit();
           }
           else {
             echo "Update Failed!";
           }
       }
-          
-  ?>
+
+      if (isset($_POST['delete'])) {
+          // echo "Updating Listing\n";
+          // echo "<p></p>";
+          // echo $_POST['username']."\n";
+          // echo $_POST['seatsNumber']."\n";
+          // echo $_POST['start_loc']."\n";
+          // echo $_POST['end_loc']."\n";
+          // echo $_POST['date']."\n";
+          // echo $_POST['starttime']."\n";
+
+          $owner = trim($_POST['owner']);
+          $start = trim($_POST['start']);
+          $dest = trim($_POST['dest']);
+          $depdate = trim($_POST['depdate']);
+          $deptime = trim($_POST['deptime']);
+          $seats = trim($_POST['seats']);
+
+          // echo "<p></p>";
+          // echo $owner."\n";
+          // echo $seats."\n";
+          // echo $start."\n";
+          // echo $dest."\n";
+          // echo $depdate."\n";
+          // echo $deptime."\n";
+          // echo "<p></p>";
+
+          $result = pg_query($db, 
+          "DELETE FROM post
+           WHERE 
+            owner = '$owner' AND
+            seats_available = '$seats' AND
+            origin = '$start' AND
+            destination = '$dest' AND
+            depart_date = '$depdate' AND
+            depart_time = '$deptime';
+           ");
+
+          if($result == true) {
+            header("Location:index.php");
+            exit();
+          }
+          else {
+            echo "Delete Failed!";
+          }
+      }
+      ?>
   </body>
 </html>
