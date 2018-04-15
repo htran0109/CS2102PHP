@@ -176,7 +176,6 @@
 			<table class='table'>
 			<thead>
           <tr>
-            <th scope='col'>License Plate</th>
             <th scope='col'>Driver</th>
             <th scope='col'>Seats</th>
             <th scope='col'>Begin Location</th>
@@ -195,9 +194,8 @@
 
             <form action='../Ads/profile.php' method = 'POST'>
                 <tr>
-    							<td> $row[license_plate] </td>
     							<td> $row[owner] </td>
-                  <td> $row[seats_available] </td>
+                  <td> $row[seats] </td>
                   <td> $row[origin] </td>
                   <td> $row[destination] </td>
                   <td> $row[depart_date] </td>
@@ -206,7 +204,7 @@
 
                   <input hidden name='license_plate' value = $row[license_plate]>
                   <input hidden name='owner' value = $row[owner]>
-                  <input hidden name='seats_available' value = $row[seats_available]>
+                  <input hidden name='seats_available' value = $row[seats]>
                   <input hidden name='origin' value = $row[origin]>
                   <input hidden name='destination' value = $row[destination]>
                   <input hidden name='depart_date' value = $row[depart_date]>
