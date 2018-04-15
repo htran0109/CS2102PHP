@@ -162,13 +162,14 @@
         $result = pg_query($db, "
                               UPDATE bid
                               SET accepted = 'true' 
-                              WHERE bidder = '$user' 
-                              and owner='$owner' 
+                              WHERE bidder = '$bidder' 
+                              and owner='$user' 
                               and origin='$start' 
                               and destination='$dest' 
                               and depart_date='$depdate' 
                               and depart_time='$deptime' ;"
-                            );        
+                            );
+        header("Location:index.php");        
       }
     } 
     if (isset($_POST['rate_submit'])) {
