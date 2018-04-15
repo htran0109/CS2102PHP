@@ -16,6 +16,8 @@
 
 	$db = pg_connect("host=localhost port=5432 dbname=postgres user=postgres password=1234");
 	$ad = pg_fetch_array(pg_query($db, "SELECT * FROM post where owner='$owner' and origin='$origin' and destination='$destination' and depart_date='$depart_date' and depart_time='$depart_time' and seats_available=$seats_available;"));
+	$driver_average = pg_fetch_array(pg_query($db, "SELECT owner, AVG(passenger_rating) as average FROM bid where owner = '$owner' AND driver_rating IS NOT NULL GROUP BY owner;"));
+	$bid_rating = (pg_num_rows($driver_average) == 0) ? "This user has no ratings yet" : $driver_average['average'];
 	?>
 
 <!DOCTYPE html>
@@ -79,6 +81,8 @@
 		  <dd class="col-sm-9"> <?php echo $ad['license_plate']; ?>	</dd>
 		  <dt class="col-sm-3">Driver</dt>
 		  <dd class="col-sm-9"> <?php echo $ad['owner']; ?>	</dd>
+		  <dt class='col-sm-3'>Driver Rating</dt>
+          <dd class='col-sm-9'> <?php echo $bid_rating ?></dd>
 		  <dt class="col-sm-3">Origin </dt>
 		  <dd class="col-sm-9"> <?php echo $ad['origin']; ?>	</dd>
 		  <dt class="col-sm-3">Destination </dt>

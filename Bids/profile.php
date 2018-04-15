@@ -28,6 +28,8 @@
   
   $db = pg_connect("host=localhost port=5432 dbname=postgres user=postgres password=1234");
   $bid = pg_fetch_array(pg_query($db, "SELECT * FROM bid where bidder = '$bidder' and owner='$owner' and origin='$start' and destination='$dest' and depart_date='$depdate' and depart_time='$deptime';"));
+  $passenger_average = pg_fetch_array(pg_query($db, "SELECT bidder, AVG(passenger_rating) as average FROM bid where bidder = '$bidder' AND passenger_rating IS NOT NULL GROUP BY bidder;"));
+  $driver_average = pg_fetch_array(pg_query($db, "SELECT owner, AVG(passenger_rating) as average FROM bid where owner = '$owner' AND driver_rating IS NOT NULL GROUP BY owner;"));
 ?>
 
 <!DOCTYPE html>  
@@ -43,8 +45,25 @@
   <div class="container">
     <h1 class="display-4"> Bid Profile </h1>
     <dl class="row">
-      <dt class="col-sm-3">Driver</dt>
-      <dd class="col-sm-9"> <?php echo $bid['owner']; ?>  </dd>
+      <?PHP
+      if ($user == $bidder) {
+        $bid_rating = (pg_num_rows($driver_average) == 0) ? "This user has no ratings yet" : $driver_average['average'];
+        echo "
+        <dt class='col-sm-3'>Driver</dt>
+        <dd class='col-sm-9'> $bid[owner] </dd>
+        <dt class='col-sm-3'>Driver Rating</dt>
+        <dd class='col-sm-9'> $bid_rating </dd>
+        ";
+      } else if ($user == $owner) {
+        $bid_rating = (pg_num_rows($passenger_average) == 0) ? "This user has no ratings yet" : $passenger_average['average'];
+        echo "
+        <dt class='col-sm-3'>Bidder</dt>
+        <dd class='col-sm-9'> $bid[bidder] </dd>
+        <dt class='col-sm-3'>Passenger Rating</dt>
+        <dd class='col-sm-9'> $bid_rating </dd>
+        ";  
+      }
+      ?>
       <dt class="col-sm-3">Start Location </dt>
       <dd class="col-sm-9"> <?php echo $bid['origin']; ?> </dd>
       <dt class="col-sm-3">Destination </dt>
@@ -154,15 +173,7 @@
     if (isset($_POST['rate_submit'])) {
         $rate = $_POST['rate'];
         if ($owner != $user) {
-          echo "
-                                UPDATE bid 
-                                SET driver_rating = $rate
-                                WHERE bidder = '$user' 
-                                and owner='$owner' 
-                                and origin='$start' 
-                                and destination='$dest' 
-                                and depart_date='$depdate' 
-                                and depart_time='$deptime';";
+
           $result = pg_query($db, "
                                 UPDATE bid 
                                 SET driver_rating = $rate
@@ -174,16 +185,8 @@
                                 and depart_time='$deptime';"
                               );
         } else {
-          echo "
-                                UPDATE bid
-                                SET passenger_rating = $rate
-                                WHERE bidder = '$user' 
-                                and owner='$owner' 
-                                and origin='$start' 
-                                and destination='$dest' 
-                                and depart_date='$depdate' 
-                                and depart_time='$deptime';";
-          $result = pg_query($db, "
+
+        $result = pg_query($db, "
                                 UPDATE bid
                                 SET passenger_rating = $rate
                                 WHERE bidder = '$user' 
@@ -194,6 +197,11 @@
                                 and depart_time='$deptime';"
                               );        
         }   
+
+        $error = pg_last_error($db);
+        $error = preg_replace("/ERROR: /i","",$error);
+        $error = preg_replace("/CONTEXT: .*/","",$error);
+        echo $error;  
       }
     ?>
 </body>
