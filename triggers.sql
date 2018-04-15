@@ -4,7 +4,7 @@ DROP TRIGGER insert_post ON post;
 DROP TRIGGER update_post ON post;
 DROP TRIGGER insert_bid ON bid;
 DROP TRIGGER update_bid ON bid;
-*/
+
 
 
 /* TRIGGER: INSERT OR UPDATE ON car; WORKING
@@ -41,8 +41,8 @@ CREATE OR REPLACE FUNCTION insert_post()
 RETURNS TRIGGER AS $$
 BEGIN 
 IF ((DATE_PART('day', now() - NEW.depart_date) > 0)
-	OR (DATE_PART('day', now() - NEW.depart_date) = 0)
-	AND (DATE_PART('hour', now() - NEW.depart_time) > 0))
+	OR ((DATE_PART('day', now() - NEW.depart_date) = 0)
+	AND (DATE_PART('hour', now() - NEW.depart_time) > 0)))
 THEN RAISE EXCEPTION 'You cannot create a post whose start time has already passed.';
 END IF;
 IF EXISTS( 
@@ -77,8 +77,8 @@ CREATE OR REPLACE FUNCTION update_post()
 RETURNS TRIGGER AS $$
 BEGIN 
 IF ((DATE_PART('day', now() - OLD.depart_date) > 0)
-	OR (DATE_PART('day', now() - OLD.depart_date) = 0)
-	AND (DATE_PART('hour', now() - OLD.depart_time) > 0))
+	OR ((DATE_PART('day', now() - OLD.depart_date) = 0)
+	AND (DATE_PART('hour', now() - OLD.depart_time) > 0)))
 THEN RAISE EXCEPTION 'You cannot edit a post whose start time has already passed.';
 END IF;
 IF EXISTS( 
@@ -119,8 +119,8 @@ CREATE OR REPLACE FUNCTION insert_bid()
 RETURNS TRIGGER AS $$
 BEGIN 
 IF ((DATE_PART('day', now() - NEW.depart_date) > 0)
-	OR (DATE_PART('day', now() - NEW.depart_date) = 0)
-	AND (DATE_PART('hour', now() - NEW.depart_time) > 0))
+	OR ((DATE_PART('day', now() - NEW.depart_date) = 0)
+	AND (DATE_PART('hour', now() - NEW.depart_time) > 0)))
 THEN RAISE EXCEPTION 'You cannot create a bid whose start time has already passed.';
 END IF;
 IF EXISTS ( 
@@ -134,9 +134,9 @@ THEN RAISE EXCEPTION 'Bids cannot have start times within 4 hours of each other.
 END IF;
 IF (NEW.passenger_rating IS NOT NULL
 	AND NEW.driver_rating IS NOT NULL 
-	AND (DATE_PART('day', now() - NEW.depart_date) < 0)
-	OR (DATE_PART('day', now() - NEW.depart_date) = 0)
-	AND (DATE_PART('hour', now() - NEW.depart_time) < 4))
+	AND ((DATE_PART('day', now() - NEW.depart_date) < 0)
+	OR ((DATE_PART('day', now() - NEW.depart_date) = 0)
+	AND (DATE_PART('hour', now() - NEW.depart_time) < 4)))
 THEN RAISE EXCEPTION 'You cannot leave a review until 4 hours after the start of a ride.';
 END IF;
 RETURN NEW;
@@ -154,16 +154,16 @@ EXECUTE PROCEDURE insert_bid();
 CREATE OR REPLACE FUNCTION update_bid()
 RETURNS TRIGGER AS $$
 BEGIN 
-IF (NEW.bidder IS NOT NULL
+IF ((NEW.bidder IS NOT NULL
 	OR NEW.owner IS NOT NULL
 	OR NEW.origin IS NOT NULL
 	OR NEW.destination IS NOT NULL
 	OR NEW.depart_date IS NOT NULL
 	OR NEW.depart_time IS NOT NULL
-	OR NEW.seats_desired IS NOT NULL
-	AND (DATE_PART('day', now() - OLD.depart_date) > 0)
-	OR (DATE_PART('day', now() - OLD.depart_date) = 0)
-	AND (DATE_PART('hour', now() - OLD.depart_time) > 0))
+	OR NEW.seats_desired IS NOT NULL)
+	AND ((DATE_PART('day', now() - OLD.depart_date) > 0)
+	OR ((DATE_PART('day', now() - OLD.depart_date) = 0)
+	AND (DATE_PART('hour', now() - OLD.depart_time) > 0))))
 THEN RAISE EXCEPTION 'You cannot edit a bid whose start time has already passed (except to give a rating).';
 END IF;
 IF EXISTS ( 
@@ -173,7 +173,7 @@ IF EXISTS (
 	AND B.depart_date = NEW.depart_date
 	AND ABS(DATE_PART('hour', NEW.depart_time - B.depart_time)) < 4
 	EXCEPT 
-	SELECT *
+	SELECT 1
 	FROM bid B
 	WHERE B.owner = OLD.owner
 	AND B.depart_time = OLD.depart_time
@@ -181,11 +181,11 @@ IF EXISTS (
 )
 THEN RAISE EXCEPTION 'Bids cannot have start times within 4 hours of each other.';
 END IF;
-IF (NEW.passenger_rating IS NOT NULL
-	AND NEW.driver_rating IS NOT NULL 
-	AND (DATE_PART('day', now() - OLD.depart_date) < 0)
-	OR (DATE_PART('day', now() - OLD.depart_date) = 0)
-	AND (DATE_PART('hour', now() - OLD.depart_time) < 4))
+IF ((NEW.passenger_rating IS NOT NULL
+	OR NEW.driver_rating IS NOT NULL)
+	AND ((DATE_PART('day', now() - OLD.depart_date) < 0)
+	OR ((DATE_PART('day', now() - OLD.depart_date) = 0)
+	AND (DATE_PART('hour', now() - OLD.depart_time) < 4))))
 THEN RAISE EXCEPTION 'You cannot leave a review until 4 hours after the start of a ride.';
 END IF;
 RETURN NEW;
@@ -195,5 +195,3 @@ CREATE TRIGGER update_bid
 BEFORE UPDATE ON bid
 FOR EACH ROW
 EXECUTE PROCEDURE update_bid();
-
-
