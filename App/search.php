@@ -172,58 +172,51 @@
 							WHERE " . $filters . "ORDER BY relevance DESC"
 							;
 			$result = pg_query($db, $query);      
+			echo "         
+			<table class='table'>
+			<thead>
+          <tr>
+            <th scope='col'>License Plate</th>
+            <th scope='col'>Driver</th>
+            <th scope='col'>Seats</th>
+            <th scope='col'>Begin Location</th>
+            <th scope='col'>End Location</th>
+            <th scope='col'>Departure Date</th>
+            <th scope='col'>Departure Time</th>
+            <th scope='col'></th>
+
+          </tr>
+        </thead>
+        <tbody>";
 			if (isset($_POST['submit'])) {
 			  while ($row = pg_fetch_array($result)) { 
+            echo "
 
-				if($count % 2 == 0) {
-				echo "
-				<form action='../Ads/profile.php' method='POST'>
-					<a style='text-decoration:none' href='javascript:;' onClick='submitForm(this)'>
-				  <div class = 'container-fluid list-group-item' style='background-color:#c1badb'>  
-					<div class='row'>
-					<div class = 'col-sm' style='color:black'>Ad Owner: $row[owner]</div>
-					<div class = 'col-sm' style='color:black'>Seats: $row[seats]</div>     
-					<div class = 'col-sm' style='color:black'>Begin Location: $row[origin]</div>
-					<div class = 'col-sm' style='color:black'>End Location: $row[destination]</div>
-					<div class = 'col-sm' style='color:black'>Departure Date: $row[depart_date]</div>
-					<div class = 'col-sm' style='color:black'>Departure Time: $row[depart_time]</div>
-				  </div>
-					</div>
-					<input hidden name='owner' value = $row[owner]>
-					<input hidden name='seats_available' value = $row[seats]>
-					<input hidden name='origin' value = $row[origin]>
-					<input hidden name='destination' value = $row[destination]>
-					<input hidden name='depart_date' value = $row[depart_date]>
-					<input hidden name='depart_time' value = $row[depart_time]>
-				</a>
-				</form>";
-				$count = $count + 1;
-				}
-				else {
-					echo "
-					<form action='../Ads/profile.php' method='POST'>
-					<a style='text-decoration:none' href='javascript:;' onClick='submitForm(this)'>
-				  <div class = 'container-fluid list-group-item' style='background-color:#efefef'>  
-					<div class='row'>
-					<div class = 'col-sm' style='color:black'>Ad Owner: $row[owner]</div>
-					<div class = 'col-sm' style='color:black'>Seats: $row[seats]</div>     
-					<div class = 'col-sm' style='color:black'>Begin Location: $row[origin]</div>
-					<div class = 'col-sm' style='color:black'>End Location: $row[destination]</div>
-					<div class = 'col-sm' style='color:black'>Departure Date: $row[depart_date]</div>
-					<div class = 'col-sm' style='color:black'>Departure Time: $row[depart_time]</div>
-				  </div>
-					</div>
-					<input hidden name='owner' value = $row[owner]>
-					<input hidden name='seats_available' value = $row[seats]>
-					<input hidden name='origin' value = $row[origin]>
-					<input hidden name='destination' value = $row[destination]>
-					<input hidden name='depart_date' value = $row[depart_date]>
-					<input hidden name='depart_time' value = $row[depart_time]>
-				</a>
-				</form>";
-				$count = $count + 1;
-				}
+
+            <form action='../Ads/profile.php' method = 'POST'>
+                <tr>
+    							<td> $row[license_plate] </td>
+    							<td> $row[owner] </td>
+                  <td> $row[seats_available] </td>
+                  <td> $row[origin] </td>
+                  <td> $row[destination] </td>
+                  <td> $row[depart_date] </td>
+                  <td> $row[depart_time] </td>
+                  <td> <button name='submit' type='submit' class='btn btn-primary'>View More</button> </td>
+
+                  <input hidden name='license_plate' value = $row[license_plate]>
+                  <input hidden name='owner' value = $row[owner]>
+                  <input hidden name='seats_available' value = $row[seats_available]>
+                  <input hidden name='origin' value = $row[origin]>
+                  <input hidden name='destination' value = $row[destination]>
+                  <input hidden name='depart_date' value = $row[depart_date]>
+                  <input hidden name='depart_time' value = $row[depart_time]>
+                </tr>
+            </form>
+          ";
+            $count = $count + 1;
 				}  
+				echo "</tbody></table>";
 			}
 		  } else {
 			echo "Connection failed";
