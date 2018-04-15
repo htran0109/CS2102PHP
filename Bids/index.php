@@ -94,5 +94,52 @@ function submitForm(form) {
         </tbody>
       </table>
     </div>
+    <div class="container">
+      <h1 class="display-4"> Manage Bids on My Listings</h1>
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Bidder</th>
+            <th scope="col">Seats</th>
+            <th scope="col">Begin Location</th>
+            <th scope="col">End Location</th>
+            <th scope="col">Departure Date</th>
+            <th scope="col">Departure Time</th>
+            <th scope="col"></th>
+
+          </tr>
+        </thead>
+        <tbody>
+          <?php
+
+          $result = pg_query($db, "SELECT * FROM bid WHERE owner = '$user';");    // Query template
+          $count = 0;
+          while ($row = pg_fetch_array($result)) {
+            echo "
+            <form action='profile.php' method = 'POST'>
+                <tr>
+                  <td> $row[bidder] </td>
+                  <td> $row[seats_desired] </td>
+                  <td> $row[origin] </td>
+                  <td> $row[destination] </td>
+                  <td> $row[depart_date] </td>
+                  <td> $row[depart_time] </td>
+                  <td> <button name='submit' type='submit' class='btn btn-primary'>View More</button> </td>
+
+                  <input hidden name='owner' value = $row[bidder]>
+                  <input hidden name='seats_desired' value = $row[seats_desired]>
+                  <input hidden name='origin' value = $row[origin]>
+                  <input hidden name='destination' value = $row[destination]>
+                  <input hidden name='depart_date' value = $row[depart_date]>
+                  <input hidden name='depart_time' value = $row[depart_time]>
+                </tr>
+            </form>";
+            $count = $count + 1;
+          }
+          ?>
+        </tbody>
+      </table>
+    </div>
+
   </body>
 </html>
