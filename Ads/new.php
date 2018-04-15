@@ -60,7 +60,7 @@ $db = pg_connect("host=localhost port=5432 dbname=postgres user=postgres passwor
 							header("Location:index.php");
 						}
 						catch(Exception $e) {
-							echo $e->getMessage() . " Please try again.";
+							echo $e->getMessage() . " Please ensure that:</br>There are values for each input;</br>The trip is scheduled for a time that has not already passed;</br>The number of seats offered fits the car listed;</br>The trip is not within 4 hours of any other listing.";
 						}
 					}
 
@@ -79,8 +79,14 @@ $db = pg_connect("host=localhost port=5432 dbname=postgres user=postgres passwor
 						$result = pg_query($db, "SELECT * FROM post;");
 						pg_query($db, "INSERT INTO post(license_plate, owner, seats_available, origin, destination, depart_date, depart_time) VALUES('$car', '$owner', $seats, '$start', '$dest', '$depdate', '$deptime');");
 						$result1 = pg_query($db, "SELECT * FROM post;");
+													$error = pg_last_error($db);
+							echo $error;
+					        $error = preg_replace("/ERROR: /i","",$error);
+					        $error = preg_replace("/CONTEXT: .*/","",$error);
+					        echo $error;  
 						if(pg_num_rows($result1) <= pg_num_rows($result)) {
-							throw new exception("Operation failed.");
+
+							throw new exception("Could not create listing: ");
 						}
 					}
 					?>

@@ -118,9 +118,9 @@
         <div class="radio">
           <label><input type="radio" name="rate" value=5.0 %s>5.0</label>
         </div>' . $hiddenpost . '
-          <input name="rate_submit" type="submit" class="btn btn-primary" value="Submit" style="margin-top:10px" %s>
+          <input name="rate_submit" type="submit" class="btn btn-primary" value="Submit Rating" style="margin-top:10px" %s>
         </form>';
-    $bidform = '<form action="../Bids/profile.php" method="POST"><input name="accept" type="submit" class="btn btn-primary" style="margin-top:10px" %s value=%s>' . $hiddenpost . '</form>';
+    $bidform = '<form action="../Bids/index.php" method="POST"><input name="accept" type="submit" class="btn btn-primary" style="margin-top:10px" %s value=%s>' . $hiddenpost . '</form>';
     if ($owner != $user) { 
       //passengerpage
       if ($bid['driver_rating'] == null) {
@@ -129,7 +129,7 @@
         echo sprintf($rateform, "driver", "disabled", "disabled", "disabled", "disabled", "disabled", "disabled");
       }
       if ($bid['accepted'] == 'f') {
-        echo sprintf($bidform, "","Cancel");
+        echo sprintf($bidform, "","'Cancel Bid'");
       } else {
         echo sprintf($bidform, "disabled", "Accepted Already");
       }

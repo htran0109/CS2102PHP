@@ -1,28 +1,28 @@
 
-DROP TRIGGER check_age ON car;
+/*DROP TRIGGER check_age ON car;
 DROP TRIGGER insert_post ON post;
 DROP TRIGGER update_post ON post;
 DROP TRIGGER insert_bid ON bid;
-DROP TRIGGER update_bid ON bid;
+DROP TRIGGER update_bid ON bid;*/
 
 
 
 /* TRIGGER: INSERT OR UPDATE ON car; WORKING
 	- car owners must be at least 18 years old */
 CREATE OR REPLACE FUNCTION check_age()
-RETURNS TRIGGER AS $$
-BEGIN 
+RETURNS TRIGGER AS $ONE$
+BEGIN
 IF (DATE_PART('year', now()::DATE) - DATE_PART('year', (
 	SELECT birthday
 	FROM profile P
 	WHERE P.username = NEW.username
 	)::DATE) < 18
-	
+
 )
 THEN RAISE EXCEPTION 'You cannot own a car of you are younger than 18 years old.';
 END IF;
 RETURN NEW;
-END; $$ LANGUAGE PLPGSQL;
+END; $ONE$ LANGUAGE PLPGSQL;
 
 CREATE TRIGGER check_age
 BEFORE INSERT OR UPDATE ON car
@@ -31,23 +31,23 @@ EXECUTE PROCEDURE check_age();
 
 /* TRIGGER: INSERT ON post
 	- posts must have start times at least 4 hours apart
-	- posts cannot be created if their start time has already passed 
+	- posts cannot be created if their start time has already passed
 	- seats_available can be at most total_seats - 1 */
 CREATE OR REPLACE FUNCTION insert_post()
-RETURNS TRIGGER AS $$
-BEGIN 
+RETURNS TRIGGER AS $TWO$
+BEGIN
 IF ((DATE_PART('day', now() - NEW.depart_date) > 0)
 	OR ((DATE_PART('day', now() - NEW.depart_date) = 0)
 	AND (DATE_PART('hour', now() - NEW.depart_time) > 0)))
 THEN RAISE EXCEPTION 'You cannot create a post whose start time has already passed.';
 END IF;
-IF EXISTS( 
+IF EXISTS(
 	SELECT 1
 	FROM post P
 	WHERE P.owner = NEW.owner
 	AND P.depart_date = NEW.depart_date
 	AND ABS(DATE_PART('hour', NEW.depart_time - P.depart_time)) < 4
-) 
+)
 THEN RAISE EXCEPTION 'Listed rides must have start times at least 4 hours apart.';
 END IF;
 IF (NEW.seats_available > (
@@ -58,7 +58,7 @@ IF (NEW.seats_available > (
 THEN RAISE EXCEPTION 'The number of seats available must be at most the total number of seats in your car.';
 END IF;
 RETURN NEW;
-END; $$ LANGUAGE PLPGSQL;
+END; $TWO$ LANGUAGE PLPGSQL;
 
 CREATE TRIGGER insert_post
 BEFORE INSERT ON post
@@ -70,26 +70,26 @@ EXECUTE PROCEDURE insert_post();
 	- posts cannot be updated if their start time has already passed
 	- seats_available can be at most total_seats - 1 */
 CREATE OR REPLACE FUNCTION update_post()
-RETURNS TRIGGER AS $$
-BEGIN 
+RETURNS TRIGGER AS $THREE$
+BEGIN
 IF ((DATE_PART('day', now() - OLD.depart_date) > 0)
 	OR ((DATE_PART('day', now() - OLD.depart_date) = 0)
 	AND (DATE_PART('hour', now() - OLD.depart_time) > 0)))
 THEN RAISE EXCEPTION 'You cannot edit a post whose start time has already passed.';
 END IF;
-IF EXISTS( 
+IF EXISTS(
 	SELECT *
 	FROM post P
 	WHERE P.owner = NEW.owner
 	AND P.depart_date = NEW.depart_date
 	AND ABS(DATE_PART('hour', NEW.depart_time - P.depart_time)) < 4
-	EXCEPT 
+	EXCEPT
 	SELECT *
 	FROM post P
 	WHERE P.owner = OLD.owner
 	AND P.depart_time = OLD.depart_time
 	AND P.depart_date = OLD.depart_date
-) 
+)
 THEN RAISE EXCEPTION 'Listed rides must have start times at least 4 hours apart.';
 END IF;
 IF (NEW.seats_available > (
@@ -100,7 +100,7 @@ IF (NEW.seats_available > (
 THEN RAISE EXCEPTION 'The number of seats available must be at most the total number of seats in you car minus one (for the driver).';
 END IF;
 RETURN NEW;
-END; $$ LANGUAGE PLPGSQL;
+END; $THREE$ LANGUAGE PLPGSQL;
 
 CREATE TRIGGER update_post
 BEFORE UPDATE ON post
@@ -109,17 +109,17 @@ EXECUTE PROCEDURE update_post();
 
 /*TRIGGER: INSERT ON bid
 	- bids must have start times at least 4 hours apart
-	- bids cannot be created if their start time has already passed 
+	- bids cannot be created if their start time has already passed
 	- bids cannot have reviews until 4 hours after the start time*/
 CREATE OR REPLACE FUNCTION insert_bid()
-RETURNS TRIGGER AS $$
-BEGIN 
+RETURNS TRIGGER AS $FOUR$
+BEGIN
 IF ((DATE_PART('day', now() - NEW.depart_date) > 0)
 	OR ((DATE_PART('day', now() - NEW.depart_date) = 0)
 	AND (DATE_PART('hour', now() - NEW.depart_time) > 0)))
 THEN RAISE EXCEPTION 'You cannot create a bid whose start time has already passed.';
 END IF;
-IF EXISTS ( 
+IF EXISTS (
 	SELECT 1
 	FROM bid B
 	WHERE B.bidder = NEW.bidder
@@ -136,7 +136,7 @@ IF (NEW.passenger_rating IS NOT NULL
 THEN RAISE EXCEPTION 'You cannot leave a review until 4 hours after the start of a ride.';
 END IF;
 RETURN NEW;
-END; $$ LANGUAGE PLPGSQL;
+END; $FOUR$ LANGUAGE PLPGSQL;
 
 CREATE TRIGGER insert_bid
 BEFORE INSERT ON bid
@@ -145,11 +145,11 @@ EXECUTE PROCEDURE insert_bid();
 
 /*TRIGGER: UPDATE ON bid
 	- bids must have start times at least 4 hours apart
-	- bids cannot be edited if their start time has already passed 
+	- bids cannot be edited if their start time has already passed
 	- bids cannot have reviews until 4 hours after the start time*/
 CREATE OR REPLACE FUNCTION update_bid()
-RETURNS TRIGGER AS $$
-BEGIN 
+RETURNS TRIGGER AS $FIVE$
+BEGIN
 IF ((NEW.bidder IS NOT NULL
 	OR NEW.owner IS NOT NULL
 	OR NEW.origin IS NOT NULL
@@ -162,13 +162,13 @@ IF ((NEW.bidder IS NOT NULL
 	AND (DATE_PART('hour', now() - OLD.depart_time) > 0))))
 THEN RAISE EXCEPTION 'You cannot edit a bid whose start time has already passed (except to give a rating).';
 END IF;
-IF EXISTS ( 
+IF EXISTS (
 	SELECT 1
 	FROM bid B
 	WHERE B.owner = NEW.owner
 	AND B.depart_date = NEW.depart_date
 	AND ABS(DATE_PART('hour', NEW.depart_time - B.depart_time)) < 4
-	EXCEPT 
+	EXCEPT
 	SELECT 1
 	FROM bid B
 	WHERE B.owner = OLD.owner
@@ -185,7 +185,7 @@ IF ((NEW.passenger_rating IS NOT NULL
 THEN RAISE EXCEPTION 'You cannot leave a review until 4 hours after the start of a ride.';
 END IF;
 RETURN NEW;
-END; $$ LANGUAGE PLPGSQL;
+END; $FIVE$ LANGUAGE PLPGSQL;
 
 CREATE TRIGGER update_bid
 BEFORE UPDATE ON bid

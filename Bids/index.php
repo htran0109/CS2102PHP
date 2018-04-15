@@ -126,7 +126,7 @@ function submitForm(form) {
                   <td> $row[depart_time] </td>
                   <td> <button name='submit' type='submit' class='btn btn-primary'>View More</button> </td>
 
-                  <input hidden name='owner' value = $row[bidder]>
+                  <input hidden name='bidder' value = $row[bidder]>
                   <input hidden name='seats_desired' value = $row[seats_desired]>
                   <input hidden name='origin' value = $row[origin]>
                   <input hidden name='destination' value = $row[destination]>

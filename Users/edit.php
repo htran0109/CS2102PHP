@@ -86,6 +86,7 @@
           // echo $_POST['end_loc']."\n";
           // echo $_POST['date']."\n";
           // echo $_POST['starttime']."\n";
+          $db = pg_connect("host=localhost port=5432 dbname=postgres user=postgres password=1234");
 
           $mobile = trim($_POST['mobile']);
           $email = trim($_POST['email']);
@@ -114,17 +115,18 @@
           $carInsert = true;
           if(isset($_POST['ownCar'])) 
           {
+                $db = pg_connect("host=localhost port=5432 dbname=postgres user=postgres password=1234");
                 $result2 = pg_query($db, "SELECT * FROM car;");
                 pg_query($db, "INSERT INTO car (license_plate, total_seats, color, model, make, username) VALUES('$license_plate', '$total_seats', '$color', '$model', '$make', '$username');");
                 $result3 = pg_query($db, "SELECT * FROM car;");
                 if (pg_num_rows($result3) <= pg_num_rows($result2)) {
                   $carInsert = false;
                   $error = pg_last_error($db);
-                                    echo $error;
+                  echo $error;
                   $error = preg_replace("/ERROR: /i","",$error);
                   $error = preg_replace("/CONTEXT: .*/","",$error);
                   echo $error;
-                  echo "Car not Added";
+                  echo "<p style='color:red'>Car not added; Please ensure all fields are filled out, and that you are 18 years or older</p>";
                 }
           }
           if(pg_affected_rows($result) > 0 && $carInsert) {
@@ -132,12 +134,12 @@
             exit();
           }
           else {
-            $error = pg_last_error($db);
-                              echo $error;
+            echo pg_last_error($db);
+            echo $error;
             $error = preg_replace("/ERROR: /i","",$error);
             $error = preg_replace("/CONTEXT: .*/","",$error);
             echo $error; 
-            echo "User profile not edited";
+            echo "<p style='color:red'>User profile unchanged due to error in fields</p>";
           }
       }
       ?>
