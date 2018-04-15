@@ -111,21 +111,33 @@
            WHERE 
             username = '$username';
            ");
+          $carInsert = true;
           if(isset($_POST['ownCar'])) 
           {
                 $result2 = pg_query($db, "SELECT * FROM car;");
                 pg_query($db, "INSERT INTO car (license_plate, total_seats, color, model, make, username) VALUES('$license_plate', '$total_seats', '$color', '$model', '$make', '$username');");
                 $result3 = pg_query($db, "SELECT * FROM car;");
                 if (pg_num_rows($result3) <= pg_num_rows($result2)) {
-                  throw new exception("Operation failed.");
+                  $carInsert = false;
+                  $error = pg_last_error($db);
+                                    echo $error;
+                  $error = preg_replace("/ERROR: /i","",$error);
+                  $error = preg_replace("/CONTEXT: .*/","",$error);
+                  echo $error;
+                  echo "Car not Added";
                 }
           }
-          if(pg_affected_rows($result) > 0) {
+          if(pg_affected_rows($result) > 0 && $carInsert) {
             header("Location:profile.php");
             exit();
           }
           else {
-            echo "Update Failed!";
+            $error = pg_last_error($db);
+                              echo $error;
+            $error = preg_replace("/ERROR: /i","",$error);
+            $error = preg_replace("/CONTEXT: .*/","",$error);
+            echo $error; 
+            echo "User profile not edited";
           }
       }
       ?>

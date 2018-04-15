@@ -16,12 +16,8 @@ IF (DATE_PART('year', now()::DATE) - DATE_PART('year', (
 	SELECT birthday
 	FROM profile P
 	WHERE P.username = NEW.username
-	)::DATE) <= 18
-	AND DATE_PART('month', now()::DATE) - DATE_PART('month', (
-	SELECT birthday
-	FROM profile P
-	WHERE P.username = NEW.username
-	)::DATE) < 0
+	)::DATE) < 18
+	
 )
 THEN RAISE EXCEPTION 'You cannot own a car of you are younger than 18 years old.';
 END IF;
@@ -57,9 +53,9 @@ END IF;
 IF (NEW.seats_available > (
 	SELECT total_seats
 	FROM car C
-	WHERE NEW.license_plate = C.license_plate) - 1
+	WHERE NEW.license_plate = C.license_plate)
 )
-THEN RAISE EXCEPTION 'The number of seats available must be at most the total number of seats in you car minus one (for the driver).';
+THEN RAISE EXCEPTION 'The number of seats available must be at most the total number of seats in your car.';
 END IF;
 RETURN NEW;
 END; $$ LANGUAGE PLPGSQL;
