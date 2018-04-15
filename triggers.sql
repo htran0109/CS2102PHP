@@ -1,4 +1,4 @@
-/*
+
 DROP TRIGGER check_age ON car;
 DROP TRIGGER insert_post ON post;
 DROP TRIGGER update_post ON post;
@@ -133,7 +133,7 @@ IF EXISTS (
 THEN RAISE EXCEPTION 'Bids cannot have start times within 4 hours of each other.';
 END IF;
 IF (NEW.passenger_rating IS NOT NULL
-	AND NEW.driver_rating IS NOT NULL 
+	OR NEW.driver_rating IS NOT NULL )
 	AND ((DATE_PART('day', now() - NEW.depart_date) < 0)
 	OR ((DATE_PART('day', now() - NEW.depart_date) = 0)
 	AND (DATE_PART('hour', now() - NEW.depart_time) < 4)))
