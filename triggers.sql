@@ -1,12 +1,9 @@
 
-/*DROP TRIGGER check_age ON car;
+DROP TRIGGER check_age ON car;
 DROP TRIGGER insert_post ON post;
 DROP TRIGGER update_post ON post;
 DROP TRIGGER insert_bid ON bid;
-DROP TRIGGER update_bid ON bid;*/
-
-
-
+DROP TRIGGER update_bid ON bid;
 
 
 /* TRIGGER: INSERT ON post
@@ -14,31 +11,33 @@ DROP TRIGGER update_bid ON bid;*/
 	- posts cannot be created if their start time has already passed
 	- seats_available can be at most total_seats - 1 */
 CREATE OR REPLACE FUNCTION insert_post()
-RETURNS TRIGGER AS $TWO$
+  RETURNS TRIGGER AS $TWO$
 BEGIN
-IF ((DATE_PART('day', now() - NEW.depart_date) > 0)
-	OR ((DATE_PART('day', now() - NEW.depart_date) = 0)
-	AND (DATE_PART('hour', now() - NEW.depart_time) > 0)))
-THEN RAISE EXCEPTION 'You cannot create a post whose start time has already passed.';
-END IF;
-IF EXISTS(
-	SELECT 1
-	FROM post P
-	WHERE P.owner = NEW.owner
-	AND P.depart_date = NEW.depart_date
-	AND ABS(DATE_PART('hour', NEW.depart_time - P.depart_time)) < 4
-)
-THEN RAISE EXCEPTION 'Listed rides must have start times at least 4 hours apart.';
-END IF;
-IF (NEW.seats_available > (
-	SELECT total_seats
-	FROM car C
-	WHERE NEW.license_plate = C.license_plate)
-)
-THEN RAISE EXCEPTION 'The number of seats available must be at most the total number of seats in your car.';
-END IF;
-RETURN NEW;
-END; $TWO$ LANGUAGE PLPGSQL;
+  IF ((DATE_PART('day', now() - NEW.depart_date) > 0)
+      OR ((DATE_PART('day', now() - NEW.depart_date) = 0)
+          AND (DATE_PART('hour', now() - NEW.depart_time) > 0)))
+  THEN RAISE EXCEPTION 'You cannot create a post whose start time has already passed.';
+  END IF;
+  IF EXISTS(
+      SELECT 1
+      FROM post P
+      WHERE P.owner = NEW.owner
+            AND P.depart_date = NEW.depart_date
+            AND ABS(DATE_PART('hour', NEW.depart_time - P.depart_time)) < 4
+  )
+  THEN RAISE EXCEPTION 'Listed rides must have start times at least 4 hours apart.';
+  END IF;
+  IF (NEW.seats_available > (
+    SELECT total_seats
+    FROM car C
+    WHERE NEW.license_plate = C.license_plate)
+  )
+  THEN RAISE EXCEPTION 'The number of seats available must be at most the total number of seats in your car.';
+  END IF;
+  RETURN NEW;
+END; $TWO$
+LANGUAGE PLPGSQL;
+
 
 CREATE TRIGGER insert_post
 BEFORE INSERT ON post
@@ -130,13 +129,13 @@ EXECUTE PROCEDURE insert_bid();
 CREATE OR REPLACE FUNCTION update_bid()
 RETURNS TRIGGER AS $FIVE$
 BEGIN
-IF ((NEW.bidder IS NOT NULL
-	OR NEW.owner IS NOT NULL
-	OR NEW.origin IS NOT NULL
-	OR NEW.destination IS NOT NULL
-	OR NEW.depart_date IS NOT NULL
-	OR NEW.depart_time IS NOT NULL
-	OR NEW.seats_desired IS NOT NULL)
+IF ((NEW.bidder != OLD.bidder
+	OR NEW.owner != OLD.owner
+	OR NEW.origin != OLD.origin
+	OR NEW.destination != OLD.destination
+	OR NEW.depart_date != OLD.depart_date
+	OR NEW.depart_time != OLD.depart_time
+	OR NEW.seats_desired != OLD.seats_desired)
 	AND ((DATE_PART('day', now() - OLD.depart_date) > 0)
 	OR ((DATE_PART('day', now() - OLD.depart_date) = 0)
 	AND (DATE_PART('hour', now() - OLD.depart_time) > 0))))
@@ -159,6 +158,7 @@ THEN RAISE EXCEPTION 'Bids cannot have start times within 4 hours of each other.
 END IF;
 IF ((NEW.passenger_rating IS NOT NULL
 	OR NEW.driver_rating IS NOT NULL)
+	OR accepted = false
 	AND ((DATE_PART('day', now() - OLD.depart_date) < 0)
 	OR ((DATE_PART('day', now() - OLD.depart_date) = 0)
 	AND (DATE_PART('hour', now() - OLD.depart_time) < 4))))

@@ -5,7 +5,7 @@ INSERT INTO profile(username, first_name, last_name, mobile_number, email, passw
 VALUES ('alphacharlie', 'alpha', 'charlieson', '20562046', 'alphacharlie@gmail.com', 'foobar' ,'1996-01-28');
 
 INSERT INTO profile(username, first_name, last_name, mobile_number, email, password, birthday)
-VALUES ('alphadelta', 'alpha', 'deltason', '30012981', 'alphadelta@gmail.com', 'foobar' ,'1981-01-21');
+VALUES ('alphadelta', 'alpha', 'deltason', '30012981', 'alphadelta@gmail.com', 'foobar' ,'2001-01-21');
 
 INSERT INTO profile(username, first_name, last_name, mobile_number, email, password, birthday)
 VALUES ('alphaecho', 'alpha', 'echoson', '39463916', 'alphaecho@gmail.com', 'foobar' ,'1966-01-14');
@@ -332,10 +332,10 @@ INSERT INTO car(license_plate, total_seats, color, model, make, username)
 VALUES ('car1', '6', 'red', 'toyota', 'bravo', 'alphabravo');
 
 INSERT INTO car(license_plate, total_seats, color, model, make, username)
-VALUES ('car2', '5', 'red', 'toyota', 'charlie', 'alphacharlie');
+VALUES ('car3', '5', 'red', 'toyota', 'charlie', 'alphabravo');
 
 INSERT INTO car(license_plate, total_seats, color, model, make, username)
-VALUES ('car3', '4', 'red', 'toyota', 'delta', 'alphadelta');
+VALUES ('car2', '5', 'red', 'toyota', 'charlie', 'alphacharlie');
 
 INSERT INTO car(license_plate, total_seats, color, model, make, username)
 VALUES ('car4', '6', 'red', 'toyota', 'echo', 'alphaecho');
@@ -662,10 +662,10 @@ INSERT INTO post(license_plate, owner, seats_available, origin, destination, dep
 VALUES ('car1', 'alphabravo', '3', 'start1', 'end1', '2020-01-28', '01:00:00');
 
 INSERT INTO post(license_plate, owner, seats_available, origin, destination, depart_date, depart_time)
-VALUES ('car2', 'alphacharlie', '2', 'start2', 'end2', '2025-01-27', '06:00:00');
+VALUES ('car3', 'alphabravo', '2', 'start3', 'end3', '2017-01-30', '02:00:00');
 
 INSERT INTO post(license_plate, owner, seats_available, origin, destination, depart_date, depart_time)
-VALUES ('car3', 'alphadelta', '1', 'start3', 'end3', '2020-01-26', '01:00:00');
+VALUES ('car2', 'alphacharlie', '2', 'start2', 'end2', '2018-04-16', '06:00:00');
 
 INSERT INTO post(license_plate, owner, seats_available, origin, destination, depart_date, depart_time)
 VALUES ('car4', 'alphaecho', '0', 'start4', 'end4', '2025-01-25', '06:00:00');
@@ -991,11 +991,11 @@ VALUES ('car110', 'kilojuliet', '1', 'start110', 'end110', '2026-01-20', '07:00:
 INSERT INTO bid(bidder, owner, origin, destination, depart_date, depart_time, seats_desired)
 VALUES ('bravoalpha', 'alphabravo', 'start1', 'end1', '2020-01-28', '01:00:00', '4');
 
-INSERT INTO bid(bidder, owner, origin, destination, depart_date, depart_time, seats_desired)
-VALUES ('charliealpha', 'alphacharlie', 'start2', 'end2', '2025-01-27', '06:00:00', '3');
+INSERT INTO bid(bidder, owner, origin, destination, depart_date, depart_time, seats_desired,accepted)
+VALUES ('charliealpha', 'alphacharlie', 'start2', 'end2', '2018-04-16', '06:00:00', '2',true);
 
-INSERT INTO bid(bidder, owner, origin, destination, depart_date, depart_time, seats_desired)
-VALUES ('deltaalpha', 'alphadelta', 'start3', 'end3', '2020-01-26', '01:00:00', '2');
+INSERT INTO bid(bidder, owner, origin, destination, depart_date, depart_time, seats_desired,accepted,passenger_rating,driver_rating)
+VALUES ('deltaalpha', 'alphabravo', 'start3', 'end3', '2017-01-30', '02:00:00', '2',true,'3','4');
 
 INSERT INTO bid(bidder, owner, origin, destination, depart_date, depart_time, seats_desired)
 VALUES ('echoalpha', 'alphaecho', 'start4', 'end4', '2025-01-25', '06:00:00', '1');

@@ -16,8 +16,9 @@
 
 	$db = pg_connect("host=localhost port=5432 dbname=postgres user=postgres password=1234");
 	$ad = pg_fetch_array(pg_query($db, "SELECT * FROM post where owner='$owner' and origin='$origin' and destination='$destination' and depart_date='$depart_date' and depart_time='$depart_time' and seats_available=$seats_available;"));
-	$driver_average = pg_fetch_array(pg_query($db, "SELECT owner, AVG(passenger_rating) as average FROM bid where owner = '$owner' AND driver_rating IS NOT NULL GROUP BY owner;"));
-	$bid_rating = (pg_num_rows($driver_average) == 0) ? "This user has no ratings yet" : $driver_average['average'];
+	$driver_average = pg_query($db, "SELECT owner, AVG(passenger_rating) as average FROM bid where owner = '$owner' AND driver_rating IS NOT NULL GROUP BY owner;");
+	$driver_average_row =pg_fetch_array($driver_average);
+	$bid_rating = (pg_num_rows($driver_average) == 0) ? "This user has no ratings yet" : $driver_average_row['average'];
 	?>
 
 <!DOCTYPE html>
@@ -130,25 +131,47 @@
 	    											AND depart_date='$ad[depart_date]'
 	    											AND depart_time='$ad[depart_time]';");
 				while ($row = pg_fetch_array($results)) {
-					echo "
-						<tr>
-							<td> $row[bidder] </td>
-							<td> $row[seats_desired] </td>
-							<td> <form name='bidAccept' method='POST' action=profile.php>
-								<input hidden name='license_plate' value = $row[license_plate]>
-								<input hidden name='owner' value = $row[owner]>
-								<input hidden name='seats_available' value = $row[seats_available]>
-								<input hidden name='origin' value = $row[origin]>
-								<input hidden name='destination' value = $row[destination]>
-								<input hidden name='depart_date' value = $row[depart_date]>
-								<input hidden name='depart_time' value = $row[depart_time]>
-								<input type='text' name='bidname' id='bidname' value='$row[bidder]' visibility: hidden>
-								<input type='submit' name='bidAccept' id='bidAccept' value='Accept Bid'>
-								</form>
-							</td>
-							<td> </td>
-						</tr>
-					";
+					if ($row['accepted'] == 'f') {
+						echo "
+							<tr>
+								<td> $row[bidder] </td>
+								<td> $row[seats_desired] </td>
+								<td> <form name='bidAccept' method='POST' action=../Bids/profile.php>
+									<input hidden name='license_plate' value = $row[license_plate]>
+									<input hidden name='owner' value = $row[owner]>
+									<input hidden name='seats_available' value = $row[seats_available]>
+									<input hidden name='origin' value = $row[origin]>
+									<input hidden name='destination' value = $row[destination]>
+									<input hidden name='depart_date' value = $row[depart_date]>
+									<input hidden name='depart_time' value = $row[depart_time]>
+									<input type='text' name='bidname' id='bidname' value='$row[bidder]' visibility: hidden>
+									<input type='submit' name='bidAccept' id='bidAccept' value='Accept Bid'>
+									</form>
+								</td>
+								<td> </td>
+							</tr>
+						";
+					} else {
+						echo "
+							<tr>
+								<td> $row[bidder] </td>
+								<td> $row[seats_desired] </td>
+								<td> <form name='bidAccept' method='POST' action=../Bids/profile.php>
+									<input hidden name='license_plate' value = $row[license_plate]>
+									<input hidden name='owner' value = $row[owner]>
+									<input hidden name='seats_available' value = $row[seats_available]>
+									<input hidden name='origin' value = $row[origin]>
+									<input hidden name='destination' value = $row[destination]>
+									<input hidden name='depart_date' value = $row[depart_date]>
+									<input hidden name='depart_time' value = $row[depart_time]>
+									<input type='text' name='bidname' id='bidname' value='$row[bidder]' visibility: hidden>
+									<input type='submit' name='bidAccept' id='bidAccept' value='Accept Bid' disabled>
+									</form>
+								</td>
+								<td> </td>
+							</tr>
+						";						
+					}
 				}
 			?>
 			</tbody>
