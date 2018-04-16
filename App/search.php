@@ -169,7 +169,7 @@
 							b.depart_date,
 							b.depart_time
 							) As relevant_bid
-							WHERE " . $filters . "ORDER BY relevance DESC"
+							WHERE " . $filters . "AND seats_available-coalesce(relevant_bid.total_seats_desired,0) != 0 ORDER BY relevance DESC"
 							;
 			$result = pg_query($db, $query);      
 			echo "         
